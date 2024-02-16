@@ -1,0 +1,43 @@
+
+.college-toppers-section {
+    background-color: #f0f0f0;
+    /* Gray background color */
+    padding: 20px;
+    margin: 60px;
+  }
+  
+  .toppers-heading {
+    text-align: center;
+    color: #333;
+    /* Heading color */
+    margin: 20px;
+  }
+  
+  
+  .inside-box {
+    // border: 1px solid;
+    border-radius: 10%;
+    margin: 40px;
+    padding: 10px;
+    background-color: #ffffff;
+  }
+  
+  .circle {
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 10px;
+    /* Center circle and add space below */
+  }
+  
+  .circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .student-info {
+    text-align: center;
+  }

@@ -1,0 +1,139 @@
+/* Add your custom styles here */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+.links,
+.anounce {
+  padding: 5%;
+}
+
+
+.div-2-heading {
+  text-align: center;
+  margin: 20px;
+}
+
+.navbar-nav {
+  .nav-link {
+    font-size: 16px;
+    /* Adjust the font size as needed */
+    margin-right: 70px;
+    /* Adjust the space between buttons as needed */
+    color: #ff0000;
+    font-weight: bolder;
+  }
+}
+
+
+
+.custom-container {
+  padding: 0;
+  margin: 0;
+}
+
+/* Navbar styles */
+.navbar-brand img {
+  max-width: 100%;
+  margin-left: 20px;
+}
+
+/* Carousel styles */
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Two Columns Section styles */
+.row {
+  margin-top: 20px;
+}
+
+/* Important Links styles */
+.important-links {
+  list-style-type: none;
+  padding: 0;
+}
+
+.important-links li {
+  margin-bottom: 8px;
+}
+
+.important-links a {
+  text-decoration: none;
+  color: #0d6efd;
+  display: block;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.important-links a:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+/* Announcements styles */
+.announcements {
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.announcement {
+  margin-bottom: 20px;
+}
+
+.announcement h4 {
+  color: #0d6efd;
+}
+
+.announcement p.date {
+  color: #555;
+  font-style: italic;
+}
+
+
+.static-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.static-pic {
+  width: 100%;
+  height: auto;
+  filter: brightness(100%);
+  transition: filter 0.5s ease-in-out;
+}
+
+.static-image:hover .static-pic {
+  filter: brightness(40%);
+}
+
+.student-portal-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.static-image:hover .student-portal-link {
+  opacity: 1;
+}
+
+
+.MCA {
+  align-items: center;
+  display: block;
+}

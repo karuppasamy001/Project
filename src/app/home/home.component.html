@@ -1,0 +1,78 @@
+<div class="container-fluid custom-container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#">
+                <img src="../../assets/longLogo.png" alt="Logo" height="90" />
+            </a>
+
+           
+
+            <!-- Navigation Buttons -->
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" routerLink="/">HOME</a>
+                <a class="nav-link" routerLink="/faq">FAQ</a>
+                <ng-container *ngIf="studentLog.isLoggedIn">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ studentLog.currentUserName }}
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item"  (click)="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </ng-container>
+                <!-- If not logged in, display login link -->
+                <ng-container *ngIf="!studentLog.isLoggedIn">
+                    <a class="nav-link forLogin" routerLink="/login">LOGIN</a>
+                </ng-container>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="static-image position-relative">
+        <img src="../assets/1.jpg" class="img-fluid w-100 static-pic" alt="Static Image" />
+        <a (click)="studentPortal()" class="student-portal-link" target="_blank">
+            <h1 class="student-portal">MASTER OF COMPUTER APPLICATION</h1>
+            <h1 class="student-portal">STUDENT PORTAL</h1>
+        </a>
+        
+    </div>
+
+
+
+
+    <!-- Two Columns Section -->
+    <div class="row mt-4">
+        <!-- Left Column - Important Links -->
+        <div class="col-md-6 links">
+            <h3 class="div-2-heading">Important Links</h3>
+            <ul class="important-links">
+                <li><a href="#">Link 1</a></li>
+                <li><a href="#">Link 2</a></li>
+                <li><a href="#">Link 3</a></li>
+            </ul>
+        </div>
+
+        <!-- Right Column - Announcements -->
+        <div class="col-md-6 anounce">
+            <h3 class="div-2-heading">Announcements</h3>
+            <div class="announcements">
+                <div class="announcement" *ngFor="let announcement of announcements">
+                    <a (click)="announcementClick(announcement.link)" style="cursor:pointer;">
+                        <h4>{{ announcement.title }}</h4>
+                    </a>
+                    <p>{{ announcement.details }}</p>
+                    <p class="date">{{ announcement.date | date}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-toppers></app-toppers>
+<app-footer></app-footer>

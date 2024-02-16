@@ -1,0 +1,225 @@
+<body>
+
+    <div class="container registration-container">
+        <div class="logo-container text-center">
+            <img src="../../assets/miniLogo.png" alt="Sample Logo" class="img-fluid small-logo" />
+            <h2 class="mb-4 inline-heading" style="font-weight: bolder; color: rgb(47, 47, 47);">STUDENT REGISTRATION
+                FORM {{date}}</h2>
+        </div>
+
+        <div class="form-container custom-form-container  p-4 rounded">
+            <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+                <div class="mb-4 row">
+                    <!-- typeOfAdmission Selection -->
+
+                    <!-- Counselling/Application Number -->
+                    <div class="col-md-6">
+                        <label for="registrationNumber" class="form-label">Registration Number <span
+                                class="text-danger">*</span></label>
+                        <input type="text" formControlName="registrationNumber" class="form-control">
+                    </div>
+
+                    <!-- TANCE Registration Number (if typeOfAdmission is MCA) -->
+
+                    <div class="col-md-6">
+                        <label for="rollNumber" class="form-label">Roll Number <span
+                                class="text-danger">*</span></label>
+                        <input type="text" formControlName="rollNumber" class="form-control">
+                    </div>
+
+                </div>
+
+                <!-- Personal Details -->
+                <h3 class="mb-3">Personal Details</h3>
+                <div class="mb-3 row">
+                    <div class="col-md-4">
+                        <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
+                        <input type="text" formControlName="firstName" class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="middleName" class="form-label">Middle Name (Optional)</label>
+                        <input type="text" formControlName="middleName" class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="lastName" class="form-label">Last Name <span class="text-danger">*</span></label>
+                        <input type="text" formControlName="lastName" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                        <input type="date" formControlName="dob" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                        <select formControlName="gender" class="form-select">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        <label for="mobileNumber" class="form-label">Mobile Number <span
+                                class="text-danger">*</span></label>
+                        <input type="number" formControlName="mobileNumber" class="form-control" maxlength="10">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="alternateMobileNumber" class="form-label">Alternate Mobile Number <span
+                                class="text-danger">*</span></label>
+                        <input type="number" formControlName="alternateMobileNumber" class="form-control"
+                            maxlength="10">
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="text" formControlName="email" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="bloodGroup" class="form-label">Blood Group <span
+                                class="text-danger">*</span></label>
+                        <select formControlName="bloodGroup" class="form-select">
+                            <option value="a+">A+</option>
+                            <option value="b+">B+</option>
+                            <option value="o+">O+</option>
+                            <option value="a-">A-</option>
+                            <option value="b-">B-</option>
+                            <option value="o-">O-</option>
+                            <option value="ab+">AB+</option>
+                            <option value="ab-">AB-</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <h3 class="mb-3">Contact Details</h3>
+
+                <div formGroupName="address">
+                    <!-- Address Details -->
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="houseNumber" class="form-label">House Number / Apartment Number / Block Number
+                                <span class="text-danger">*</span></label>
+                            <input type="text" formControlName="houseNumber" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="street" class="form-label">Street <span class="text-danger">*</span></label>
+                            <input type="text" formControlName="street" class="form-control">
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="country" class="form-label">Country <span class="text-danger">*</span></label>
+                            <select class="form-select form-control" id="country" formControlName="country"
+                                (change)="onCountryChange($event)">
+                                <option value="">Select Country</option>
+                                <option *ngFor="let country of countries$ | async" [value]="country.countryName">{{
+                                    country.countryName }}</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="state" class="form-label">State <span class="text-danger">*</span></label>
+                            <select class="form-select form-control" id="state" formControlName="state"
+                                (change)="onStateChange($event)">
+                                <option value="">Select State</option>
+                                <option *ngFor="let state of states$ | async" [value]="state.adminName1">{{
+                                    state.adminName1 }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <div class="col-md-6">
+                            <label for="city" class="form-label">City <span class="text-danger">*</span></label>
+                            <select class="form-select form-control" id="city" formControlName="city">
+                                <option value="">Select City</option>
+                                <option *ngFor="let city of cities$ | async" [value]="city.name">{{ city.name }}
+                                </option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <label for="pincode" class="form-label">Pincode <span class="text-danger">*</span></label>
+                            <input type="number" formControlName="pincode" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <button type="submit" class="btn btn-primary">Submit</button>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Validation Modal -->
+    <div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validationModalLabel">Validation Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal('validationModal')"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Please fill in all the fields.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="closeModal('validationModal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- username and password displaying modal -->
+
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Registration Successful</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <h3>Your Login Information</h3>
+      <div class="modal-body">
+        <p>Your username is: {{ username }}</p>
+        <p>Your password is: {{ password }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <!-- You can add your login button here -->
+        <button type="button" class="btn btn-primary"  (click)="navigateToLoginPage()">Login</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+    <br><br>
+    <app-footer></app-footer>
+
+</body>

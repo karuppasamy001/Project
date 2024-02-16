@@ -1,0 +1,27 @@
+<div class="sidebar">
+    <div class="logo">
+      <!-- Replace 'YourLogo.png' with your actual logo -->
+      <img src="assets/YourLogo.png" alt="Your Logo">
+    </div>
+  
+    <ul class="nav">
+      <li><a routerLink="/view-marks">View Marks</a></li>
+      <li><a routerLink="/profile">Profile</a></li>
+      <li><a routerLink="/set-goal">Set Goal</a></li>
+    </ul>
+  </div>
+  
+  <div class="top-header">
+    <!-- User information -->
+    <div class="user-info">
+      <span>{{ username }}</span>
+      <button class="dropdown-arrow">
+        <img src="" alt="Dropdown Arrow">
+      </button>
+      <!-- Dropdown menu for logout -->
+      <div class="dropdown-content">
+        <button (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </div>
+  
