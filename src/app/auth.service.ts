@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 export class AuthService {
 
   private couchDBUrl = 'http://admin:admin@localhost:5984';
+  private localStorageKey = 'currentUser';
 
+  
   constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<any> {

@@ -10,7 +10,10 @@ import { CouchDBService } from '../backend/couchDB/couch-db.service';
 })
 export class HomeComponent  {
 
-  constructor(private route: Router, public studentLog: StudentLogService, private router: Router, private couchDBService: CouchDBService){}
+
+  
+  constructor(private route: Router, public studentLog: StudentLogService, private router: Router, private couchDBService: CouchDBService){
+  }
 
 
 
@@ -22,10 +25,7 @@ export class HomeComponent  {
   ];
 
   logout() {
-    // Perform logout actions
-    this.studentLog.isLoggedIn = false;
-    this.studentLog.currentUserName = '';
-    // Redirect to login page after logout
+    this.studentLog.logout()
     this.router.navigate(['']);
   }
 

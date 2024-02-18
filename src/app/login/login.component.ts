@@ -24,7 +24,11 @@ export class LoginComponent {
           if (response.rows.length > 0) {
             console.log('Login successful');
             this.studentLog.isLoggedIn = true
-            this.router.navigate([""])
+            this.studentLog.getStudentInfo(this.password)
+            this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['']);
+            });
+
           } else {
             // Login failed, response is empty
             console.log("incorrect username or password")

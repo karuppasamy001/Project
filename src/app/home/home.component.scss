@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  
+
 }
 
 .links,
@@ -136,4 +136,22 @@
 .MCA {
   align-items: center;
   display: block;
+}
+
+.dropdown-menu {
+  background-color: #f1f8ff;
+  /* Light gray background */
+  border: none;
+  /* Remove border */
+}
+
+.dropdown-item {
+  color: #212529;
+  /* Dark text color */
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: #ffb3b3;
+  /* Light gray background on hover */
 }

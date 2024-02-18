@@ -15,9 +15,10 @@
                 <a class="nav-link" routerLink="/faq">FAQ</a>
                 <ng-container *ngIf="studentLog.isLoggedIn">
                     <div class="dropdown">
-                        <button class="btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown"
+                        <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            {{ studentLog.currentUserName }}
+                            <img src="../../assets/miniLogo.png" alt="Small Logo" height="30" class="me-2" /> <!-- Adjust the path and height as needed -->
+                            {{ studentLog.currentUserName | uppercase }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             <li><a class="dropdown-item" href="#">Profile</a></li>
