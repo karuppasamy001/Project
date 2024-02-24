@@ -1,27 +1,50 @@
-<div class="sidebar">
-    <div class="logo">
-      <!-- Replace 'YourLogo.png' with your actual logo -->
-      <img src="assets/YourLogo.png" alt="Your Logo">
-    </div>
-  
-    <ul class="nav">
-      <li><a routerLink="/view-marks">View Marks</a></li>
-      <li><a routerLink="/profile">Profile</a></li>
-      <li><a routerLink="/set-goal">Set Goal</a></li>
-    </ul>
+<!-- Small Sidebar -->
+<div class="small-sidebar bg-light">
+  <!-- Home button/icon -->
+  <button class=" home-button" (click)="goTo('')">
+    <mat-icon>home</mat-icon>
+  </button>
+</div>
+
+<!-- Header on Right Side of Sidebar -->
+<header class="sidebar-header">
+  <div class="logo-container">
+    <img src="../../assets/longLogo.png" alt="Logo">
   </div>
-  
-  <div class="top-header">
-    <!-- User information -->
-    <div class="user-info">
-      <span>{{ username }}</span>
-      <button class="dropdown-arrow">
-        <img src="" alt="Dropdown Arrow">
-      </button>
-      <!-- Dropdown menu for logout -->
-      <div class="dropdown-content">
-        <button (click)="logout()">Logout</button>
+  <div class="dropdown-container">
+    <ng-container *ngIf="loggedIN()">
+      <div class="dropdown">
+        <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
+          aria-expanded="false">
+          <img src="../../assets/miniLogo.png" alt="Small Logo" height="30" class="me-2" />
+          <!-- Adjust the path and height as needed -->
+          {{ Student.currentUserName | uppercase }}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+        </ul>
       </div>
-    </div>
+    </ng-container>
   </div>
-  
+</header>
+
+
+<div class="announcement-space">
+</div>
+
+<div class="main-sidebar">
+  <!-- Logo -->
+  <div class="logo-container2">
+    <img class="img-class" src="../../assets/miniLogo.png" alt="Logo">
+  </div>
+  <!-- Line -->
+
+  <hr class="sidebar-divider">
+
+  <div class="list-group list-group-flush" *ngFor="let item of sideBarItems">
+    <strong><a [routerLink]="[item.path]" routerLinkActive="active" class="list-group-item">{{item.name | uppercase}}</a></strong>
+  </div>
+</div>
+
+

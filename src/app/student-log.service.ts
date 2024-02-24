@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AdminService } from './admin/admin.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,11 +11,14 @@ export class StudentLogService {
 
   public localStorageKey: string = "currentUser" 
 
-  constructor(private http: HttpClient, private route: Router) {
+  constructor(private http: HttpClient, private route: Router, private admin: AdminService) {
     if(this.isAuthenticated()){
       this.isLoggedIn = true
       const userData = this.getCurrentUser()
       this.currentUserName = userData.firstName
+    }
+    else if(admin.isAuthenticated()){
+      this.currentUserName = "Admin"
     }
   }
 

@@ -14,6 +14,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login/login.component';
+import { AdminComponent } from './admin/admin.component';
+import { MatIconModule } from '@angular/material/icon';
+import { FaceUpdateComponent } from './admin/face-update/face-update.component';
+import { CourseEnrollComponent } from './admin/course-enroll/course-enroll.component';
+import { StaffEnrollComponent } from './admin/staff-enroll/staff-enroll.component';
+import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 
 
 @NgModule({
@@ -26,6 +32,11 @@ import { LoginComponent } from './login/login.component';
     HomeComponent,
     NavbarComponent,
     LoginComponent,
+    AdminComponent,
+    FaceUpdateComponent,
+    CourseEnrollComponent,
+    StaffEnrollComponent,
+    AdminHomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +46,8 @@ import { LoginComponent } from './login/login.component';
     WebcamModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

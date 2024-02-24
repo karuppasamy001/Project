@@ -1,0 +1,11 @@
+.table td, .table th {
+    vertical-align: middle;
+  }
+  .status-updated {
+    background-color: #28a745;
+    color: white;
+  }
+  .status-not-updated {
+    background-color: #dc3545;
+    color: white;
+  }

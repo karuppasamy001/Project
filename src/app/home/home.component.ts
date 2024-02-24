@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { AdminService } from './../admin/admin.service';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { StudentLogService } from '../student-log.service';
-import { CouchDBService } from '../backend/couchDB/couch-db.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +12,11 @@ export class HomeComponent  {
 
 
   
-  constructor(private route: Router, public studentLog: StudentLogService, private router: Router, private couchDBService: CouchDBService){
+  constructor(private route: Router, 
+    public studentLog: StudentLogService, 
+    private router: Router, 
+    public Admin: AdminService
+    ){
   }
 
 
@@ -25,13 +29,20 @@ export class HomeComponent  {
   ];
 
   logout() {
-    this.studentLog.logout()
+
+    if(this.Admin.isLoggedIn) this.Admin.logout()
+    else this.studentLog.logout()
+
+
     this.router.navigate(['']);
   }
 
   studentPortal() {
     if(this.studentLog.isLoggedIn) {
       this.router.navigate(['/navbar'])
+    }
+    if(this.Admin.isLoggedIn){
+      this.route.navigate(['/admin'])
     }
   }
 
@@ -42,4 +53,9 @@ export class HomeComponent  {
     }
   }
   
+
+  loggedIN(): boolean{
+    if(this.studentLog.isLoggedIn || this.Admin.isLoggedIn) return true;
+    else return false
+  }
 }

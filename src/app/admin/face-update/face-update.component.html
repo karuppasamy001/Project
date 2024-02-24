@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-4 d-flex justify-content-start">
+      <button class="btn btn-primary btn-rounded mr-3" (click)="selectAllStudents()">{{checked ? 'Clear Selection' :
+        'Select All Students'}}</button>
+    </div>
+
+    <div class="col-md-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Select Batch</span>
+        </div>
+        <select class="form-control" [(ngModel)]="selectedBatch" (change)="fetchStudentData()">
+          <option *ngFor="let batch of batches" [value]="batch">{{ batch }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-4 d-flex justify-content-end">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Search</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Search student by register number" [formControl]="searchControl">
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table">
+        <caption>List of Students</caption> <!-- Table Caption -->
+        <thead>
+          <tr>
+            <th scope="col">Check</th>
+            <th scope="col">Student Register Number</th>
+            <th scope="col">Student Name</th>
+            <th scope="col">Status
+              <select class="custom-select" id="statusFilter" [(ngModel)]="statusFilter" (change)="applyStatusFilter()">
+                <option value="all">All</option>
+                <option value="updated">Updated</option>
+                <option value="not-updated">Not Updated</option>
+              </select>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let student of students">
+            <td><input type="checkbox" [(ngModel)]="student.checked"
+                (change)="toggleSelection(student.registrationNumber)"></td>
+            <td>{{ student.registrationNumber }}</td>
+            <td>{{ student.name }}</td>
+            <td class="status-{{ student.faceUpdate ? 'updated' : 'not-updated' }}">{{ student.faceUpdate ? 'Updated' :
+              'Not Updated' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 d-flex justify-content-end">
+      <button class="btn btn-primary" (click)="updateStatus()">Open Face Update Portal</button>
+    </div>
+  </div>
+</div>

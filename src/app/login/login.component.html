@@ -25,3 +25,23 @@
       </div>
     </div>
 </div>
+
+<div class="modal fade" id="validationModal" tabindex="-1" aria-labelledby="validationModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="validationModalLabel">Validation Error</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal('validationModal')"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="sentence">Username or Password is Wrong! Please Try again</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
+                        (click)="closeModal('validationModal')">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>

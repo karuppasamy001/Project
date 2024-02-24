@@ -1,67 +1,158 @@
-.sidebar {
-    width: 250px;
-    background-color: #333;
-    color: #fff;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-  }
-  
-  .logo {
-    padding: 20px;
-  }
-  
-  .nav {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .nav li {
-    padding: 10px;
-  }
-  
-  .nav li a {
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .top-header {
-    background-color: #444;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .user-info {
-    display: flex;
-    align-items: center;
-  }
-  
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #333;
-    min-width: 120px;
-    z-index: 1;
-  }
-  
-  .dropdown-content button {
-    color: #fff;
-    background-color: transparent;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    text-align: left;
-  }
-  
-  .dropdown-content button:hover {
-    background-color: #555;
-  }
-  
-  .dropdown-content button:focus {
-    outline: none;
-  }
-  
+/* Small Sidebar */
+.small-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 50px;
+  /* Adjust the width as needed */
+  background-color: #E8E8E8;
+  z-index: 1100;
+}
+
+/* Home Button/Icon */
+.home-button {
+  width: 100%;
+  height: 50px;
+  border: none;
+
+}
+
+
+
+/* Sidebar Header */
+.sidebar-header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 50px);
+  /* Adjust width based on small sidebar width */
+  height: 70px;
+  /* Adjust height as needed */
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 1000;
+}
+
+
+.dropdown-container {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+}
+
+
+/* Logo Container */
+.logo-container img {
+  height: 70px;
+  /* Adjust height as needed */
+}
+
+/* Announcement Space */
+.announcement-space {
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: calc(100% - 50px);
+  /* Adjust width based on small sidebar width */
+  height: 70px;
+  /* Adjust height as needed */
+  background-color: #FFF9EF;
+  color: #000000;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 900;
+}
+
+
+/* Main Sidebar */
+.main-sidebar {
+  position: fixed;
+  top: 140px;
+  /* Adjust based on the height of the announcement space */
+  left: 50px;
+  /* Adjust based on the width of the small sidebar */
+  width: 250px;
+  height: calc(100vh - 140px);
+  /* Adjust based on the height of the header and announcement space */
+  overflow-y: auto;
+  background-color: #ffffff;
+  z-index: 1000;
+}
+
+/* Sidebar Links */
+.main-sidebar .nav-link {
+  padding: 10px;
+  color: #000;
+  text-decoration: none;
+  display: block;
+}
+
+/* Sidebar Links Hover */
+.main-sidebar .nav-link:hover {
+  background-color: #ddd;
+  /* Add hover background color */
+}
+
+.logo-container2 {
+  text-align: center;
+  padding: 10px 0px;
+  /* Adjust spacing as needed */
+}
+
+.img-class {
+  max-width: 60%;
+}
+
+.list-group-item {
+  padding: 20px;
+  cursor: pointer;
+  background-color: #ffffff;
+  /* Set list item background color to black */
+  border: none;
+  color: #000000;
+}
+
+.list-group-item:hover {
+  background-color: #D9D9D9;
+  /* Darken the background color on hover */
+}
+
+
+
+
+#userDropdown {
+  font-size: large;
+  font-weight: 500;
+}
+
+.dropdown-menu {
+  background-color: #ffffff;
+  /* Light gray background */
+  border: none;
+  /* Remove border */
+}
+
+.dropdown-item {
+  color: #212529;
+  /* Dark text color */
+  padding: 0.5rem 1rem;
+}
+
+.dropdown-item:hover {
+  background-color: #D9D9D9;
+  cursor: pointer;
+  /* Light gray background on hover */
+}
+
+
+.list-group-item.active {
+  background-color: #007bff;
+  color: #fff;
+}

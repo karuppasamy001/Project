@@ -13,7 +13,7 @@
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" routerLink="/">HOME</a>
                 <a class="nav-link" routerLink="/faq">FAQ</a>
-                <ng-container *ngIf="studentLog.isLoggedIn">
+                <ng-container *ngIf="loggedIN()">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
@@ -27,7 +27,7 @@
                     </div>
                 </ng-container>
                 <!-- If not logged in, display login link -->
-                <ng-container *ngIf="!studentLog.isLoggedIn">
+                <ng-container *ngIf="!loggedIN()">
                     <a class="nav-link forLogin" routerLink="/login">LOGIN</a>
                 </ng-container>
 
@@ -39,7 +39,8 @@
         <img src="../assets/1.jpg" class="img-fluid w-100 static-pic" alt="Static Image" />
         <a (click)="studentPortal()" class="student-portal-link" target="_blank">
             <h1 class="student-portal">MASTER OF COMPUTER APPLICATION</h1>
-            <h1 class="student-portal">STUDENT PORTAL</h1>
+            <h1 class="student-portal" *ngIf="!this.Admin.isLoggedIn">STUDENT PORTAL</h1>
+            <h1 class="student-portal" *ngIf="this.Admin.isLoggedIn">ADMIN PORTAL</h1>
         </a>
         
     </div>
