@@ -1,8 +1,8 @@
+import { CouchDBService } from './../../backend/couchDB/couch-db.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
-
 @Component({
   selector: 'app-face-update',
   templateUrl: './face-update.component.html',
@@ -17,25 +17,28 @@ export class FaceUpdateComponent implements OnInit {
   checked: boolean = false;
   selectedBatch: string = '';
   batches: string[] = [];
-
+  studentsCheck: any[] = []
   searchTerm: string = '';
   searchControl: FormControl = new FormControl();
 
-  constructor(private http: HttpClient) {}
+
+  selectedStudentsName: any[] = []
+
+  constructor(private http: HttpClient, private Couch: CouchDBService) {}
 
   ngOnInit(): void {
     this.fetchBatches();
 
     this.searchControl.valueChanges
-    .pipe(
-      debounceTime(300), // Delay processing of user input by 300 milliseconds
-      distinctUntilChanged(), // Only emit if the value has changed since the last event
-      switchMap((searchTerm) => {
-        this.searchTerm = searchTerm.trim();
-        return of(this.filterStudents());
-      })
-    )
-    .subscribe();
+      .pipe(
+        debounceTime(300), // Delay processing of user input by 300 milliseconds
+        distinctUntilChanged(), // Only emit if the value has changed since the last event
+        switchMap((searchTerm) => {
+          this.searchTerm = searchTerm.trim();
+          return of(this.filterStudents());
+        })
+      )
+      .subscribe();
   }
 
   fetchBatches() {
@@ -62,9 +65,6 @@ export class FaceUpdateComponent implements OnInit {
     );
   }
 
-
-  
-
   fetchStudentData() {
     if (!this.selectedBatch) {
       return; // No batch selected, do nothing
@@ -84,6 +84,7 @@ export class FaceUpdateComponent implements OnInit {
               (registrationNumber) => ({
                 registrationNumber,
                 ...data[currentYear][registrationNumber],
+                checked: false,
               })
             );
             this.applyStatusFilter();
@@ -98,6 +99,7 @@ export class FaceUpdateComponent implements OnInit {
   applyStatusFilter() {
     if (this.statusFilter === 'all') {
       this.students = [...this.originalStudents];
+      this.studentsCheck = [...this.originalStudents]
     } else {
       this.fetchStudentData();
       this.students = this.originalStudents.filter((student) => {
@@ -108,10 +110,11 @@ export class FaceUpdateComponent implements OnInit {
         }
         return false; // Add this return statement
       });
+
+      this.studentsCheck = this.students
     }
   }
 
-  
   filterStudents() {
     // If the search term is empty, show all students
     if (!this.searchTerm) {
@@ -140,13 +143,15 @@ export class FaceUpdateComponent implements OnInit {
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
-    const currentYear = '2023';
+    const currentYear = this.selectedBatch;
     const updatedStudents = this.students.map((student) => {
       if (this.selectedStudents.has(student.registrationNumber)) {
         return { ...student, faceUpdatePortal: !student.faceUpdatePortal };
       }
       return student;
     });
+
+    console.log(updatedStudents);
 
     const updatedData = {
       ...this.originalStudents.reduce((acc, student) => {
@@ -159,36 +164,72 @@ export class FaceUpdateComponent implements OnInit {
       }, {}),
     };
 
-    this.http
-      .put(
-        `http://localhost:5984/sapas/FaceUpdate/${currentYear}`,
-        updatedData,
-        { headers }
-      )
-      .subscribe(
-        () => {
-          console.log('Students data updated successfully');
-          this.fetchStudentData(); // Refresh data after update
-        },
-        (error) => {
-          console.error('Error updating student data:', error);
+
+    const selectedStudentNames = this.students
+    .filter((student) => this.selectedStudents.has(student.registrationNumber))
+    .map((student) => ({ name: student.name }));
+
+    this.selectedStudentsName = selectedStudentNames
+  
+
+      this.studentsCheck.forEach((student) => {
+        student.checked = false;
+        this.selectedStudents.delete(student.registrationNumber); // Remove all students when deselecting all
+      });
+      this.checked = false;
+
+
+    const url = 'http://localhost:5984/sapas/FaceUpdate';
+
+    this.http.get<any>(url, { headers }).subscribe(
+      (data: any) => {
+        if (data) {
+          data[currentYear] = updatedData;
+          this.Couch.updateDocument(url, data, headers);
         }
-      );
+      },
+      (error) => {
+        console.error('Error fetching batches:', error);
+      }
+    );
+
+
+    this.openModal()
+    
   }
 
   selectAllStudents() {
     if (this.checked) {
-      this.students.forEach((student) => {
+      this.studentsCheck.forEach((student) => {
         student.checked = false;
         this.selectedStudents.delete(student.registrationNumber); // Remove all students when deselecting all
       });
       this.checked = false;
     } else {
-      this.students.forEach((student) => {
+      this.studentsCheck.forEach((student) => {
         student.checked = true;
         this.selectedStudents.add(student.registrationNumber); // Add all students when selecting all
       });
+
       this.checked = true;
     }
   }
+
+  
+  openModal() {
+    const modal = document.getElementById("faceUpdateModal")
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }
+
+  closeModal() {
+    const modal = document.getElementById("faceUpdateModal")
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.style.display = 'none';
+    }
+  }
+
 }

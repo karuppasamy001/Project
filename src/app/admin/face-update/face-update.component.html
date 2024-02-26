@@ -43,9 +43,9 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let student of students">
+          <tr *ngFor="let student of studentsCheck">
             <td><input type="checkbox" [(ngModel)]="student.checked"
-                (change)="toggleSelection(student.registrationNumber)"></td>
+                (change)="toggleSelection(student.registrationNumber)" id="checkboxStudents"></td>
             <td>{{ student.registrationNumber }}</td>
             <td>{{ student.name }}</td>
             <td class="status-{{ student.faceUpdate ? 'updated' : 'not-updated' }}">{{ student.faceUpdate ? 'Updated' :
@@ -61,3 +61,26 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="faceUpdateModal" tabindex="-1" role="dialog" aria-labelledby="faceUpdateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title align-items-center" id="faceUpdateModalLabel">Face Update Portal</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Face Update portal is opened for selected students:</p>
+        <ul>
+          <li *ngFor="let student of selectedStudentsName">{{ student.name }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

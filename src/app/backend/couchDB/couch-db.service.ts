@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FaceUpdate } from './interface';
-import { error } from 'jquery';
 
 @Injectable({
   providedIn: 'root',
@@ -79,16 +78,11 @@ export class CouchDBService {
           (faceData: any) => {
             if (faceData[academicYear]) {
               const newYearData = faceData[academicYear];
-              newYearData[registrationNumber] = this.createFaceUpdate(
-                studentDetails,
-                academicYear
-              );
+              newYearData[registrationNumber] =
+                this.createFaceUpdate(studentDetails);
             } else {
               faceData[academicYear] = {
-                [registrationNumber]: this.createFaceUpdate(
-                  studentDetails,
-                  academicYear
-                ),
+                [registrationNumber]: this.createFaceUpdate(studentDetails),
               };
             }
 
@@ -105,7 +99,7 @@ export class CouchDBService {
     );
   }
 
-  private updateDocument(url: string, data: any, headers: HttpHeaders) {
+  updateDocument(url: string, data: any, headers: HttpHeaders) {
     this.http.put(url, data, { headers }).subscribe(
       (response: any) => {
         console.log('Student details added successfully:', response);
@@ -116,12 +110,12 @@ export class CouchDBService {
     );
   }
 
-  createFaceUpdate(studentDetails: any, acacemicYear: string): FaceUpdate {
+  createFaceUpdate(studentDetails: any): FaceUpdate {
     let studentFaceUpdate: FaceUpdate = {
       name: studentDetails.firstName,
       faceUpdate: false,
       faceUpdateCount: 0,
-      faceUpdatePortal: false
+      faceUpdatePortal: false,
     };
 
     return studentFaceUpdate;

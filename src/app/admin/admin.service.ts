@@ -1,12 +1,9 @@
-import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
-  private apiUrl = 'http://localhost:5984/sapas/StudentData';
 
   constructor() {
     if(this.isAuthenticated()){
@@ -26,11 +23,5 @@ export class AdminService {
     window.location.reload()
   }
 
-  // getStudentDetails(): Observable<any> {
-  //   const headers = new HttpHeaders({
-  //     'Authorization': 'Basic ' + btoa('admin:admin')
-  //   });
 
-
-  // }
 }
