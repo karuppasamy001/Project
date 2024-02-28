@@ -9,6 +9,7 @@ import { FaceUpdateComponent } from './admin/face-update/face-update.component';
 import { CourseEnrollComponent } from './admin/course-enroll/course-enroll.component';
 import { StaffEnrollComponent } from './admin/staff-enroll/staff-enroll.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { StaffRegistrationComponent } from './admin/staff-registration/staff-registration.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -23,7 +24,8 @@ const routes: Routes = [
       { path: 'face-update', component: FaceUpdateComponent },
       { path: 'course-enroll', component: CourseEnrollComponent },
       { path: 'staff-enroll', component: StaffEnrollComponent },
-      {path: 'admin-home', component: AdminHomeComponent},
+      { path: 'staff-registration', component: StaffRegistrationComponent},
+      { path: 'admin-home', component: AdminHomeComponent },
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
     ],
   },

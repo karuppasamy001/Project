@@ -1,0 +1,117 @@
+<div class="container-1">
+  <h1>Thiagarajar College of Engineering</h1>
+  <h2>Staff Registration</h2>
+  <!-- Your content goes here -->
+</div>
+
+<div class="container">
+ 
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="staffName">Staff Name:</label>
+      <input type="text" class="form-control" id="staffName" formControlName="staffName">
+      <div *ngIf="registerForm.get('staffName')!.hasError('required') && (registerForm.get('staffName')!.dirty || registerForm.get('staffName')!.touched)" class="text-danger">
+        Staff Name is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gender">Gender:</label>
+      <select class="form-control" id="gender" formControlName="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <div *ngIf="registerForm.get('gender')!.hasError('required') && (registerForm.get('gender')!.dirty || registerForm.get('gender')!.touched)" class="text-danger">
+        Gender is required.
+      </div>
+    </div>
+
+    
+
+    <div class="form-group">
+      <label for="dateOfBirth">Date of Birth:</label>
+      <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+      <div *ngIf="registerForm.get('dateOfBirth')!.hasError('required') && (registerForm.get('dateOfBirth')!.dirty || registerForm.get('dateOfBirth')!.touched)" class="text-danger">
+        Date of Birth is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number:</label>
+      <input type="tel" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+      <div *ngIf="registerForm.get('phoneNumber')!.hasError('required') && (registerForm.get('phoneNumber')!.dirty || registerForm.get('phoneNumber')!.touched)" class="text-danger">
+        Phone Number is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="alternatePhoneNumber">Alternate Phone Number:</label>
+      <input type="tel" class="form-control" id="alternatePhoneNumber" formControlName="alternatePhoneNumber">
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <div *ngIf="registerForm.get('email')!.hasError('required') && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
+        Email is required.
+      </div>
+      <div *ngIf="registerForm.get('email')!.hasError('email') && (registerForm.get('email')!.dirty || registerForm.get('email')!.touched)">
+        Enter a valid email address.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="qualification">Qualification:</label>
+      <select class="form-control" id="qualification" formControlName="qualification">
+        <option value="" disabled selected>Select Qualification</option>
+        <option *ngFor="let qual of qualifications" [value]="qual">{{ qual }}</option>
+      </select>
+      <div *ngIf="registerForm.get('qualification')!.hasError('required') && (registerForm.get('qualification')!.dirty || registerForm.get('qualification')!.touched)" class="text-danger">
+        Qualification is required.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="currentPost">Current Post:</label>
+      <select class="form-control" id="currentPost" formControlName="currentPost">
+        <option value="Assistant Professor">Assistant Professor</option>
+        <option value="Professor">Professor</option>
+        <option value="HOD">HOD</option>
+      </select>
+      <div *ngIf="registerForm.get('currentPost')!.hasError('required') && (registerForm.get('currentPost')!.dirty || registerForm.get('currentPost')!.touched)" class="text-danger">
+        Current Post is required.
+      </div>
+    </div>
+
+    
+
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Submit</button>
+  </form>
+
+
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Staff Credentials</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+          <p class="texts">Username: {{ username }}</p>
+          <p class="texts">Password: {{ password }}</p>
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="closeModal()">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+

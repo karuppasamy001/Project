@@ -20,7 +20,7 @@ export class NavbarComponent {
     if(Student.isLoggedIn) this.sideBarItems = this.studentSideBar;
   }
 
-  adminSideBar: any[] = [{name: 'Face Update', path: '/admin/face-update'}, {name: 'Course Enroll', path: '/admin/course-enroll'}, {name: 'Staff Enroll', path:'/admin/staff-enroll'}]
+  adminSideBar: any[] = [{name: 'Face Update', path: '/admin/face-update'}, {name: 'Course Enroll', path: '/admin/course-enroll'}, {name: 'Staff Enroll', path:'/admin/staff-enroll'}, {name: 'Staff Registration', path:'/admin/staff-registration'}]
   staffSideBar: any[] = [{name: 'Update Marks', path: '/admin/update-marks'}]
   studentSideBar: any[] = [{name: 'View Profile', path: '/admin/view-profile'}, {name: 'View Marks', path: '/admin/view-marks'}]
   sideBarItems: any[] | undefined

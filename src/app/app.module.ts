@@ -20,6 +20,7 @@ import { FaceUpdateComponent } from './admin/face-update/face-update.component';
 import { CourseEnrollComponent } from './admin/course-enroll/course-enroll.component';
 import { StaffEnrollComponent } from './admin/staff-enroll/staff-enroll.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { StaffRegistrationComponent } from './admin/staff-registration/staff-registration.component';
 
 
 @NgModule({
@@ -37,6 +38,8 @@ import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
     CourseEnrollComponent,
     StaffEnrollComponent,
     AdminHomeComponent,
+
+    StaffRegistrationComponent,
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
+import { AdminService } from '../admin.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-face-update',
   templateUrl: './face-update.component.html',
@@ -24,7 +26,9 @@ export class FaceUpdateComponent implements OnInit {
 
   selectedStudentsName: any[] = []
 
-  constructor(private http: HttpClient, private Couch: CouchDBService) {}
+  constructor(private http: HttpClient, private Couch: CouchDBService, private admin: AdminService, private router: Router) {
+    if(!admin.isAuthenticated()) router.navigate(['/login'])
+  }
 
   ngOnInit(): void {
     this.fetchBatches();
