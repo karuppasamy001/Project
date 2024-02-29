@@ -19,3 +19,34 @@ h2 {
     font-weight: bold;
     color: #333;
 }
+
+
+.label{
+    font-weight: bold;
+}
+
+.add-button{
+    background-color: red;
+    border-color: red;
+}
+.staff-name {
+    color: red;
+    align-items: center;
+    font-weight: bold;
+}
+
+
+/* Add these styles to your component's styleUrls or your global styles */
+.close:hover {
+    opacity: 0.7;
+  }
+  
+  /* Add animation for fade in/out */
+  .fade {
+    transition: opacity 0.3s ease; /* Added transition */
+  }
+  
+  .show {
+    display: block;
+    opacity: 1;
+  }

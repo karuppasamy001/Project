@@ -1,1 +1,80 @@
-<h1>hello world</h1>
+<div class="container mt-5">
+    <h2>Staff Enrollment</h2>
+    <form (ngSubmit)="submitEnrollment()">
+        <div class="row mb-3">
+            <div class="form-group col-md-6">
+                <label for="selectStaff" class="label">Select Staff:</label>
+                <select class="form-control" id="selectStaff" [(ngModel)]="selectedStaffId" name="selectStaff"
+                    (change)="onStaffChange()">
+                    <option *ngFor="let staff of staffList" [value]="staff.staffId">{{ staff.staffId }} - {{ staff.staffName
+                        }}</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="selectBatch" class="label">Select Batch:</label>
+                <select class="form-control" id="selectBatch" [(ngModel)]="selectedBatch" name="selectBatch"
+                    (change)="onBatchChange()">
+                    <option *ngFor="let batch of batchList" [value]="batch">{{ batch }}</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group row mb-3">
+            <div class="col-md-6">
+                <label for="selectCourse" class="label">Select Course:</label>
+                <select class="form-control" id="selectCourse" [(ngModel)]="selectedCourse" name="selectCourse">
+                    <option *ngFor="let course of courseList" [value]="course.code">{{ course.code }} - {{ course.name
+                        }}</option>
+                </select>
+            </div>
+            <div class="col-md-6 align-self-end">
+                    <input type="submit" class="btn btn-primary add-button" value="Add">
+            </div>
+        </div>
+
+
+    </form>
+
+    <h3  *ngIf="selectedStaff" class="staff-name"> Staff Name : {{ selectedStaff?.staffName }}</h3>
+    <table class="table">
+        <caption>Staffs Enrolled Courses</caption>
+        <thead>
+            <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let course of enrolledCourses">
+                <td>{{ course.code }}</td>
+                <td>{{ course.name }}</td>
+                <td><button class="btn btn-danger btn-sm" (click)="deleteCourse(course.code)">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button *ngIf="selectedStaff" class="btn btn-primary" (click)="submitEnrolledCourses()"> Submit Enrolled Courses for {{selectedStaff?.staffName}} </button>
+
+</div>
+
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" (click)="closeModal()">
+  <div class="modal-dialog" role="document" (click)="preventClose($event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">Enrollment Successful</h3>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Enrollment successful for {{ selectedStaff?.staffName }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

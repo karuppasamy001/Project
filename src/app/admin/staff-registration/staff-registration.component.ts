@@ -12,9 +12,13 @@ export class StaffRegistrationComponent implements OnInit {
   registerForm!: FormGroup;
   qualifications: string[] = ['Graduate', 'PostGraduate', 'B-ED'];
   submitted: boolean = false;
-  password: string = "";
-  username: string = "";
-  constructor(private formBuilder: FormBuilder, private http: HttpClient, private router: Router) {
+  password: string = '';
+  username: string = '';
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
     this.registerForm = this.formBuilder.group({
       staffName: ['', Validators.required],
       gender: ['male', Validators.required],
@@ -26,7 +30,6 @@ export class StaffRegistrationComponent implements OnInit {
       currentPost: ['Assistant Professor', Validators.required],
     });
   }
-
   ngOnInit(): void {
     // this.openModal()
   }
@@ -56,7 +59,8 @@ export class StaffRegistrationComponent implements OnInit {
           // Check if staffId, phoneNumber, and email already exist
           const idExists = data.hasOwnProperty(staffId);
           const phoneExists = Object.values(data).some(
-            (staff: any) => staff.phoneNumber === this.registerForm.value.phoneNumber
+            (staff: any) =>
+              staff.phoneNumber === this.registerForm.value.phoneNumber
           );
           const emailExists = Object.values(data).some(
             (staff: any) => staff.email === this.registerForm.value.email
@@ -65,17 +69,21 @@ export class StaffRegistrationComponent implements OnInit {
           if (!idExists && !phoneExists && !emailExists) {
             // Add staffId and password to data
             const generatedPassword = this.generatePassword();
-            this.password = generatedPassword
-            this.username = this.registerForm.value.email
-            data[staffId] = { ...dataToUpload, staffId: staffId, password: generatedPassword };
-            console.log(data)
+            this.password = generatedPassword;
+            this.username = this.registerForm.value.email;
+            data[staffId] = {
+              ...dataToUpload,
+              staffId: staffId,
+              password: generatedPassword,
+            };
+            console.log(data);
 
             // Upload data to CouchDB
             this.http.put(url, data, { headers }).subscribe(
               (response: any) => {
                 console.log('Staff details added successfully:', response);
                 this.registerForm.reset();
-                this.openModal()
+                this.openModal();
               },
               (error: any) => {
                 console.error('Error adding staff details:', error);
@@ -109,7 +117,8 @@ export class StaffRegistrationComponent implements OnInit {
 
   // Generate random password
   generatePassword(): string {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+';
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+';
     const passwordLength = 10;
     let password = '';
 
@@ -121,25 +130,21 @@ export class StaffRegistrationComponent implements OnInit {
     return password;
   }
 
-
-  openModal(){
-    const modal = document.getElementById("myModal");
+  openModal() {
+    const modal = document.getElementById('myModal');
     if (modal) {
       modal.classList.add('show');
       modal.style.display = 'block';
     }
   }
-  
 
   closeModal() {
-    const modal = document.getElementById("myModal");
+    const modal = document.getElementById('myModal');
 
     if (modal) {
       modal.classList.add('hidden');
       modal.style.display = 'none';
     }
-    this.router.navigate(['/admin/staff-enroll'])
+    this.router.navigate(['/admin/staff-enroll']);
   }
-
-
 }
