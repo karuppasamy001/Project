@@ -111,43 +111,128 @@ export class CourseEnrollComponent implements OnInit {
     this.courses = this.courses.filter(c => c !== course);
   }
 
+  // submit() {
+  //   if (!this.selectedBatch || !this.selectedSemester) {
+  //     return;
+  //   }
+  
+  //   const headers = new HttpHeaders({
+  //     Authorization: 'Basic ' + btoa('admin:admin'),
+  //     'Content-Type': 'application/json' // Specify JSON content type
+  //   });
+  
+  //   const url = `http://localhost:5984/sapas/Courses`;
+  
+  //   this.http.get<any>(url, { headers }).subscribe(
+  //     (data: any) => {
+  //       if (data) {
+  //         data[this.selectedBatch][this.selectedSemester] = this.courses.reduce((acc, course) => {
+  //           acc[course.code] = course.name;
+  //           return acc;
+  //         }, {});
+
+  //         const newCourses = this.courses.reduce((acc, course) => {
+  //           acc[course.code] = course.name;
+  //           return acc;
+  //         }, {});
+
+  //         this.changes.push(`Changes for ${this.selectedBatch} ${this.selectedSemester}: ${JSON.stringify(newCourses)}`);
+  //         this.Couch.updateDocument(url, data, headers);
+
+  //         this.openModal()
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching batches:', error);
+  //     }
+  //   );
+
+  // }
+
   submit() {
     if (!this.selectedBatch || !this.selectedSemester) {
       return;
     }
-  
+
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
-      'Content-Type': 'application/json' // Specify JSON content type
+      'Content-Type': 'application/json', // Specify JSON content type
     });
-  
-    const url = `http://localhost:5984/sapas/Courses`;
-  
-    this.http.get<any>(url, { headers }).subscribe(
-      (data: any) => {
-        if (data) {
-          data[this.selectedBatch][this.selectedSemester] = this.courses.reduce((acc, course) => {
-            acc[course.code] = course.name;
-            return acc;
-          }, {});
 
-          const newCourses = this.courses.reduce((acc, course) => {
-            acc[course.code] = course.name;
-            return acc;
-          }, {});
+    const coursesUrl = `http://localhost:5984/sapas/Courses`;
+    const marksUrl = `http://localhost:5984/sapas/Marks`;
+    const studentsUrl = `http://localhost:5984/sapas/StudentData`;
 
-          this.changes.push(`Changes for ${this.selectedBatch} ${this.selectedSemester}: ${JSON.stringify(newCourses)}`);
-          this.Couch.updateDocument(url, data, headers);
+    // Fetch student registration numbers
+    this.http.get<any>(studentsUrl, { headers }).subscribe(
+      (studentsData: any) => {
+        if (studentsData) {
+          const studentRegistrationNumbers = Object.keys(studentsData['2023']);
 
-          this.openModal()
+          // Update Courses document
+          this.http.get<any>(coursesUrl, { headers }).subscribe(
+            (coursesData: any) => {
+              if (coursesData) {
+                const newCourses = this.courses.reduce((acc, course) => {
+                  acc[course.code] = course.name;
+                  return acc;
+                }, {});
+
+                coursesData[this.selectedBatch][this.selectedSemester] = newCourses;
+                this.Couch.updateDocument(coursesUrl, coursesData, headers);
+
+                // Update Marks document
+                this.updateMarksDocument(newCourses, studentRegistrationNumbers, headers, marksUrl);
+                this.openModal();
+              }
+            },
+            (error) => {
+              console.error('Error fetching courses:', error);
+            }
+          );
         }
       },
       (error) => {
-        console.error('Error fetching batches:', error);
+        console.error('Error fetching student data:', error);
       }
     );
-
   }
+
+  updateMarksDocument(newCourses: any, studentRegistrationNumbers: string[], headers: HttpHeaders, marksUrl: string) {
+    this.http.get<any>(marksUrl, { headers }).subscribe(
+      (marksData: any) => {
+        if (marksData) {
+          if (!marksData[this.selectedBatch]) {
+            marksData[this.selectedBatch] = {};
+          }
+          if (!marksData[this.selectedBatch][this.selectedSemester]) {
+            marksData[this.selectedBatch][this.selectedSemester] = {};
+          }
+
+          // Initialize marks for new courses and students in the Marks document
+          Object.keys(newCourses).forEach((code) => {
+            marksData[this.selectedBatch][this.selectedSemester][code] = {
+              cat1: {},
+              cat2: {},
+              finalResult: {},
+            };
+
+            studentRegistrationNumbers.forEach((registrationNumber) => {
+              marksData[this.selectedBatch][this.selectedSemester][code]['cat1'][registrationNumber] = null;
+              marksData[this.selectedBatch][this.selectedSemester][code]['cat2'][registrationNumber] = null;
+              marksData[this.selectedBatch][this.selectedSemester][code]['finalResult'][registrationNumber] = null;
+            });
+          });
+
+          this.Couch.updateDocument(marksUrl, marksData, headers);
+        }
+      },
+      (error) => {
+        console.error('Error fetching marks:', error);
+      }
+    );
+  }
+
 
 
   openModal() {

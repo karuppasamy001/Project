@@ -21,6 +21,9 @@ import { CourseEnrollComponent } from './admin/course-enroll/course-enroll.compo
 import { StaffEnrollComponent } from './admin/staff-enroll/staff-enroll.component';
 import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
 import { StaffRegistrationComponent } from './admin/staff-registration/staff-registration.component';
+import { StaffComponent } from './staff/staff.component';
+import { StaffProfileComponent } from './staff/staff-profile/staff-profile.component';
+import { AddMarksComponent } from './staff/add-marks/add-marks.component';
 
 
 @NgModule({
@@ -40,6 +43,9 @@ import { StaffRegistrationComponent } from './admin/staff-registration/staff-reg
     AdminHomeComponent,
 
     StaffRegistrationComponent,
+     StaffComponent,
+     StaffProfileComponent,
+     AddMarksComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AdminService } from './admin/admin.service';
+import { StaffService } from './staff/staff.service';
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +13,18 @@ export class StudentLogService {
 
   public localStorageKey: string = "currentUser" 
 
-  constructor(private http: HttpClient, private route: Router, private admin: AdminService) {
+  constructor(private http: HttpClient, private route: Router, private admin: AdminService, private staff: StaffService) {
     if(this.isAuthenticated()){
       this.isLoggedIn = true
-      const userData = this.getCurrentUser()
+      const userData = this.getCurrentUser("student")
       this.currentUserName = userData.firstName
     }
     else if(admin.isAuthenticated()){
       this.currentUserName = "Admin"
+    }
+    else if(staff.isAuthenticated()){
+      const staffData = this.getCurrentUser("staff")
+      this.currentUserName = staffData.staffName
     }
   }
 
@@ -56,8 +62,15 @@ export class StudentLogService {
     return !!localStorage.getItem(this.localStorageKey);
   }
 
-  getCurrentUser(): any {
+  getCurrentUser(typeOfUser: string): any {
+
+    if(typeOfUser === 'student'){
     const userData = localStorage.getItem(this.localStorageKey);
     return userData ? JSON.parse(userData) : null;
+    }
+    else{
+      const userData = localStorage.getItem("isStaff");
+      return userData ? JSON.parse(userData) : null;
+    }
   }
 }

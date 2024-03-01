@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-staff-registration',
@@ -17,8 +18,12 @@ export class StaffRegistrationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private admin: AdminService
   ) {
+
+    if(!admin.isAuthenticated()) router.navigate(['/login'])
+
     this.registerForm = this.formBuilder.group({
       staffName: ['', Validators.required],
       gender: ['male', Validators.required],

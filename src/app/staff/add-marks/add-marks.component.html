@@ -1,0 +1,63 @@
+<!-- add-marks.component.html -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-2">
+            <label for="selectBatch" class="label">Select Batch:</label>
+            <select class="form-control" id="selectBatch" [(ngModel)]="selectedBatch" name="selectBatch">
+                <option *ngFor="let batch of batchList" [value]="batch">{{ batch }}</option>
+            </select>
+        </div>
+
+        <div class="col-md-2">
+            <label>Select Semester:</label>
+            <select class="form-control" [(ngModel)]="selectedSemester" >
+                <option value="Semester1">Semester 1</option>
+                <option value="Semester2">Semester 2</option>
+                <option value="Semester3">Semester 3</option>    
+                <option value="Semester4">Semester 4</option>    
+            </select>
+        </div>
+      
+      <div class="col-md-4">
+        <label>Select Subject:</label>
+        <select class="form-control" [(ngModel)]="selectedSubject" >
+            <option *ngFor="let Subject of subjectList" [value]="Subject">{{Subject}}</option>        
+        </select>
+      </div>
+      <div class="col-md-4">
+        <label>Select Assessment:</label>
+        <select class="form-control" [(ngModel)]="selectedAssessment" (change)="fetchMarksForSelectedAssessment()">
+          <option *ngFor="let assessment of assessments" [value]="assessment">{{ assessment }}</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <table class="table">
+            <caption>student lists</caption>
+          <thead>
+            <tr>
+              <th>Registration Number</th>
+              <th>Name</th>
+              <th>Marks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let student of students">
+              <td>{{ student.registrationNumber }}</td>
+              <td>{{ student.name }}</td>
+              <td><input type="text" class="form-control" [(ngModel)]="student.marks"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <button class="btn btn-primary" (click)="onSubmit()">Submit</button>
+      </div>
+    </div>
+  </div>
+  

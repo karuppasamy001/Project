@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { AdminService } from '../admin.service';
 
 @Component({
   selector: 'app-staff-enroll',
@@ -16,7 +18,9 @@ export class StaffEnrollComponent implements OnInit {
   selectedStaff: any;
   enrolledCourses: any[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router, private admin: AdminService ) {
+    if(!admin.isAuthenticated()) router.navigate(['/login'])
+  }
 
   ngOnInit(): void {
     const headers = new HttpHeaders({

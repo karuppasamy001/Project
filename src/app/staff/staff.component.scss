@@ -1,0 +1,11 @@
+
+.content-container {
+    position: absolute;
+    top: 140px; /* Adjust based on the height of the announcement space */
+    left: 300px; /* Adjust based on the width of the main sidebar */
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    overflow-y: auto; /* Add scroll if needed */
+    background-color: #ddd; /* Adjust background color as needed */
+}
