@@ -98,21 +98,20 @@ export class AddMarksComponent implements OnInit {
 
     const url = 'http://localhost:5984/sapas/Marks';
 
-    this.http.get(url, {headers}).subscribe(
+    this.http.get(url, { headers }).subscribe(
       (marksData: any) => {
         const batch = marksData[this.selectedBatch];
         const courses = batch[this.selectedSemester];
         const assessments = courses[this.selectedSubject.slice(0, 7)];
-        const assessment = assessments[this.selectedAssessment]
+        const assessment = assessments[this.selectedAssessment];
 
-        this.marksData = assessment
-        this.fetchStudentsData()
+        this.marksData = assessment;
+        this.fetchStudentsData();
       },
       (error) => {
-        console.error("Error fetching  Marks data", error);
+        console.error('Error fetching  Marks data', error);
       }
-    )
-
+    );
   }
 
   fetchStudentsData() {
@@ -142,9 +141,8 @@ export class AddMarksComponent implements OnInit {
       Authorization: 'Basic ' + btoa('admin:admin'),
       'Content-Type': 'application/json',
     });
-    const url = `http://localhost:5984/sapas/Marks/${
-      this.selectedSubject.split(' - ')[0]
-    }`;
+    const url = 'http://localhost:5984/sapas/Marks';
+
     const updatedMarksData = { ...this.marksData };
     this.students.forEach((student) => {
       updatedMarksData[student.registrationNumber] = student.marks;
@@ -152,13 +150,29 @@ export class AddMarksComponent implements OnInit {
     const payload = {
       [this.selectedAssessment]: updatedMarksData,
     };
-    this.http.put(url, payload, { headers }).subscribe(
-      () => {
-        console.log('Marks updated successfully');
+
+    console.log(payload);
+
+    this.http.get(url, { headers }).subscribe(
+      (data: any) => {
+        data[this.selectedBatch][this.selectedSemester][
+          this.selectedSubject.slice(0, 7)
+        ] = payload;
+
+        this.http.put(url, data, { headers }).subscribe(
+          (response: any) => {
+            console.log('Marks uploaded Successfully');
+          },
+          (error: any) => {
+            console.error('Error uploading Marks', error);
+          }
+        );
       },
-      (error) => {
-        console.error('Error updating marks:', error);
+      (error: any) => {
+        console.error('error fetching from database', error);
       }
     );
+
+    // console.log(this.marksData)
   }
 }
