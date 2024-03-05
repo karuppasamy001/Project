@@ -11,17 +11,14 @@
 
         <div class="col-md-2">
             <label>Select Semester:</label>
-            <select class="form-control" [(ngModel)]="selectedSemester" >
-                <option value="Semester1">Semester 1</option>
-                <option value="Semester2">Semester 2</option>
-                <option value="Semester3">Semester 3</option>    
-                <option value="Semester4">Semester 4</option>    
+            <select class="form-control" [(ngModel)]="selectedSemester" (change)="onSemChange()">
+              <option *ngFor="let sem of semesters" [value]="sem">{{sem}}</option>        
             </select>
         </div>
       
       <div class="col-md-4">
         <label>Select Subject:</label>
-        <select class="form-control" [(ngModel)]="selectedSubject" >
+        <select class="form-control" [(ngModel)]="selectedSubject" (change)="onSubjectChange()">
             <option *ngFor="let Subject of subjectList" [value]="Subject">{{Subject}}</option>        
         </select>
       </div>
@@ -48,7 +45,9 @@
             <tr *ngFor="let student of students">
               <td>{{ student.registrationNumber }}</td>
               <td>{{ student.name }}</td>
-              <td><input type="text" class="form-control" [(ngModel)]="student.marks"></td>
+              <td><input type="text" class="form-control small-input" [(ngModel)]="student.marks" (input)="onMarksChange(student)">
+                <span class="text-danger">{{ student.validationMessage }}</span>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -60,4 +59,24 @@
       </div>
     </div>
   </div>
+
+  <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    (click)="closeModal()">
+    <div class="modal-dialog" role="document" (click)="preventClose($event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Add Marks</h3>
+                <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Marks Added Successfully
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
   

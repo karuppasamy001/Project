@@ -17,9 +17,15 @@ export class StaffEnrollComponent implements OnInit {
   courseList: any[] = [];
   selectedStaff: any;
   enrolledCourses: any[] = [];
+  selectedSemester!: string;
+  semesters: string[] = [];
 
-  constructor(private http: HttpClient, private router: Router, private admin: AdminService ) {
-    if(!admin.isAuthenticated()) router.navigate(['/login'])
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private admin: AdminService
+  ) {
+    if (!admin.isAuthenticated()) router.navigate(['/login']);
   }
 
   ngOnInit(): void {
@@ -28,25 +34,32 @@ export class StaffEnrollComponent implements OnInit {
     });
 
     // Fetch staff list
-    this.http.get<any>('http://localhost:5984/sapas/StaffData', { headers }).subscribe(
-      (data: any) => {
-        const filteredData = Object.keys(data).reduce((acc: any, key: string) => {
-          if (key !== '_id' && key !== '_rev') {
-            acc.push(data[key]);
-          }
-          return acc;
-        }, []);
-        this.staffList = filteredData;
-      },
-      (error) => {
-        console.error('Error fetching staff list:', error);
-      }
-    );
+    this.http
+      .get<any>('http://localhost:5984/sapas/StaffData', { headers })
+      .subscribe(
+        (data: any) => {
+          const filteredData = Object.keys(data).reduce(
+            (acc: any, key: string) => {
+              if (key !== '_id' && key !== '_rev') {
+                acc.push(data[key]);
+              }
+              return acc;
+            },
+            []
+          );
+          this.staffList = filteredData;
+        },
+        (error) => {
+          console.error('Error fetching staff list:', error);
+        }
+      );
 
     // Fetch batch list
     this.http.get('http://localhost:5984/sapas/Courses', { headers }).subscribe(
       (data: any) => {
-        this.batchList = Object.keys(data).filter((key: string) => !key.startsWith('_'));
+        this.batchList = Object.keys(data).filter(
+          (key: string) => !key.startsWith('_')
+        );
       },
       (error) => {
         console.error('Error fetching batch list:', error);
@@ -54,25 +67,60 @@ export class StaffEnrollComponent implements OnInit {
     );
   }
 
-  onStaffChange(): void {
-    this.selectedStaff = this.staffList.find((staff) => staff.staffId === this.selectedStaffId);
-    const url = "http://localhost:5984/sapas/StaffEnroll"
+  onSemChange(): void {
+    this.selectedStaff = this.staffList.find(
+      (staff) => staff.staffId === this.selectedStaffId
+    );
+    const url = 'http://localhost:5984/sapas/StaffEnroll';
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
+    this.http
+      .get<any>('http://localhost:5984/sapas/Courses', { headers })
+      .subscribe(
+        (data: any) => {
+          const courses = data[this.selectedBatch];
+          const courseLists = courses[this.selectedSemester];
+
+          const nonEnrolledCourses = Object.entries(courseLists).filter(
+            ([code, _]) =>
+              !this.enrolledCourses.some((course) => course.code === code)
+          );
+
+          // Map filtered courses to course list
+          this.courseList = nonEnrolledCourses.map(([code, name]) => ({
+            code,
+            name,
+          }));
+
+          // Filter out courses that are already enrolled
+        },
+        (error) => {
+          console.error('Error fetching course list:', error);
+        }
+      );
+
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
-        const enrolledLists = data[this.selectedStaffId]
-        console.log(enrolledLists)
-        this.enrolledCourses = Object.entries(enrolledLists).map(([code, name]) => ({ code, name }));
+        const enrolledLists = data[this.selectedStaffId];
+        const enrolledListsOfCourses = enrolledLists[this.selectedSemester];
 
+        if(enrolledListsOfCourses) {
+
+        this.enrolledCourses = Object.entries(enrolledListsOfCourses).map(
+          ([code, name]) => ({ code, name })
+        );
+
+      }
+      else{
+        this.enrolledCourses = []
+      }
       },
       (error) => {
         console.error('Error fetching batch list:', error);
       }
     );
-
   }
 
   onBatchChange(): void {
@@ -80,31 +128,30 @@ export class StaffEnrollComponent implements OnInit {
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
-    this.http.get<any>('http://localhost:5984/sapas/Courses', { headers }).subscribe(
+    this.http.get('http://localhost:5984/sapas/Courses', { headers }).subscribe(
       (data: any) => {
-        const courses = data[this.selectedBatch];
-        const courseLists = { ...courses["Semester1"], ...courses["Semester2"], ...courses["Semester3"], ...courses["Semester4"]}
-        
-        // Filter out courses that are already enrolled
-        const nonEnrolledCourses = Object.entries(courseLists).filter(([code, _]) => !this.enrolledCourses.some(course => course.code === code));
-        
-        // Map filtered courses to course list
-        this.courseList = nonEnrolledCourses.map(([code, name]) => ({ code, name }));
+        const listOfSemesters = data[this.selectedBatch];
+        this.semesters = Object.keys(listOfSemesters).filter(
+          (key: string) => !key.startsWith('_')
+        );
       },
       (error) => {
-        console.error('Error fetching course list:', error);
+        console.error('Error fetching batch list:', error);
       }
     );
-}
-
+  }
 
   submitEnrollment(): void {
-    const enrolledCourse = this.courseList.find((course) => course.code === this.selectedCourse);
+    const enrolledCourse = this.courseList.find(
+      (course) => course.code === this.selectedCourse
+    );
     if (enrolledCourse) {
       this.enrolledCourses.push(enrolledCourse);
       // Remove enrolled course from courseList
 
-      this.courseList = this.courseList.filter((course) => course.code !== this.selectedCourse);
+      this.courseList = this.courseList.filter(
+        (course) => course.code !== this.selectedCourse
+      );
     }
   }
 
@@ -114,12 +161,13 @@ export class StaffEnrollComponent implements OnInit {
     if (course) {
       this.courseList.push(course);
       // Remove course from enrolledCourses
-      this.enrolledCourses = this.enrolledCourses.filter((c) => c.code !== courseCode);
+      this.enrolledCourses = this.enrolledCourses.filter(
+        (c) => c.code !== courseCode
+      );
     }
   }
 
-
-  submitEnrolledCourses(): void{
+  submitEnrolledCourses(): void {
     const enrolledCoursesObject = this.enrolledCourses.reduce((acc, course) => {
       acc[course.code] = course.name;
       return acc;
@@ -133,23 +181,22 @@ export class StaffEnrollComponent implements OnInit {
 
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
-        data[this.selectedStaffId] = enrolledCoursesObject
+        data[this.selectedStaffId][this.selectedSemester] = enrolledCoursesObject;
 
-        this.http.put(url, data,  {headers}).subscribe(
-          (response : any) => {
-            console.log("Updated  Staff Enrollments");
-            this.openModal()
+        this.http.put(url, data, { headers }).subscribe(
+          (response: any) => {
+            console.log('Updated  Staff Enrollments');
+            this.openModal();
           },
           (error) => {
-            console.error("Error Updating Staff Enrollment", error);
+            console.error('Error Updating Staff Enrollment', error);
           }
-        )
+        );
       },
       (error) => {
         console.error('Error fetching course list:', error);
       }
     );
-    
   }
 
   openModal() {
@@ -165,13 +212,10 @@ export class StaffEnrollComponent implements OnInit {
     modal!.style.display = 'none';
     document.body.classList.remove('modal-open');
 
-    window.location.reload()
+    window.location.reload();
   }
 
   preventClose(event: any) {
     event.stopPropagation();
   }
-
-
-  
 }
