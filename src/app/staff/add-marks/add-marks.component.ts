@@ -61,6 +61,17 @@ export class AddMarksComponent implements OnInit {
     }
   }
 
+  onAssignmentChange(student: any) {
+
+    
+
+    if (student.assignment < 0 || student.assignment > 40) {
+      student.assignmentValidationMessage = 'Assignment marks should be between 0 and 40';
+    } else {
+      student.assignmentValidationMessage = ''; // Clear validation message if marks are valid
+    }
+  }
+
   onSemChange(){
 
     const headers = new HttpHeaders({
@@ -134,14 +145,14 @@ export class AddMarksComponent implements OnInit {
     this.http.get(url, { headers }).subscribe(
       (marksData: any) => {
         const batch = marksData[this.selectedBatch];
-        for(let i of Object.values(batch)){
-          console.log(i)
-        }
+        
         const courses = batch[this.selectedSemester];
         const assessments = courses[this.selectedSubject.slice(0, 7)];
         const assessment = assessments[this.selectedAssessment];
 
         this.marksData = assessment;
+        console.log(this.marksData)
+        
         this.fetchStudentsData();
       },
       (error) => {
@@ -151,17 +162,21 @@ export class AddMarksComponent implements OnInit {
   }
 
   onMarksChange(student: any) {
+
+    console.log(student)
     if (this.selectedAssessment === 'cat1' || this.selectedAssessment === 'cat2') {
       if (student.marks < 0 || student.marks > 60) {
-        student.validationMessage = 'Marks should be between 0 and 60 for cat1 and cat2 assessments';
+        student.ValidationMessage = 'Marks should be between 0 and 60 for cat1 and cat2 assessments';
       } else {
-        student.validationMessage = ''; // Clear validation message if marks are valid
+        student.ValidationMessage = ''; // Clear validation message if marks are valid
       }
-    } else if (this.selectedAssessment === 'finalResult') {
+    }
+   
+    else if (this.selectedAssessment === 'finalResult') {
       if (student.marks < 0 || student.marks > 100) {
-        student.validationMessage = 'Marks should be between 0 and 100 for finalResult assessment';
+        student.ValidationMessage = 'Marks should be between 0 and 100 for finalResult assessment';
       } else {
-        student.validationMessage = ''; // Clear validation message if marks are valid
+        student.ValidationMessage = ''; // Clear validation message if marks are valid
       }
     }
   }
@@ -171,16 +186,36 @@ export class AddMarksComponent implements OnInit {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
+
+    
+
+
     const url = 'http://localhost:5984/sapas/StudentData';
     this.http.get<any>(url, { headers }).subscribe(
       (data: any) => {
-        if (data['2023']) {
+        if (data[this.selectedBatch]) {
           // Assuming '2023' is the batch year
-          this.students = Object.values(data['2023']).map((student: any) => ({
-            registrationNumber: student.registrationNumber,
-            name: `${student.firstName} ${student.lastName}`,
-            marks: this.marksData[student.registrationNumber] || '',
-          }));
+
+          if(this.selectedAssessment === 'finalResult'){
+            this.students = Object.values(data[this.selectedBatch]).map((student: any) => ({
+              registrationNumber: student.registrationNumber,
+              name: `${student.firstName} ${student.lastName}`,
+              marks: this.marksData[student.registrationNumber] || '',
+            }));
+          }
+          
+          else{
+
+            
+
+            this.students = Object.values(data[this.selectedBatch]).map((student: any) => ({
+              registrationNumber: student.registrationNumber,
+              name: `${student.firstName} ${student.lastName}`, 
+              marks: this.marksData[student.registrationNumber]["mark"] || '',
+              assignment: this.marksData[student.registrationNumber]["assignment"] || ''
+            }));
+          }
+          
         }
       },
       (error) => {
@@ -197,20 +232,34 @@ export class AddMarksComponent implements OnInit {
     const url = 'http://localhost:5984/sapas/Marks';
 
     const updatedMarksData = { ...this.marksData };
+
+   let payload: any
+
+   if (this.selectedAssessment === 'finalResult') {
     this.students.forEach((student) => {
       updatedMarksData[student.registrationNumber] = student.marks;
     });
-    const payload = {
-      [this.selectedAssessment]: updatedMarksData,
-    };
+    payload  = {updatedMarksData};
+  } else {
+    this.students.forEach((student) => {
+      updatedMarksData[student.registrationNumber] = {
+        mark: student.marks,
+        assignment: student.assignment,
+      };
+    });
+    payload  = {updatedMarksData};
+  }
 
-    console.log(payload);
+
+    console.log(payload, "this is payload");
 
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
-        data[this.selectedBatch][this.selectedSemester][
-          this.selectedSubject.slice(0, 7)
-        ] = payload;
+        // data[this.selectedBatch][this.selectedSemester][this.selectedSubject.slice(0, 7)] = payload;
+        data[this.selectedBatch][this.selectedSemester][this.selectedSubject.slice(0, 7)][this.selectedAssessment] = updatedMarksData;
+
+        const assessmentData = data[this.selectedBatch][this.selectedSemester][this.selectedSubject.slice(0, 7)]
+      console.log(assessmentData, 'assessment data')
 
         this.http.put(url, data, { headers }).subscribe(
           (response: any) => {

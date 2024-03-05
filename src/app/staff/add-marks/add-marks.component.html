@@ -33,20 +33,26 @@
     <div class="row mt-3">
       <div class="col-md-12">
         <table class="table">
-            <caption>student lists</caption>
+            <caption>Student lists</caption>
           <thead>
             <tr>
               <th>Registration Number</th>
               <th>Name</th>
               <th>Marks</th>
+              <th *ngIf="selectedAssessment === 'cat1' || selectedAssessment === 'cat2'">Assignment</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let student of students">
               <td>{{ student.registrationNumber }}</td>
               <td>{{ student.name }}</td>
-              <td><input type="text" class="form-control small-input" [(ngModel)]="student.marks" (input)="onMarksChange(student)">
-                <span class="text-danger">{{ student.validationMessage }}</span>
+              <td>
+                <input type="number" class="form-control small-input" [(ngModel)]="student.marks" (input)="onMarksChange(student)">
+                <span class="text-danger">{{ student.ValidationMessage }}</span>
+              </td>
+              <td *ngIf="selectedAssessment === 'cat1' || selectedAssessment === 'cat2'">
+                <input type="number" class="form-control small-input" [(ngModel)]="student.assignment" (input)="onAssignmentChange(student)">
+                <span class="text-danger">{{ student.assignmentValidationMessage }}</span>
               </td>
             </tr>
           </tbody>
@@ -59,6 +65,7 @@
       </div>
     </div>
   </div>
+  
 
   <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
     (click)="closeModal()">
