@@ -1,1 +1,56 @@
-<p>view-marks works!</p>
+<div class="container mt-5">
+    <div class="row">
+      <div class="col">
+        <label for="semesterSelect">Select Semester:</label>
+        <select class="form-control" id="semesterSelect" [(ngModel)]="selectedSemester" (change)="onSemesterChange()">
+          <option *ngFor="let semester of semesters" [value]="semester">{{ semester }}</option>
+        </select>
+      </div>
+      <div class="col">
+        <label for="assessmentTypeSelect">Assessment Type:</label>
+        <select class="form-control" id="assessmentTypeSelect" [(ngModel)]="selectedAssessment" (change)="onAssessmentChange()">
+          <option *ngFor="let assessment of assessments" [value]="assessment.value">{{ assessment.label }}</option>
+        </select>
+      </div>
+    </div>
+  
+    <div class="mt-4">
+      <table class="table">
+        <caption>{{studentName}} Marks</caption>
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th *ngFor="let header of tableHeaders">{{ header }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of tableData">
+            <td>{{ row.courseCode }}</td>
+            <td>{{ row.courseName }}</td>
+            <td *ngFor="let value of row.values">{{ value }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div class="row" *ngIf="selectedAssessment === 'viewFullResults'">
+      <div class="col">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">GPA</h5>
+            <p class="card-text">{{ gpa }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">CGPA</h5>
+            <p class="card-text">{{ cgpa }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
