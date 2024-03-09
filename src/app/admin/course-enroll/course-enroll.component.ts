@@ -14,15 +14,16 @@ export class CourseEnrollComponent implements OnInit {
   selectedSemester: string = '';
   subjectCode: string = '';
   subjectName: string = '';
+  subjectCredit: string = '';
   courses: any[] = [];
   batches: string[] = [];
   semesters: string[] = [];
 
-  changes: string[] = []
+  changes: string[] = [];
 
   constructor(private http: HttpClient, private Couch: CouchDBService, private admin: AdminService, private router: Router) {
-    if(!admin.isAuthenticated()) router.navigate(['/login'])
-   }
+    if (!admin.isAuthenticated()) router.navigate(['/login'])
+  }
 
   ngOnInit(): void {
     this.fetchBatchData();
@@ -56,9 +57,9 @@ export class CourseEnrollComponent implements OnInit {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
-  
+
     const url = `http://localhost:5984/sapas/Courses`;
-  
+
     this.http.get<any>(url, { headers }).subscribe(
       (data: any) => {
         if (data[this.selectedBatch]) {
@@ -75,17 +76,17 @@ export class CourseEnrollComponent implements OnInit {
     if (!this.selectedBatch || !this.selectedSemester) {
       return;
     }
-  
+
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
-  
+
     const url = `http://localhost:5984/sapas/Courses`;
-  
+
     this.http.get<any>(url, { headers }).subscribe(
       (data: any) => {
         if (data && data[this.selectedBatch] && data[this.selectedBatch][this.selectedSemester]) {
-          this.courses = Object.entries(data[this.selectedBatch][this.selectedSemester]).map(([code, name]) => ({ code, name }));
+          this.courses = Object.entries<any[]>(data[this.selectedBatch][this.selectedSemester]).map(([code, [name, credit]]) => ({ code, name, credit }));
         } else {
           this.courses = []; // Initialize courses as empty array if no data found
         }
@@ -95,92 +96,56 @@ export class CourseEnrollComponent implements OnInit {
       }
     );
   }
-  
-  
+
+
   addCourse() {
     const course: any = {
       code: this.subjectCode,
-      name: this.subjectName
+      name: this.subjectName,
+      credit: this.subjectCredit
     };
     this.courses.push(course);
     this.subjectCode = '';
     this.subjectName = '';
+    this.subjectCredit = '';
   }
 
   deleteCourse(course: any) {
     this.courses = this.courses.filter(c => c !== course);
   }
 
-  // submit() {
-  //   if (!this.selectedBatch || !this.selectedSemester) {
-  //     return;
-  //   }
-  
-  //   const headers = new HttpHeaders({
-  //     Authorization: 'Basic ' + btoa('admin:admin'),
-  //     'Content-Type': 'application/json' // Specify JSON content type
-  //   });
-  
-  //   const url = `http://localhost:5984/sapas/Courses`;
-  
-  //   this.http.get<any>(url, { headers }).subscribe(
-  //     (data: any) => {
-  //       if (data) {
-  //         data[this.selectedBatch][this.selectedSemester] = this.courses.reduce((acc, course) => {
-  //           acc[course.code] = course.name;
-  //           return acc;
-  //         }, {});
-
-  //         const newCourses = this.courses.reduce((acc, course) => {
-  //           acc[course.code] = course.name;
-  //           return acc;
-  //         }, {});
-
-  //         this.changes.push(`Changes for ${this.selectedBatch} ${this.selectedSemester}: ${JSON.stringify(newCourses)}`);
-  //         this.Couch.updateDocument(url, data, headers);
-
-  //         this.openModal()
-  //       }
-  //     },
-  //     (error) => {
-  //       console.error('Error fetching batches:', error);
-  //     }
-  //   );
-
-  // }
-
   submit() {
     if (!this.selectedBatch || !this.selectedSemester) {
       return;
     }
-  
+
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
       'Content-Type': 'application/json', // Specify JSON content type
     });
-  
+
     const coursesUrl = `http://localhost:5984/sapas/Courses`;
     const marksUrl = `http://localhost:5984/sapas/Marks`;
     const studentsUrl = `http://localhost:5984/sapas/StudentData`;
-  
+
     // Fetch student registration numbers
     this.http.get<any>(studentsUrl, { headers }).subscribe(
       (studentsData: any) => {
         if (studentsData) {
           const studentRegistrationNumbers = Object.keys(studentsData[this.selectedBatch]);
-  
+
           // Update Courses document
           this.http.get<any>(coursesUrl, { headers }).subscribe(
             (coursesData: any) => {
               if (coursesData) {
                 const newCourses = this.courses.reduce((acc, course) => {
-                  acc[course.code] = course.name;
+                  acc[course.code] = [course.name, course.credit];
                   return acc;
                 }, {});
-  
+
                 coursesData[this.selectedBatch][this.selectedSemester] = newCourses;
                 this.Couch.updateDocument(coursesUrl, coursesData, headers);
-  
+
                 // Update Marks document
                 this.updateMarksDocument(newCourses, studentRegistrationNumbers, headers, marksUrl);
                 this.openModal();
@@ -197,7 +162,7 @@ export class CourseEnrollComponent implements OnInit {
       }
     );
   }
-  
+
   updateMarksDocument(newCourses: any, studentRegistrationNumbers: string[], headers: HttpHeaders, marksUrl: string) {
     this.http.get<any>(marksUrl, { headers }).subscribe(
       (marksData: any) => {
@@ -208,7 +173,7 @@ export class CourseEnrollComponent implements OnInit {
           if (!marksData[this.selectedBatch][this.selectedSemester]) {
             marksData[this.selectedBatch][this.selectedSemester] = {};
           }
-  
+
           // Initialize marks for new courses and students in the Marks document
           Object.keys(newCourses).forEach((code) => {
             marksData[this.selectedBatch][this.selectedSemester][code] = {
@@ -216,7 +181,7 @@ export class CourseEnrollComponent implements OnInit {
               cat2: {},
               finalResult: {},
             };
-  
+
             studentRegistrationNumbers.forEach((registrationNumber) => {
               // Initialize cat1 and cat2 with mark and assignment fields
               marksData[this.selectedBatch][this.selectedSemester][code]['cat1'][registrationNumber] = { mark: null, assignment: null };
@@ -225,14 +190,18 @@ export class CourseEnrollComponent implements OnInit {
               marksData[this.selectedBatch][this.selectedSemester][code]['finalResult'][registrationNumber] = null;
             });
           });
-  
+
           // Remove entries for deleted subjects
           Object.keys(marksData[this.selectedBatch][this.selectedSemester]).forEach((code) => {
             if (!newCourses[code]) {
               delete marksData[this.selectedBatch][this.selectedSemester][code];
             }
           });
-  
+
+          marksData[this.selectedBatch][this.selectedSemester].publishResult = false
+
+          console.log("this is marks data",marksData)
+
           this.Couch.updateDocument(marksUrl, marksData, headers);
         }
       },
@@ -241,9 +210,6 @@ export class CourseEnrollComponent implements OnInit {
       }
     );
   }
-  
-
-
 
   openModal() {
     const modal = document.getElementById('myModal');
@@ -265,7 +231,4 @@ export class CourseEnrollComponent implements OnInit {
     }
   }
 
-
-  
-  
 }

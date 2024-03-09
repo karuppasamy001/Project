@@ -22,7 +22,11 @@
         <label>Subject Name:</label>
         <input type="text" class="form-control" [(ngModel)]="subjectName" placeholder="Enter subject name">
       </div>
-      <div class="col-md-4 d-flex justify-content-end">
+      <div class="col-md-2">
+        <label>Credit</label>
+        <input type="text" class="form-control" [(ngModel)]="subjectCredit" placeholder="Enter subject Credit">
+      </div>
+      <div class="col-md-2 d-flex justify-content-end">
         <button class="btn btn-primary mt-4" (click)="addCourse()">Add</button>
       </div>
     </div>
@@ -34,6 +38,7 @@
             <tr>
               <th>Subject Code</th>
               <th>Subject Name</th>
+              <th>Subject Credit</th>
               <th></th>
             </tr>
           </thead>
@@ -41,6 +46,7 @@
             <tr *ngFor="let course of courses">
               <td>{{ course.code }}</td>
               <td>{{ course.name }}</td>
+              <td>{{ course.credit}}</td>
               <td>
                 <button class="btn btn-sm btn-danger" (click)="deleteCourse(course)">Delete</button>
               </td>
