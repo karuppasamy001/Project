@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-staff-registration',
@@ -88,6 +89,28 @@ export class StaffRegistrationComponent implements OnInit {
               (response: any) => {
                 console.log('Staff details added successfully:', response);
                 this.registerForm.reset();
+                this.http.get("http://localhost:5984/sapas/StaffEnroll", {headers}).subscribe(
+                  (data : any) => {
+                    data[staffId] = {
+                      Semester1 : {},
+                      Semester2 : {},
+                      Semester3 : {},
+                      Semester4 : {}
+                    }
+
+                    this.http.put("http://localhost:5984/sapas/StaffEnroll", data, {headers}).subscribe(
+                      (response : any) =>{
+                        console.log("Staff Enroll Updated")
+                      },
+                      (error) => {
+                        console.error("Error Updating staff Enroll", error)
+                      }
+                    )
+                  },
+                  (error) => {
+                    console.error("Error fetching staff Enroll", error)
+                  }
+                )
                 this.openModal();
               },
               (error: any) => {

@@ -24,9 +24,9 @@ export class NavbarComponent {
     if(staff.isAuthenticated()) this.sideBarItems = this.staffSideBar;
   }
 
-  adminSideBar: any[] = [{name: 'Face Update', path: '/admin/face-update'}, {name: 'Course Enroll', path: '/admin/course-enroll'}, {name: 'Staff Enroll', path:'/admin/staff-enroll'}, {name: 'Staff Registration', path:'/admin/staff-registration'}]
+  adminSideBar: any[] = [{name: 'Face Update', path: '/admin/face-update'}, {name: 'Course Enroll', path: '/admin/course-enroll'}, {name: 'Staff Enroll', path:'/admin/staff-enroll'}, {name: 'Staff Registration', path:'/admin/staff-registration'}, {name: 'Publish Result', path:'/admin/publish-result'}]
   staffSideBar: any[] = [{name: 'Add Marks', path: '/staff/add-marks'}]
-  studentSideBar: any[] = [{name: 'View Profile', path: '/admin/view-profile'}, {name: 'View Marks', path: '/admin/view-marks'}]
+  studentSideBar: any[] = [{name: 'View Profile', path: '/student/profile'}, {name: 'View Marks', path: '/student/view-marks'}, {name: 'Set Goals', path: '/student/set-goal'}]
   sideBarItems: any[] | undefined
 
 

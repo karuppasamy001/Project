@@ -99,6 +99,7 @@ export class LoginComponent {
               // If not admin or staff, check for student login
               this.authService.login(this.username, this.password).subscribe(
                 (response) => {
+                  console.log(response)
                   if (response.rows.length > 0) {
                     console.log('Login successful');
                     this.studentLog.isLoggedIn = true;

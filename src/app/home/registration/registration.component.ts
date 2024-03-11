@@ -1,9 +1,9 @@
 // registration.component.ts
 
-import { GeoService } from '../backend/GeoService/geo.service';
+import { GeoService } from '../../backend/GeoService/geo.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CouchDBService } from '../backend/couchDB/couch-db.service';
+import { CouchDBService } from '../../backend/couchDB/couch-db.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -106,6 +106,13 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit() {
     if (this.registrationForm.valid) {
+      this.registrationForm.value.batch = this.date
+      this.registrationForm.value.sem1Gpa = ""
+      this.registrationForm.value.sem2Gpa = ""
+      this.registrationForm.value.sem3Gpa = ""
+      this.registrationForm.value.sem4Gpa = ""
+      this.registrationForm.value.cgpa = ""
+      this.registrationForm.value.currentSem = 1
       this.couchDBService.addOrUpdateStudentDetails(
         this.registrationForm.value,
         this.date

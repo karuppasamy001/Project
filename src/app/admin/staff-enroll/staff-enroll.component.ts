@@ -55,6 +55,14 @@ export class StaffEnrollComponent implements OnInit {
       );
 
     // Fetch batch list
+    
+  }
+
+  onStaffChange(): void{
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
     this.http.get('http://localhost:5984/sapas/Courses', { headers }).subscribe(
       (data: any) => {
         this.batchList = Object.keys(data).filter(
@@ -65,7 +73,11 @@ export class StaffEnrollComponent implements OnInit {
         console.error('Error fetching batch list:', error);
       }
     );
+
+    this.semesters = []
   }
+
+  
 
   onSemChange(): void {
     this.selectedStaff = this.staffList.find(
@@ -76,39 +88,15 @@ export class StaffEnrollComponent implements OnInit {
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
-    this.http
-      .get<any>('http://localhost:5984/sapas/Courses', { headers })
-      .subscribe(
-        (data: any) => {
-          const courses = data[this.selectedBatch];
-          const courseLists = courses[this.selectedSemester];
-
-          const nonEnrolledCourses = Object.entries(courseLists).filter(
-            ([code, _]) =>
-              !this.enrolledCourses.some((course) => course.code === code)
-          );
-
-          // Map filtered courses to course list
-          this.courseList = nonEnrolledCourses.map(([code, name]) => ({
-            code,
-            name,
-          }));
-
-          // Filter out courses that are already enrolled
-        },
-        (error) => {
-          console.error('Error fetching course list:', error);
-        }
-      );
-
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
         const enrolledLists = data[this.selectedStaffId];
+
         const enrolledListsOfCourses = enrolledLists[this.selectedSemester];
 
         if(enrolledListsOfCourses) {
 
-        this.enrolledCourses = Object.entries(enrolledListsOfCourses).map(
+        this.enrolledCourses = Object.entries<any[]>(enrolledListsOfCourses).map(
           ([code, name]) => ({ code, name })
         );
 
@@ -116,11 +104,41 @@ export class StaffEnrollComponent implements OnInit {
       else{
         this.enrolledCourses = []
       }
+
+      console.log("Enrolled Courses", this.enrolledCourses)
       },
       (error) => {
         console.error('Error fetching batch list:', error);
       }
     );
+
+    this.http
+      .get<any>('http://localhost:5984/sapas/Courses', { headers })
+      .subscribe(
+        (data: any) => {
+          const courses = data[this.selectedBatch];
+          const courseLists = courses[this.selectedSemester];
+
+          
+          const modifiedCourseList = Object.entries<any[]>(courseLists).map(
+            ([code, [name, _]]) => ({ code, name })
+          );
+
+          const enrolledCourseCodes = this.enrolledCourses.map(course => course.code);
+
+          const filteredCourseList = modifiedCourseList.filter(course => !enrolledCourseCodes.includes(course.code));
+
+          this.courseList = filteredCourseList;
+
+
+
+        },
+        (error) => {
+          console.error('Error fetching course list:', error);
+        }
+      );
+
+    
   }
 
   onBatchChange(): void {

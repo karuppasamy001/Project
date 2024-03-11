@@ -35,12 +35,14 @@
 
 
 body {
-  background-image: url('../../assets/3.jpg');
-  /* Optionally, you can set other properties like background-size, background-repeat, etc. */
-  background-size: cover;
-  /* This will make sure the image covers the entire background */
-  background-repeat: no-repeat;
-  /* This will prevent the image from repeating */
+  // background-image: url('../../../assets/3.jpg');
+  // /* Optionally, you can set other properties like background-size, background-repeat, etc. */
+  // background-size:cover;
+  // /* This will make sure the image covers the entire background */
+  // background-repeat: no-repeat;
+  // /* This will prevent the image from repeating */
+
+  background-color: burlywood;
 }
 
 .form-container {

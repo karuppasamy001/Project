@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
 
   studentPortal() {
     if(this.studentLog.isLoggedIn) {
-      this.router.navigate(['/navbar'])
+      this.router.navigate(['/student'])
     }
     if(this.Admin.isLoggedIn){
       this.route.navigate(['/admin'])

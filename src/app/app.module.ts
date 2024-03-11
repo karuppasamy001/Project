@@ -4,10 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { WebcamModule } from 'ngx-webcam';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RegistrationComponent } from './registration/registration.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RegisterFaceComponent } from './registration/register-face/register-face.component';
-import { ToppersComponent } from './toppers/toppers.component';
 import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -24,12 +21,19 @@ import { StaffRegistrationComponent } from './admin/staff-registration/staff-reg
 import { StaffComponent } from './staff/staff.component';
 import { StaffProfileComponent } from './staff/staff-profile/staff-profile.component';
 import { AddMarksComponent } from './staff/add-marks/add-marks.component';
+import { RegisterFaceComponent } from './home/registration/register-face/register-face.component';
+import { RegistrationComponent } from './home/registration/registration.component';
+import { ToppersComponent } from './home/toppers/toppers.component';
+import { StudentComponent } from './student/student.component';
+import { ProfileComponent } from './student/profile/profile.component';
+import { ViewMarksComponent } from './student/view-marks/view-marks.component';
+import { SetGoalsComponent } from './student/set-goals/set-goals.component';
+import { PublishResultComponent } from './admin/publish-result/publish-result.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegistrationComponent,
     RegisterFaceComponent,
     ToppersComponent,
     FooterComponent,
@@ -41,11 +45,16 @@ import { AddMarksComponent } from './staff/add-marks/add-marks.component';
     CourseEnrollComponent,
     StaffEnrollComponent,
     AdminHomeComponent,
-
     StaffRegistrationComponent,
      StaffComponent,
      StaffProfileComponent,
      AddMarksComponent,
+     RegistrationComponent,
+     StudentComponent,
+     ProfileComponent,
+     ViewMarksComponent,
+     SetGoalsComponent,
+     PublishResultComponent
   ],
   imports: [
     BrowserModule,

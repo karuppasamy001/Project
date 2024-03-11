@@ -112,7 +112,7 @@ export class AddMarksComponent implements OnInit {
                   Object.keys(courseLists).forEach((subjectCode: string) => {
                     const courseName =
                       courseLists[subjectCode] || 'Unknown Course';
-                    const subject = `${subjectCode} - ${courseName}`;
+                    const subject = `${subjectCode} - ${courseName[0]}`;
                     if (staffEnrolledSubjects.hasOwnProperty(subjectCode)) {
                       subjectList.push(subject);
                     }

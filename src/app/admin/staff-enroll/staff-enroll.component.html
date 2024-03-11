@@ -4,7 +4,8 @@
         <div class="row mb-3">
             <div class="form-group col-md-4">
                 <label for="selectStaff" class="label">Select Staff:</label>
-                <select class="form-control" id="selectStaff" [(ngModel)]="selectedStaffId" name="selectStaff">
+                <select class="form-control" id="selectStaff" [(ngModel)]="selectedStaffId" name="selectStaff" (change)="onStaffChange()">
+                    <option value="none"></option>
                     <option *ngFor="let staff of staffList" [value]="staff.staffId">{{ staff.staffId }} - {{staff.staffName}}</option>
                 </select>
             </div>
@@ -12,6 +13,7 @@
                 <label for="selectBatch" class="label">Select Batch:</label>
                 <select class="form-control" id="selectBatch" [(ngModel)]="selectedBatch" name="selectBatch"
                     (change)="onBatchChange()">
+                    <option value="none"></option>
                     <option *ngFor="let batch of batchList" [value]="batch">{{ batch }}</option>
                 </select>
             </div>
@@ -19,6 +21,7 @@
                 <label for="selectBatch" class="label">Select Semester:</label>
                 <select class="form-control" id="selectBatch" [(ngModel)]="selectedSemester" name="selectBatch"
                     (change)="onSemChange()">
+                    <option value="none"></option>
                     <option *ngFor="let sem of semesters" [value]="sem">{{ sem }}</option>
                 </select>
             </div>
@@ -28,6 +31,7 @@
             <div class="col-md-6">
                 <label for="selectCourse" class="label">Select Course:</label>
                 <select class="form-control" id="selectCourse" [(ngModel)]="selectedCourse" name="selectCourse">
+                    <option value="none"></option>
                     <option *ngFor="let course of courseList" [value]="course.code">{{ course.code }} - {{ course.name
                         }}</option>
                 </select>

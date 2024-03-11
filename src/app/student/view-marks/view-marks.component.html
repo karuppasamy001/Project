@@ -1,40 +1,81 @@
 <div class="container mt-5">
-    <div class="row">
-      <div class="col">
-        <label for="semesterSelect">Select Semester:</label>
-        <select class="form-control" id="semesterSelect" [(ngModel)]="selectedSemester" (change)="onSemesterChange()">
-          <option *ngFor="let semester of semesters" [value]="semester">{{ semester }}</option>
-        </select>
-      </div>
-      <div class="col">
-        <label for="assessmentTypeSelect">Assessment Type:</label>
-        <select class="form-control" id="assessmentTypeSelect" [(ngModel)]="selectedAssessment" (change)="onAssessmentChange()">
-          <option *ngFor="let assessment of assessments" [value]="assessment.value">{{ assessment.label }}</option>
-        </select>
-      </div>
+  <div class="row align-items-center">
+    <div class="col-md-4">
+      <label for="semesterSelect">Select Semester:</label>
+      <select class="form-control" id="semesterSelect" [(ngModel)]="selectedSemester" (change)="onSemesterChange()">
+        <option *ngFor="let semester of semesters" [value]="semester.value">{{ semester.label }}</option>
+      </select>
     </div>
+    <div class="col-md-4">
+      <label for="assessmentTypeSelect">Assessment Type:</label>
+      <select class="form-control" id="assessmentTypeSelect" [(ngModel)]="selectedAssessment" (change)="onAssessmentChange()">
+        <option *ngFor="let assessment of assessments" [value]="assessment.value">{{ assessment.label }}</option>
+      </select>
+    </div>
+    <div class="col-md-4 text-md-right d-flex align-items-center justify-content-md-end" *ngIf="selectedSemester">
+      <button class="btn btn-primary" (click)="fetchFullResults()">View Full Results</button>
+    </div>
+  </div>
+    
   
-    <div class="mt-4">
+    <div class="mt-4" *ngIf="normalResult">
       <table class="table">
         <caption>{{studentName}} Marks</caption>
         <thead>
           <tr>
             <th>Course Code</th>
             <th>Course Name</th>
-            <th *ngFor="let header of tableHeaders">{{ header }}</th>
+            <th>Marks</th>
+            <th *ngIf="selectedAssessment === 'cat1' || selectedAssessment === 'cat2'">Assignment</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let row of tableData">
             <td>{{ row.courseCode }}</td>
             <td>{{ row.courseName }}</td>
-            <td *ngFor="let value of row.values">{{ value }}</td>
+            <td *ngIf="selectedSemester !== 'finalResult'">{{row.mark}}/60</td>
+            <td *ngIf="selectedSemester === 'finalResult'">{{row.mark}}/100</td>
+            <td *ngIf="selectedAssessment !== 'finalResult'">{{row.assignment}}/40</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- if final Result is selected  -->
+
+    <div class="mt-4" *ngIf="finalResults">
+      <table class="table">
+        <caption>{{studentName}} Marks</caption>
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Internal Marks</th>
+            <th>External Marks</th>
+            <th>Total Marks</th>
+            <th>Grade Points</th>
+            <th>Grade</th>
+            <th>Credit</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of finalResultTableData">
+            <td>{{ row.courseCode }}</td>
+            <td>{{ row.courseName }}</td>
+            <td>{{ row.internalMarks }}/40</td>
+            <td>{{ row.externalMarks }}/60</td>
+            <td>{{ row.totalMarks }}/100</td>
+            <td>{{ row.gradePoints }}</td>
+            <td>{{ row.grade}}</td>
+            <td>{{ row.credit}}</td>
+            <td>{{ row.result}}</td>
           </tr>
         </tbody>
       </table>
     </div>
   
-    <div class="row" *ngIf="selectedAssessment === 'viewFullResults'">
+    <div class="row" *ngIf="finalResults">
       <div class="col">
         <div class="card mt-4">
           <div class="card-body">
@@ -52,5 +93,10 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <br><br>
+  <div *ngIf="resultPublished">
+    <h1 style="text-align: center;">Result Not Published  Yet! Please Check Again Later.</h1>
   </div>
   
