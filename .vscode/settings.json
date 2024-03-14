@@ -1,7 +1,8 @@
 {
-    "editor.stickyScroll.maxLineCount": 1,
-    "editor.stickyScroll.scrollWithEditor": false,
-    "workbench.tree.enableStickyScroll": false,
-    "editor.hover.sticky": true,
-    "editor.stickyScroll.enabled": false
+  "editor.stickyScroll.maxLineCount": 1,
+  "editor.stickyScroll.scrollWithEditor": false,
+  "workbench.tree.enableStickyScroll": false,
+  "editor.hover.sticky": true,
+  "editor.stickyScroll.enabled": false,
+  "cSpell.words": ["CGPA"]
 }

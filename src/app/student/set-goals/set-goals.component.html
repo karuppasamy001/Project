@@ -1,1 +1,95 @@
-<p>set-goals works!</p>
+<!-- set-goals.component.html -->
+<div class="container">
+  <!-- User indication -->
+  <div class="user-indication">
+    <span class="span-h">Note</span><br>
+    <span>Marks in <span class="text-primary">Blue </span>Indicates your Current Marks</span><br>
+    <span>Marks in <span class="text-danger">Red </span>Indicates your Expected Marks</span>
+  </div>
+  
+  <!-- Current CGPA and input for expected CGPA -->
+  <div class="row">
+    <div class="col-md-6">
+      <div class="current-cgpa-box card">
+        <div class="card-body">
+          <h3 class="card-title">Your Current CGPA</h3>
+          <p class="card-text">{{ currentCGPA }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card-body">
+        <label for="">Expected CGPA</label>
+        <input type="number" class="form-control" [(ngModel)]="expectedCGPA" (ngModelChange)="validateExpectedCGPA()" 
+        placeholder="Enter Expected CGPA">
+        <div *ngIf="expectedCGPAInvalid" class="text-danger">Expected CGPA must be between 5 and 10.</div>
+      </div>
+    </div>
+    <div class="col-md-2 d-flex justify-content-end">
+      <div class="card-body">
+        <button class="btn btn-primary mt-4" [disabled]="submitButton" (click)="findMarks()">Submit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table for courses -->
+  <table class="table table-bordered mt-4">
+    <caption>Student Expected Marks Table</caption>
+    <thead>
+      <tr>
+        <th id="courseCode" rowspan="2" class="table-heading">Course Code</th>
+        <th id="courseName" rowspan="2" class="table-heading">Course Name</th>
+        <th id="internalMarks" colspan="2" style="text-align: center;" class="table-heading">Internal</th>
+        <th id="externalMarks" rowspan="2" class="table-heading marks">External</th>
+      </tr>
+      <tr>
+        <th id="cat1" class="table-heading marks">Cat 1</th>
+        <th id="cat2" class="table-heading marks">Cat 2</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let course of courseDetails">
+        <td>{{ course.code }}</td>
+        <td>{{ course.name }}</td>
+        <!-- Set color based on cat1Flag -->
+        <td class="marks" [ngStyle]="{'color': course.cat1Flag ? 'red' : 'blue'}">{{ course.cat1 }}</td>
+        <!-- Set color based on cat2Flag -->
+        <td class="marks" [ngStyle]="{'color': course.cat2Flag ? 'red' : 'blue'}">{{ course.cat2 }}</td>
+        <!-- Set color based on externalFlag -->
+        <td class="marks" [ngStyle]="{'color': course.externalFlag ? 'red' : 'blue'}">{{ course.external }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    (click)="closeModal()">
+  <div class="modal-dialog" role="document" (click)="preventClose($event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">CGPA Exceeds</h3>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        The Maximum Cgpa You can  Achieve is {{ maxCgpa }}. 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div>
+  <label for="semesterSelect">Testing</label>
+      <select class="form-control" id="semesterSelect" [(ngModel)]="selectedDocument" (change)="onDocumentChange()">
+        <option value="sample0">Empty Semester</option>
+        <option value="sample1">Cat 1 uploaded </option>
+        <option value="sample2">Cat 1 & 2 uploaded</option>
+      </select>
+</div>

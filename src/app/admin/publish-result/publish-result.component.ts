@@ -253,6 +253,7 @@ export class PublishResultComponent implements OnInit {
         for (const studentId of Object.keys(studentResult)) {
           const studentData = data[this.selectedBatch][studentId];
           const semester = this.selectedSemester.slice(-1); // Extract semester number from selected semester
+          data[this.selectedBatch][studentId].currentSem = parseInt(semester) + 1
   
           // Update the GPA for the corresponding semester
           studentData[`sem${semester}Gpa`] = studentResult[studentId].gpa;

@@ -1,0 +1,79 @@
+// /* set-goals.component.css */
+// .container {
+//     max-width: 800px;
+//     margin: 0 auto;
+//   }
+
+//   .user-indication {
+//     margin-bottom: 20px;
+//   }
+
+//   .cgpa-section {
+//     display: flex;
+//     justify-content: space-between;
+//     margin-bottom: 20px;
+//   }
+
+//   .current-cgpa-box {
+//     border: 1px solid #ccc;
+//     padding: 10px;
+//   }
+
+//   .expected-cgpa-input input {
+//     padding: 5px;
+//   }
+
+//   .course-table {
+//     width: 100%;
+//     border-collapse: collapse;
+//   }
+
+//   .course-table th, .course-table td {
+//     border: 1px solid #ccc;
+//     padding: 10px;
+//     text-align: center;
+//   }
+
+//   .course-table th {
+//     background-color: #f2f2f2;
+//   }
+
+
+label {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.span-h {
+    font-weight: bold;
+}
+
+.user-indication {
+    margin-bottom: 20px;
+}
+
+.card-title,
+.card-text {
+    font-weight: bold;
+}
+
+.btn {
+    background-color: red;
+    border: none;
+}
+
+/* set-goals.component.css */
+.table-heading {
+    background-color: #d7e5ff;
+    /* Light gray background for table headings */
+}
+
+.table tbody td {
+    font-weight: bold;
+    /* Make marks somewhat bold */
+}
+
+
+.marks {
+    text-align: center;
+}
