@@ -206,6 +206,10 @@ export class SetGoalsComponent implements OnInit {
       const internal = Math.round(course.internal / 200 * 40)
       const external = ((MaxMarks - internal)*100)/60
 
+      if(external > 60) {
+        alert("CGPA is More")
+      }
+
       this.courseDetails[this.courseDetails.indexOf(course)].external = `${Math.round(external)} - ${Math.round(external) + 10}`
       this.courseDetails[this.courseDetails.indexOf(course)].externalFlag = true
     }
