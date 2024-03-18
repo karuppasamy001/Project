@@ -153,6 +153,25 @@ export class SetGoalsComponent implements OnInit {
     }
   }
 
+  findGradePointsFromTotalMarks(grade: number): number {
+    switch (true) {
+      case grade > 90:
+        return 10;
+      case grade > 80:
+        return 9;
+      case grade > 70:
+        return 8;
+      case grade > 60:
+        return 7;
+      case grade > 50:
+        return 6;
+      case grade == 5:
+        return 5;
+      default:
+        return 5;
+    }
+  }
+
   findAllMarks(): void {
     const expectedGPA = this.findExpectedGPA();
 
@@ -187,7 +206,137 @@ export class SetGoalsComponent implements OnInit {
     }
   }
 
-  findCat2AndFinalMarks(): void {}
+
+
+  findCat2AndFinalMarks(): void {
+
+    const expectedGPA = this.findExpectedGPA();
+
+    const calculateMaxGPA = (): number => {
+      let totalGradePoints = 0;
+      let totalCredits = 0;
+    
+      for (let course of this.courseDetails) {
+        const cat1 = course.cat1;
+    
+        const internal = (cat1 + 95) / 200 * 40;
+        const external = 95 / 100 * 60;
+    
+        const total = internal + external;
+    
+        const gradePoint = this.findGradePointsFromTotalMarks(total);
+        totalGradePoints += gradePoint * course.credits;
+        totalCredits += course.credits;
+    
+      }
+    
+      const maxGPA = (totalGradePoints / totalCredits);
+      return maxGPA;
+    };
+    
+    const maxGPA = calculateMaxGPA();
+   
+    if (expectedGPA > maxGPA || expectedGPA > 10) {
+      this.openModal();
+      this.maxCgpa = ((this.currentCGPA + maxGPA) / 2).toFixed(2);
+      return;
+    }
+
+    const MaxMarks = this.findTotalMarksFromGradePoints(expectedGPA)
+
+
+    for(let course of this.courseDetails){
+      const cat1Mark = course.cat1
+      let cat2Mark = 0
+      let externalMark = 0
+
+      for(let i = 50; i <= 100; i ++){
+        let cat2 = i
+        const internal = (cat1Mark + cat2)/200 * 40
+        let external = ((MaxMarks - internal)*100)/60
+
+        if(external <= 100){
+
+          const total = internal + external/100*60
+
+          if(this.findGradePointsFromTotalMarks(total) >= Math.round(expectedGPA)){
+  
+            if(this.differenceOf(cat2, external)){
+              cat2Mark = cat2
+              externalMark = external
+
+              console.log('1 - ', internal, '2 - ', external/100*60)
+              break
+            }
+            else {
+
+              for(let j = 0; j < 50; j++){
+
+              const newCat2 = cat2 + 1
+              const newExternal = external - 1
+
+              const newInternal = (cat1Mark + newCat2)/200 * 40
+
+              const newTotal = newInternal + newExternal/100 * 60
+
+              if(this.findGradePointsFromTotalMarks(newTotal) >= Math.round(expectedGPA) && this.differenceOf(newCat2, newExternal)){
+                cat2Mark = cat2
+                externalMark = external
+                console.log('1 - ', newInternal, '2 - ', newExternal/100*60)
+
+                break
+              }
+
+              cat2 += 1
+              external -= 1
+
+            }
+
+
+            }
+              
+            
+            
+          
+          }
+
+        }
+
+        
+      }
+
+      
+      this.courseDetails[this.courseDetails.indexOf(course)].external = `${Math.round(externalMark)} - ${Math.round(externalMark) + 10}`
+      this.courseDetails[this.courseDetails.indexOf(course)].externalFlag = true
+      this.courseDetails[this.courseDetails.indexOf(course)].cat2 = `${Math.round(cat2Mark)} - ${Math.round(cat2Mark + 10)}`
+      this.courseDetails[this.courseDetails.indexOf(course)].cat2Flag = true
+
+
+
+    }
+
+
+
+    
+
+
+  }
+
+  differenceOf(cat2: number, external: number): boolean{
+
+    if(cat2 === external){
+      return true
+    }
+
+    const difference = Math.max(external, cat2) -  Math.min(external, cat2)
+
+    if(difference  <= 5 && difference > 0){
+      return true 
+    }
+
+
+    return false
+  }
 
 
 
@@ -202,17 +351,23 @@ export class SetGoalsComponent implements OnInit {
 
     const MaxMarks = this.findTotalMarksFromGradePoints(expectedGPA)
 
+
     for(let course of this.courseDetails){
       const internal = Math.round(course.internal / 200 * 40)
-      const external = ((MaxMarks - internal)*100)/60
+      let external = ((MaxMarks - internal)*100)/60
 
-      if(external > 60) {
-        alert("CGPA is More")
+
+      if(external > 100) {
+        external = 90
       }
-
+    
+      this.courseDetails[this.courseDetails.indexOf(course)].MaxExternal = external
       this.courseDetails[this.courseDetails.indexOf(course)].external = `${Math.round(external)} - ${Math.round(external) + 10}`
       this.courseDetails[this.courseDetails.indexOf(course)].externalFlag = true
     }
+
+    
+
   }
 
   

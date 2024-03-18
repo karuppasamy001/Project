@@ -49,20 +49,24 @@
 
 
     <!-- Two Columns Section -->
-    <div class="row mt-4">
+    <div class="row mt-4 ">
         <!-- Left Column - Important Links -->
         <div class="col-md-6 links">
-            <h3 class="div-2-heading">Important Links</h3>
+
+            <h2 class="div-2-heading">Important Links</h2>
+            <div class="announcements">
+
             <ul class="important-links">
                 <li><a href="#">Link 1</a></li>
                 <li><a href="#">Link 2</a></li>
                 <li><a href="#">Link 3</a></li>
             </ul>
         </div>
+        </div>
 
         <!-- Right Column - Announcements -->
         <div class="col-md-6 anounce">
-            <h3 class="div-2-heading">Announcements</h3>
+            <h2 class="div-2-heading">Announcements</h2>
             <div class="announcements">
                 <div class="announcement" *ngFor="let announcement of announcements">
                     <a (click)="announcementClick(announcement.link)" style="cursor:pointer;">

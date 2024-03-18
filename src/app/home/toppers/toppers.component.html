@@ -1,46 +1,40 @@
 <div class="college-toppers-section mb-3 row">
-    <h2 class="toppers-heading">Department Toppers</h2>
-    <div class="topper-box col-md-4">
-        <div class="inside-box">
-
+    <h1 class="toppers-heading">DEPARTMENT TOPPERS</h1>
+    <h2 class="batch-heading" *ngIf="showBatch2023">BATCH 2023</h2>
+    <div class="topper-box mb-3 row" *ngIf="showBatch2023 && valid2023" [@slideInOut]>
+        <div class="inside-box col-md-4" *ngFor="let student of topStudents2023">
             <div class="circle">
-                <img src="../../../assets/studentLogo.jpg" alt="Student 1" />
+                <img src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
             </div>
             <div class="student-info">
-                <p>Name: Student 1</p>
-                <p>Roll Number: ABC123</p>
-                <p>Department: Computer Science</p>
+                <p class="student-name">Name: {{ student.firstName }} {{ student.lastName }}</p>
+                <p class="roll-number">Roll Number: {{ student.rollNumber }}</p>
+                <p class="batch">Batch: {{ student.batch }}</p>
+                <p class="cgpa">CGPA: {{ student.cgpa }}</p>
             </div>
         </div>
     </div>
+    <div class="topper-box mb-3 row" *ngIf="!valid2023 && showBatch2023" [@slideInOut]>
+        <h2 class="batch-heading" *ngIf="showBatch2023">BATCH 2023</h2>
+        <h2 class="invalid-message">{{invalidBatchMessage }}</h2>
+    </div>
 
-    <div class="topper-box col-md-4">
-        <div class="inside-box">
-
+    <div class="topper-box mb-3 row" *ngIf="showBatch2024 && valid2024" [@slideInOut]>
+        <h2 class="batch-heading" *ngIf="showBatch2024">BATCH 2024</h2>
+        <div class="inside-box col-md-4" *ngFor="let student of topStudents2024">
             <div class="circle">
-                <img src="../../../assets/studentLogo.jpg" alt="Student 2" />
+                <img src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
             </div>
             <div class="student-info">
-                <p>Name: Student 2</p>
-                <p>Roll Number: DEF456</p>
-                <p>Department: Electrical Engineering</p>
+                <p class="student-name">Name: {{ student.firstName }} {{ student.lastName }}</p>
+                <p class="roll-number">Roll Number: {{ student.rollNumber }}</p>
+                <p class="batch">Batch: {{ student.batch }}</p>
+                <p class="cgpa">CGPA: {{ student.cgpa }}</p>
             </div>
         </div>
     </div>
-
-    <div class="topper-box col-md-4">
-        <div class="inside-box">
-            <div class="circle">
-                <img src="../../../assets/studentLogo.jpg" alt="Student 3" />
-            </div>
-            <div class="student-info">
-                <p>Name: Student 3</p>
-                <p>Roll Number: GHI789</p>
-                <p>Department: Mechanical Engineering</p>
-            </div>
-        </div>
+    <div class="topper-box mb-3 row" *ngIf="!valid2024 && showBatch2024" [@slideInOut]>
+        <h2 class="batch-heading" *ngIf="showBatch2024">BATCH 2024</h2>
+        <h2 class="invalid-message">{{invalidBatchMessage }}</h2>
     </div>
-
-
 </div>
-
