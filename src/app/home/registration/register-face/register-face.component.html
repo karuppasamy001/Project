@@ -1,42 +1,9 @@
-<div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6">
-        <div class="card mt-5">
-          <div class="card-body text-center">
-            <div class="camera-container">
-              <webcam
-                [height]="videoHeight"
-                [width]="videoWidth"
-                [trigger]="triggerObservable"
-                (imageCapture)="captureImage($event)"
-                (initError)="handleInitError($event)"
-              ></webcam>
-              <div class="d-flex justify-content-end mt-3">
-                <button class="btn btn-primary me-2" (click)="captureImageManually()">Capture</button>
-                <button class="btn btn-secondary" (click)="retakeImage()">Retake</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-    <div class="row mt-3">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body text-center">
-            <div class="image-preview d-flex justify-content-between">
-              <div *ngFor="let i of [0, 1, 2, 3]" class="captured-image">
-                <img *ngIf="capturedImages[i]" [src]="capturedImages[i]" alt="Captured Image {{ i + 1 }}" class="img-fluid" />
-              </div>
-            </div>
-  
-            <div class="submit-button mt-3" *ngIf="capturedImages.length === 4">
-              <button class="btn btn-success" (click)="submitImages()">Submit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+
+  <div id="webcam-box">
+    <webcam [height]="400" [width]="498"></webcam>
+
   </div>
-  
+    <div id="instructions">
+        <p>Please position your face in the center of the box.</p>
+        <p>Avoid tilting your face and ensure there is enough light.</p>
+    </div>

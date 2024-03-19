@@ -18,6 +18,7 @@ import { StudentComponent } from './student/student.component';
 import { ProfileComponent } from './student/profile/profile.component';
 import { ViewMarksComponent } from './student/view-marks/view-marks.component';
 import { SetGoalsComponent } from './student/set-goals/set-goals.component';
+import { RegisterFaceComponent } from './home/registration/register-face/register-face.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
   { path: 'navbar', component: NavbarComponent },
+  { path: "face-register", component: RegisterFaceComponent},
   {
     path: 'admin',
     component: AdminComponent,
