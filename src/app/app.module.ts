@@ -54,7 +54,7 @@ import { PublishResultComponent } from './admin/publish-result/publish-result.co
      ProfileComponent,
      ViewMarksComponent,
      SetGoalsComponent,
-     PublishResultComponent
+     PublishResultComponent,
   ],
   imports: [
     BrowserModule,

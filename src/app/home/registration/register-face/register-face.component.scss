@@ -1,12 +1,76 @@
-#webcam-box {
+#faceModal-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  #faceModal {
+    /* Styles for the modal, adjust as needed */
     width: 500px;
-    height: 400px;
-    margin: 0 auto;
-    margin-top: 5%;
-    border: 1px solid #333;
-}
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
 
-#instructions {
+  body{
+    background-color: #d1d1d1;
+  }
+  
+  /* Adjustments for the modal content */
+  .modal-dialogs {
+    margin: 0;
+    max-width: 100%;
+  }
+  
+  .modal-contents {
+    padding: 20px;
+  }
+  
+  .modal-bodys {
+    padding: 20px 0;
+  }
+  
+  /* Adjustments for video element */
+  #myVideo {
+    display: block;
+    margin: 0 auto;
+  }
+  
+
+  .errorMessage{
+    font-size: large;
+  }
+
+  .modal-title{
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
-}
+    color:red;
+    font-weight: bold;
+  }
+
+  .modal{
+    background-color: #d1d1d1;
+  }
+
+  .disabled {
+    background-color: gray !important;
+    border-color: gray !important;
+    cursor: not-allowed;
+  }
+  
+  /* Override default button color */
+  .btn-primary {
+    background-color: red;
+    border-color: red;
+  }
+
+
+  #myVideo {
+    margin: 10% auto;
+    // border: 2px solid #ccc; /* Border around the video */
+    border-radius: 2%;
+    // box-sizing: border-box; /* Include border in element's dimensions */
+  }
+  
+  

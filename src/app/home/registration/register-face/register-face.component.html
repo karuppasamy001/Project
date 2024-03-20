@@ -1,9 +1,49 @@
+<body>
+  
 
-  <div id="webcam-box">
-    <webcam [height]="400" [width]="498"></webcam>
 
-  </div>
-    <div id="instructions">
-        <p>Please position your face in the center of the box.</p>
-        <p>Avoid tilting your face and ensure there is enough light.</p>
+<div id="faceModal-container">
+  <div id="faceModal">
+    <div class="modal-dialogs" role="document">
+      <div class="modal-contents">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel">Face Registration</h1>
+          
+        </div>
+        <div class="modal-bodys">
+          <div class="container">
+            <div class="errorMessage"></div>
+            <video src="" id="myVideo" width="435" height="330" autoplay></video>
+            <button [disabled]="!scanned" [class.disabled]="isButtonDisabled" id="Button" (click)="closeFaceModal()" class="btn btn-primary">Register</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h2 class="modal-title" id="myModalLabel">Registration Successful</h2>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal('myModal')">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <h3>Your Login Information</h3>
+          <div class="modal-body">
+              <p>Your username is: {{ username }}</p>
+              <p>Your password is: {{ password }}</p>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" (click)="navigateToLoginPage()">Login</button>
+          </div>
+      </div>
+  </div>
+</div>
+
+</body>

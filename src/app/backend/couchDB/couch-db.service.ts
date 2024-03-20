@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FaceUpdate } from './interface';
+import { error } from 'jquery';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,11 @@ import { FaceUpdate } from './interface';
 export class CouchDBService {
   private apiUrl = 'http://localhost:5984/sapas/StudentData';
   private faceUpdateUrl = 'http://localhost:5984/sapas/FaceUpdate';
+
+  studentData: any
+  userName!: string
+  password!: string
+  academicYear!: string
 
   constructor(private http: HttpClient, private route: Router) {}
 
@@ -108,6 +114,24 @@ export class CouchDBService {
         console.error('Error adding student details:', error);
       }
     );
+  }
+
+  updateFaceData(descriptor: any, registrationNumber: string, year: string): void{
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
+
+    this.http.get(this.apiUrl, {headers}).subscribe(
+      (data: any) => {
+        data[year][registrationNumber].face = descriptor
+
+        this.updateDocument(this.apiUrl, data, headers)
+      },
+      (error) => {
+        console.log("Error fetching student data", error)
+      }
+    )
   }
 
   createFaceUpdate(studentDetails: any): FaceUpdate {

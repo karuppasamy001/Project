@@ -25,6 +25,8 @@ export class RegistrationComponent implements OnInit {
   password!: string
 
 
+
+
   countries$!: Observable<any> 
   states$!: Observable<any>;
   cities$!: Observable<any>;
@@ -35,7 +37,8 @@ export class RegistrationComponent implements OnInit {
     private fb: FormBuilder,
     private couchDBService: CouchDBService,
     private route: Router,
-    private geoService: GeoService
+    private geoService: GeoService,
+    
   ) {
     this.registrationForm = this.fb.group({
       registrationNumber: ['', Validators.required],
@@ -113,17 +116,16 @@ export class RegistrationComponent implements OnInit {
       this.registrationForm.value.sem4Gpa = ""
       this.registrationForm.value.cgpa = ""
       this.registrationForm.value.currentSem = 1
-      this.couchDBService.addOrUpdateStudentDetails(
-        this.registrationForm.value,
-        this.date
-      );
 
-      this.username = this.registrationForm.value.email
-      this.password = this.registrationForm.value.registrationNumber
-
-
-      this.openModal("myModal")
+      this.couchDBService.addOrUpdateStudentDetails(this.registrationForm.value, this.date)
       
+      this.couchDBService.studentData = this.registrationForm.value
+      this.couchDBService.userName = this.registrationForm.value.email
+      this.couchDBService.password = this.registrationForm.value.registrationNumber
+      this.couchDBService.academicYear = this.date
+
+
+      this.route.navigate(['/face-register'])      
     } else {
       Object.keys(this.registrationForm.controls).forEach(field => {
         const control = this.registrationForm.get(field);
