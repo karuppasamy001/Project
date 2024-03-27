@@ -11,8 +11,8 @@
 
             <!-- Navigation Buttons -->
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" routerLink="/">HOME</a>
-                <a class="nav-link" routerLink="/faq">FAQ</a>
+                <a class="nav-link" routerLink="/"> <mat-icon class="header-icons">home</mat-icon> HOME</a>
+                <a class="nav-link" (click)="scrollToDepartmentToppers()"><mat-icon class="icon-toppers">supervisor_account</mat-icon> DEPARTMENT TOPPERS</a>
                 <ng-container *ngIf="loggedIN()">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
@@ -54,7 +54,7 @@
         <!-- Left Column - Important Links -->
         <div class="col-md-6 links">
 
-            <h3 class="div-2-heading">IMPORTANT LINKS</h3>
+            <h3 class="div-2-heading"> <mat-icon class="icon-important-links">link</mat-icon> IMPORTANT LINKS</h3>
             <div class="announcements">
 
             <ul class="important-links">
@@ -67,7 +67,7 @@
 
         <!-- Right Column - Announcements -->
         <div class="col-md-6 anounce">
-            <h3 class="div-2-heading">ANNOUNCEMENTS</h3>
+            <h3 class="div-2-heading"> <mat-icon class="icon-announcement">notifications</mat-icon> ANNOUNCEMENTS</h3>
             <div class="announcements">
                 <div class="announcement" *ngFor="let announcement of announcements">
                     <a (click)="announcementClick(announcement.link)" style="cursor:pointer;">
@@ -81,5 +81,5 @@
     </div>
 </div>
 
-<app-toppers></app-toppers>
+<app-toppers id="departmentToppers"></app-toppers>
 <app-footer></app-footer>

@@ -18,6 +18,27 @@
   padding-top: 5.5%;
 }
 
+.icon-toppers{
+  padding-top: 3%;
+  color:#d70000;
+
+}
+.icon-important-links{
+  padding-top: .5%;
+  color:#d70000;
+  rotate:  -45deg;
+
+}
+.icon-announcement{
+  padding-top: 0.3%;
+  color:#d70000;
+
+}
+
+.header-icons{
+  padding-top: 8%;
+  color:#d70000;
+}
 
 
 .div-2-heading {
@@ -34,6 +55,7 @@
     /* Adjust the space between buttons as needed */
     color: #ff0000;
     font-weight: bolder;
+    cursor: pointer;
   }
 }
 

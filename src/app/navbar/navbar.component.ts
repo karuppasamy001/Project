@@ -53,6 +53,7 @@ export class NavbarComponent implements OnInit{
         { name: 'Staff Enroll', path: '/admin/staff-enroll' }
       ] 
     },
+    { name: 'Announcements', path: '/admin/announcements' },
   ];
 
   ngOnInit(): void {

@@ -1,5 +1,5 @@
 <!-- Small Sidebar -->
-<div class="small-sidebar bg-light">
+<div class="small-sidebar ">
   <!-- Home button/icon -->
   <button class=" home-button" (click)="goTo('')">
     <mat-icon>home</mat-icon>
@@ -50,16 +50,7 @@
   <!-- Line -->
 
   <hr class="sidebar-divider">
-<!-- 
-  <div class="list-group list-group-flush" *ngFor="let item of sideBarItems">
-    <strong *ngIf="item.name !== 'Staff Enrollment'"><a [routerLink]="[item.path]" routerLinkActive="active" class="list-group-item">{{item.name | uppercase}}</a></strong>
-    <strong *ngIf="item.name === 'Staff Enrollment'"><a (click)="toggleStaffEnrollmentDropdown()" [ngClass]="{'selected': staffEnrollmentSelected}" class="list-group-item">{{item.name | uppercase}} <mat-icon class="dropdown-arrow">arrow_drop_down</mat-icon></a></strong>
-    <div *ngIf="showStaffEnrollmentDropdown" class="staff-enrollment">
-      <div class="list-group list-group-flush " *ngFor="let dropdown of item.dropdown">
-        <strong ><a [routerLink]="[dropdown.path]" routerLinkActive="active" class="list-group-item" [ngClass]="{'selected': staffEnrollmentSelected}">{{dropdown.name | uppercase}}</a></strong>
-      </div>
-    </div>
-  </div> -->
+
 
   <div class="list-group list-group-flush" *ngFor="let item of sideBarItems">
     <strong *ngIf="item.name !== 'Staff Enrollment'">

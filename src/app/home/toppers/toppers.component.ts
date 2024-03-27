@@ -84,5 +84,19 @@ export class ToppersComponent implements OnInit {
       this.showBatch2024 = !this.showBatch2024;
     }, 5000);
   }
+
+
+  fetchImage(photo: any): string {
+
+    
+    const attachmentData=photo._attachments.filename.data
+    const contentType=photo._attachments.filename.content_type
+    return ('data:' + contentType + ';base64,' + attachmentData);
+
+  
+
+
+   
+  }
   
 }

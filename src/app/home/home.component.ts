@@ -105,4 +105,12 @@ export class HomeComponent implements OnInit {
 
    
   }
+
+
+  scrollToDepartmentToppers() {
+    const element = document.getElementById('departmentToppers');
+    if (element) {
+      element.scrollIntoView({ behavior: 'auto', block: 'start' });
+    }
+  }
 }

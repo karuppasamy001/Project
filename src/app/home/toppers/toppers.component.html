@@ -4,7 +4,8 @@
     <div class="topper-box mb-3 row" *ngIf="showBatch2023 && valid2023" [@slideInOut]>
         <div class="inside-box col-md-4" *ngFor="let student of topStudents2023">
             <div class="circle">
-                <img src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
+                <img *ngIf="!student.photo" src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
+                <img *ngIf="student.photo" [src]="fetchImage(student.photo)" alt="{{ student.firstName }}" />            
             </div>
             <div class="student-info">
                 <p class="student-name">Name: {{ student.firstName }} {{ student.lastName }}</p>
@@ -23,7 +24,9 @@
         <h2 class="batch-heading" *ngIf="showBatch2024">BATCH 2024</h2>
         <div class="inside-box col-md-4" *ngFor="let student of topStudents2024">
             <div class="circle">
-                <img src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
+                <img *ngIf="!student.photo" src="../../../assets/studentLogo.jpg" alt="{{ student.firstName }}" />
+                <img *ngIf="student.photo" [src]="fetchImage(student.photo)" alt="{{ student.firstName }}" />
+
             </div>
             <div class="student-info">
                 <p class="student-name">Name: {{ student.firstName }} {{ student.lastName }}</p>
