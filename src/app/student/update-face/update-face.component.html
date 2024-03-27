@@ -1,0 +1,48 @@
+<body>
+  
+
+
+    <div id="faceModal-container">
+      <div id="faceModal">
+        <div class="modal-dialogs" role="document">
+          <div class="modal-contents">
+            <div class="modal-header">
+              <h1 class="modal-title" id="exampleModalLabel">Face Update Count {{faceUpdate.faceUpdateCount + 1}}</h1>
+              
+            </div>
+            <div class="modal-bodys">
+              <div class="container">
+                <div class="errorMessage"></div>
+                <video src="" id="myVideo" width="435" height="330" autoplay>
+                    <button *ngIf="retry" id="Button" (click)="reloadPage()" class="btn btn-primary">Retry</button>
+                </video>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="myModalLabel">Registration Successful</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="navigate()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <h3>Your Login Information</h3>
+                <div class="modal-body">
+                    <h3>Face Updated Successfully</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="navigate()">Close</button>
+                    <button type="button" class="btn btn-primary" (click)="navigate()">okay</button>
+                </div>
+            </div>
+        </div>
+      </div> 
+</body>

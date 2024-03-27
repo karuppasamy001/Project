@@ -18,6 +18,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
+  reload: boolean = false
 
   constructor(
     private authService: AuthService,
@@ -26,7 +27,9 @@ export class LoginComponent {
     private admin: AdminService,
     private http: HttpClient,
     private staff: StaffService
-  ) {}
+  ) {
+    
+  }
 
   // onSubmit(): void {
   //   if (this.username && this.password) {
@@ -153,5 +156,13 @@ export class LoginComponent {
       modal.classList.add('hidden');
       modal.style.display = 'none';
     }
+  }
+
+  faceLogin(): void{
+    this.router.navigate(['/face-login'])
+  }
+
+  goToHome(){
+    this.router.navigate([''])
   }
 }

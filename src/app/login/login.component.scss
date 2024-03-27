@@ -17,3 +17,22 @@
     text-align: left;
     margin: 15%;
 }
+
+.faceButton{
+    margin-top: 10px;
+    background-color: rgb(255, 101, 101);
+    border: none;
+}
+
+.faceButton:hover{
+    background-color: rgb(255, 0, 0);
+}
+
+.home-icon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    font-size:25px;
+    color: rgb(162, 0, 0);
+}

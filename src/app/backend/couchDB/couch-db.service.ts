@@ -78,6 +78,9 @@ export class CouchDBService {
             [registrationNumber]: studentDetails,
           };
           this.updateDocument(url, data, headers);
+          localStorage.setItem("registration", JSON.stringify(studentDetails))
+          this.route.navigate(['/face-register'])      
+
         }
 
         this.http.get(this.faceUpdateUrl, { headers }).subscribe(
@@ -93,6 +96,9 @@ export class CouchDBService {
             }
 
             this.updateDocument(this.faceUpdateUrl, faceData, headers);
+            localStorage.setItem("registration", JSON.stringify(studentDetails))
+            this.route.navigate(['/face-register'])      
+
           },
           (error: any) => {
             console.error('Error fetching faceUpdate:', error);

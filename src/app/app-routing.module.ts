@@ -19,12 +19,15 @@ import { ProfileComponent } from './student/profile/profile.component';
 import { ViewMarksComponent } from './student/view-marks/view-marks.component';
 import { SetGoalsComponent } from './student/set-goals/set-goals.component';
 import { RegisterFaceComponent } from './home/registration/register-face/register-face.component';
+import { FaceLoginComponent } from './login/face-login/face-login.component';
+import { UpdateFaceComponent } from './student/update-face/update-face.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
   { path: 'home', component: HomeComponent },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'face-login', component: FaceLoginComponent},
   { path: 'navbar', component: NavbarComponent },
   { path: "face-register", component: RegisterFaceComponent},
   {
@@ -56,6 +59,7 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent},
       { path: 'view-marks', component: ViewMarksComponent},
       { path: 'set-goal', component: SetGoalsComponent},
+      { path: 'update-face', component: UpdateFaceComponent},
       { path: '', redirectTo: 'profile', pathMatch: 'full'},
     ]
   }

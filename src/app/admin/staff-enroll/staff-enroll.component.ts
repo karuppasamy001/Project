@@ -68,6 +68,8 @@ export class StaffEnrollComponent implements OnInit {
         this.batchList = Object.keys(data).filter(
           (key: string) => !key.startsWith('_')
         );
+
+        this.batchList.reverse()
       },
       (error) => {
         console.error('Error fetching batch list:', error);

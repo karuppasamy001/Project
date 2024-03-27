@@ -16,13 +16,15 @@
       <div class="dropdown">
         <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="../../assets/miniLogo.png" alt="Small Logo" height="30" class="me-2" />
+          <img *ngIf="!isPhotoAvailable" src="../../assets/miniLogo.png" alt="default Logo" height="30" class="me-2" />
+          <img *ngIf="isPhotoAvailable" [src]="studentPhoto" alt="small Logo" height="30" class="me-2" />
+
           <!-- Adjust the path and height as needed -->
           {{ Student.currentUserName | uppercase }}
         </button>
         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-          <li><a class="dropdown-item" href="#">Profile</a></li>
-          <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+          <li><a class="dropdown-item" (click)="goToProfile()"><mat-icon class="icon-logout">account_circle</mat-icon>Profile</a></li>
+          <li><a class="dropdown-item" (click)="logout()"><mat-icon class="icon-logout">power_settings_new</mat-icon>Logout</a></li>
         </ul>
       </div>
     </ng-container>
@@ -31,6 +33,13 @@
 
 
 <div class="announcement-space">
+  <ng-container *ngIf="announcement">
+    
+      <mat-icon class="bell">notifications</mat-icon>
+      <h3 class="announcement-heading">Face - Update</h3>
+      <div class="announcement">{{ announcement }}</div>
+
+  </ng-container>
 </div>
 
 <div class="main-sidebar">
@@ -41,10 +50,34 @@
   <!-- Line -->
 
   <hr class="sidebar-divider">
+<!-- 
+  <div class="list-group list-group-flush" *ngFor="let item of sideBarItems">
+    <strong *ngIf="item.name !== 'Staff Enrollment'"><a [routerLink]="[item.path]" routerLinkActive="active" class="list-group-item">{{item.name | uppercase}}</a></strong>
+    <strong *ngIf="item.name === 'Staff Enrollment'"><a (click)="toggleStaffEnrollmentDropdown()" [ngClass]="{'selected': staffEnrollmentSelected}" class="list-group-item">{{item.name | uppercase}} <mat-icon class="dropdown-arrow">arrow_drop_down</mat-icon></a></strong>
+    <div *ngIf="showStaffEnrollmentDropdown" class="staff-enrollment">
+      <div class="list-group list-group-flush " *ngFor="let dropdown of item.dropdown">
+        <strong ><a [routerLink]="[dropdown.path]" routerLinkActive="active" class="list-group-item" [ngClass]="{'selected': staffEnrollmentSelected}">{{dropdown.name | uppercase}}</a></strong>
+      </div>
+    </div>
+  </div> -->
 
   <div class="list-group list-group-flush" *ngFor="let item of sideBarItems">
-    <strong><a [routerLink]="[item.path]" routerLinkActive="active" class="list-group-item">{{item.name | uppercase}}</a></strong>
+    <strong *ngIf="item.name !== 'Staff Enrollment'">
+      <a [routerLink]="[item.path]" routerLinkActive="active" class="list-group-item">{{item.name | uppercase}}</a>
+    </strong>
+    <strong *ngIf="item.name === 'Staff Enrollment'">
+      <a (click)="toggleStaffEnrollmentDropdown()" [ngClass]="{'selected': staffEnrollmentSelected}" class="list-group-item staff-enrollment-link">{{item.name | uppercase}} <mat-icon class="dropdown-arrow">arrow_drop_down</mat-icon></a>
+    </strong>
+    <div *ngIf="showStaffEnrollmentDropdown" class="staff-enrollment">
+      <div class="list-group list-group-flush " *ngFor="let dropdown of item.dropdown">
+        <strong >
+          <a [routerLink]="[dropdown.path]" routerLinkActive="active" class="list-group-item drop">	<mat-icon class="Arrow">keyboard_arrow_right</mat-icon> {{dropdown.name | uppercase}}</a>
+        </strong>
+      </div>
+    </div>
   </div>
+
+ 
 </div>
 
 

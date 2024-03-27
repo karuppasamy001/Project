@@ -31,9 +31,22 @@ export class RegisterFaceComponent{
     private router: Router
   )
   {
-    this.RegisterNumber = couchdb.password
-    this.studentData = couchdb.studentData
-    this.academicYear = couchdb.academicYear
+    
+
+
+    if(!this.isAuthenticated()) this.router.navigate(['/home'])
+    else{
+
+      this.studentData = this.getCurrentUser()
+
+      this.RegisterNumber = this.studentData.registrationNumber
+      this.academicYear = this.studentData.batch
+      this.username = this.studentData.email
+      this.password = this.RegisterNumber
+    }
+
+
+
   }
 
   ngOnInit(): void {
@@ -43,7 +56,7 @@ export class RegisterFaceComponent{
     this.startVideo()
   }
   async startVideo(){
-    // this.errorDiv.innerHTML=""
+    this.errorDiv.innerHTML=""
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       if (this.video) {
@@ -52,12 +65,13 @@ export class RegisterFaceComponent{
           try{
             const results:[]=await this.faceApi.startInterval(this.video,this.RegisterNumber,this.errorDiv)
             if(results.length>0){
-              console.log("results",results);
               this.studentData.face = results
               console.log("student data",this.studentData)
               this.couchdb.updateFaceData(results, this.RegisterNumber, this.academicYear)
               this.scanned = true
               this.isButtonDisabled = false
+
+              localStorage.removeItem("registration")
             }
          
         }catch(error){
@@ -89,6 +103,8 @@ export class RegisterFaceComponent{
   }
 
   navigateToLoginPage(){
+    window.location.reload()
+    
     this.router.navigate(['/login'])
   }
 
@@ -102,6 +118,19 @@ export class RegisterFaceComponent{
 
     this.openModal("myModal")
   }
+
+
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem("registration");
+  }
+
+  getCurrentUser(): any {
+
+    const userData = localStorage.getItem("registration");
+    return userData ? JSON.parse(userData) : null;
+    
+  }
+    
   
 }
 

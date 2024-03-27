@@ -18,6 +18,47 @@
 
 }
 
+.staff-enrollment {
+  background-color: rgb(58, 58, 58);
+  // padding: 20px;
+  // cursor: pointer;
+  // // background-color: #ffffff;
+  // /* Set list item background color to black */
+  // border: none;
+  // color: #000000;
+}
+
+
+
+
+.announcement-space {
+  margin-bottom: 20px;
+}
+
+.announcement-heading {
+  color: #000000;
+  /* Example color */
+  // padding: 10px;
+  border-radius: 5px;
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+.bell {
+  color: red;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.announcement {
+  color: #000000;
+  /* Example color */
+  // padding: 10px;
+  border-radius: 5px;
+  margin-right: 650px;
+  font-size: 14px;
+  margin-top: 15px;
+}
 
 
 /* Sidebar Header */
@@ -43,6 +84,30 @@
   display: flex;
   align-items: center;
   margin-right: 30px;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-menu {
+  background-color: #ffffff;
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  /* Adjust to align with the right edge of the parent button */
+  z-index: 1000;
+}
+
+.list-group-item.active {
+  background-color: #007bff;
+  /* Background color for active link */
+  color: #ffffff;
+  /* Font color for active link */
+  font-weight: bold;
+  /* Bold font for active link */
 }
 
 
@@ -119,40 +184,46 @@
   color: #000000;
 }
 
-.list-group-item:hover {
+.list-group-item:not(.active):hover {
   background-color: #D9D9D9;
   /* Darken the background color on hover */
 }
 
 
-
+.dropdown-arrow {
+  padding-top: 2.5%;
+  padding-left: 3%;
+}
 
 #userDropdown {
   font-size: large;
   font-weight: 500;
 }
 
-.dropdown-menu {
-  background-color: #ffffff;
-  /* Light gray background */
-  border: none;
-  /* Remove border */
+
+
+.sidebar-header .list-group-item.selected {
+  background-color: gray;
 }
 
-.dropdown-item {
-  color: #212529;
-  /* Dark text color */
-  padding: 0.5rem 1rem;
+// .selected {
+//   background-color: rgb(223, 223, 223) !important;
+// }
+
+.staff-enrollment-link.selected {
+  background-color: rgb(242, 240, 240) !important;
 }
 
-.dropdown-item:hover {
-  background-color: #D9D9D9;
-  cursor: pointer;
-  /* Light gray background on hover */
+.drop{
+  font-weight: 500;
+}
+
+.Arrow{
+  padding-top: 3%;
 }
 
 
-.list-group-item.active {
-  background-color: #007bff;
-  color: #fff;
+.icon-logout{
+  font-size: 20px;
+  padding-top: 5.5%;
 }

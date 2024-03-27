@@ -29,6 +29,8 @@ import { ProfileComponent } from './student/profile/profile.component';
 import { ViewMarksComponent } from './student/view-marks/view-marks.component';
 import { SetGoalsComponent } from './student/set-goals/set-goals.component';
 import { PublishResultComponent } from './admin/publish-result/publish-result.component';
+import { FaceLoginComponent } from './login/face-login/face-login.component';
+import { UpdateFaceComponent } from './student/update-face/update-face.component';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import { PublishResultComponent } from './admin/publish-result/publish-result.co
      ViewMarksComponent,
      SetGoalsComponent,
      PublishResultComponent,
+     FaceLoginComponent,
+     UpdateFaceComponent,
   ],
   imports: [
     BrowserModule,

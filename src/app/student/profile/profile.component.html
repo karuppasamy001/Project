@@ -1,1 +1,113 @@
-<p>profile works!</p>
+<div class="container mt-5">
+  <div class="row">
+      <!-- Left Side: Student Profile Photo -->
+      <div class="col-md-3">
+          <div class="text-center mb-3">
+
+              <img *ngIf="!isPhotoAvailable" src="../../../assets/studentLogo.jpg" alt="Student Profile" class="img-fluid" style="height: 200px; width: 150px;">
+              <img *ngIf="isPhotoAvailable" [src]="studentPhoto" alt="Student Profile" class="img-fluid" style="height: 200px; width: 150px;">
+
+          </div>
+          
+          <div class="text-center file">
+              <!-- Option to upload photo (You can replace this with your upload functionality) -->
+              <input type="file" class="form-control-file"  (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
+
+            </div>
+      </div>
+    
+      <div class="col-md-8">
+        <strong><h2 class="student-name">{{ student.firstName | uppercase }} {{ student.middleName | uppercase}} {{ student.lastName | uppercase}} </h2></strong>
+
+        <div class="details-list">
+            <p class="d-flex"><strong class="w-25">Roll Number</strong> <span class="span">: {{student.rollNumber}}</span></p>
+            <p class="d-flex"><strong class="w-25">Register Number</strong> <span class="span">: {{student.registrationNumber}}</span></p>
+            <p class="d-flex"><strong class="w-25">College</strong> <span class="span">: Thiagarajar College of Engineering</span></p>
+            <p class="d-flex"><strong class="w-25">Department</strong> <span class="span">: Master of Computer Application</span></p>
+            <p class="d-flex"><strong class="w-25">Current Semester</strong> <span class="span">: {{student.currentSem}}</span></p>
+            <p class="d-flex"><strong class="w-25">Degree</strong> <span class="span">: Postgraduate</span></p>
+
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-12">
+      <div class="notification-box">
+        <button class="face-update-button" *ngIf="showNotification" (click)="startFaceUpdate()">UPDATE FACE 
+          <i class="fas fa-exclamation-circle" *ngIf="showNotification"></i>
+        </button>
+        <br *ngIf="showNotification">
+        <hr class="line" *ngIf="showNotification">
+        <!-- Student information -->
+        <div class="student-info">
+            <h3 class="stud-info">STUDENT INFORMATION</h3>
+            <p class="d-flex"><strong class="w-25 info">First Name </strong> <span class="span info">: {{student.firstName}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Middle Name </strong> <span class="span info">: {{student.middleName}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Second Name </strong> <span class="span info">: {{student.lastName}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Gender </strong> <span class="span info">: {{student.gender}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Phone Number </strong> <span class="span info">: {{student.mobileNumber}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Email </strong> <span class="span info">: {{student.email}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Date of Birth </strong> <span class="span info">: {{student.dob}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Blood Group </strong> <span class="span info">: {{student.bloodGroup}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Address </strong> <span class="span info">: {{student.address.houseNumber}} - {{student.address.street}},</span></p>
+            <p class="d-flex"><strong class="w-25 info"> </strong> <span class="span info"> {{student.address.state}}, {{student.address.pincode}}</span></p>
+
+
+
+         
+          <!-- Add more student info here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<!-- <div class="container">
+  <div class="row">
+      <div class="col-md-12 order-md-1">
+          <div class="profile-details border p-3">
+              <div class="photo-section mb-3">
+                  <img *ngIf="isPhotoAvailable" [src]="student.photo || '../../../assets/studentLogo.jpg'" alt="Student_photo" class="img-fluid">
+              </div>
+             
+              <div class="upload-photo">
+                <label for="file">Upload File</label>
+                <input type="file" id="file" (change)="onFileSelected($event)" accept=".jpg,.jpeg,.png,.pdf">
+              </div>
+              <div class="student-details">
+                  <h2>{{ student.firstName }} {{ student.middleName }} {{ student.lastName }}</h2>
+                  <p><strong>Registration Number:</strong> {{ student.registrationNumber }}</p>
+                  <p><strong>Department:</strong> Master of Computer Application</p>
+                  <p><strong>Current Semester:</strong> {{ student.currentSem }}</p>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="row mt-3">
+      <div class="col-md-12 order-md-2">
+          <div class="student-info border p-3">
+              <button class="btn btn-primary mb-3">Face Update</button>
+              <div class="details-list">
+                  <p><strong>Name:</strong> {{ student.firstName }} {{ student.middleName }} {{ student.lastName }}</p>
+                  <p><strong>Registration Number:</strong> {{ student.registrationNumber }}</p>
+                  <p><strong>DOB:</strong> {{ student.dob }}</p>
+                  <p><strong>Gender:</strong> {{ student.gender }}</p>
+                  <p><strong>Mobile Number:</strong> {{ student.mobileNumber }}</p>
+                  <p><strong>Alternate Mobile Number:</strong> {{ student.alternateMobileNumber }}</p>
+                  <p><strong>Email:</strong> {{ student.email }}</p>
+                  <p><strong>Blood Group:</strong> {{ student.bloodGroup }}</p>
+                  <p><strong>Address:</strong> {{ student.address.houseNumber }}, {{ student.address.street }}, {{ student.address.city }}, {{ student.address.state }} - {{ student.address.pincode }}</p>
+                  <p><strong>Batch:</strong> {{ student.batch }}</p>
+                  <p><strong>CGPA:</strong> {{ student.cgpa }}</p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->

@@ -42,6 +42,8 @@ export class CourseEnrollComponent implements OnInit {
           this.batches = Object.keys(data).filter(
             (key) => !key.startsWith('_')
           );
+
+          this.batches.reverse()
         }
       },
       (error) => {

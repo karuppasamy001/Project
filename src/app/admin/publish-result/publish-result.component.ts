@@ -45,6 +45,8 @@ export class PublishResultComponent implements OnInit {
           this.batches = Object.keys(data).filter(
             (key) => !key.startsWith('_')
           );
+
+          this.batches.reverse()
         }
       },
       (error) => {

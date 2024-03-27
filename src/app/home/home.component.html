@@ -17,12 +17,13 @@
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <img src="../../assets/miniLogo.png" alt="Small Logo" height="30" class="me-2" /> <!-- Adjust the path and height as needed -->
+                            <img *ngIf="isPhotoAvailable" [src]="studentPhoto" alt="student pic" height="30" class="me-2" />
+                            <img *ngIf="!isPhotoAvailable" src="../../assets/miniLogo.png" alt="default pic" height="30" class="me-2" /> <!-- Adjust the path and height as needed -->
                             {{ studentLog.currentUserName | uppercase }}
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Profile</a></li>
-                            <li><a class="dropdown-item"  (click)="logout()">Logout</a></li>
+                            <li><a class="dropdown-item" (click)="studentPortal()"> <mat-icon class="icon-logout">account_circle</mat-icon> Profile</a></li>
+                            <li><a class="dropdown-item"  (click)="logout()"><mat-icon class="icon-logout">power_settings_new</mat-icon> Logout</a></li>
                         </ul>
                     </div>
                 </ng-container>
@@ -53,24 +54,24 @@
         <!-- Left Column - Important Links -->
         <div class="col-md-6 links">
 
-            <h2 class="div-2-heading">Important Links</h2>
+            <h3 class="div-2-heading">IMPORTANT LINKS</h3>
             <div class="announcements">
 
             <ul class="important-links">
-                <li><a href="#">Link 1</a></li>
-                <li><a href="#">Link 2</a></li>
-                <li><a href="#">Link 3</a></li>
+                <li class="link-name"><a href="https://www.tce.edu/"><mat-icon class="icon-link">link</mat-icon>Thiagarajar College of Engineering Official Website</a></li>
+                <li class="link-name"><a href="https://www.youtube.com/watch?v=dOSCtlnJ5FE"><mat-icon class="icon-link">link</mat-icon>Life at TCE</a></li>
+                <li class="link-name"><a href="https://www.tce.edu/placement"><mat-icon class="icon-link">link</mat-icon>TCE Placements</a></li>
             </ul>
         </div>
         </div>
 
         <!-- Right Column - Announcements -->
         <div class="col-md-6 anounce">
-            <h2 class="div-2-heading">Announcements</h2>
+            <h3 class="div-2-heading">ANNOUNCEMENTS</h3>
             <div class="announcements">
                 <div class="announcement" *ngFor="let announcement of announcements">
                     <a (click)="announcementClick(announcement.link)" style="cursor:pointer;">
-                        <h4>{{ announcement.title }}</h4>
+                        <h4> <mat-icon class="icon-link">link</mat-icon> {{ announcement.title }}</h4>
                     </a>
                     <p>{{ announcement.details }}</p>
                     <p class="date">{{ announcement.date | date}}</p>

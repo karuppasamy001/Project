@@ -124,8 +124,6 @@ export class RegistrationComponent implements OnInit {
       this.couchDBService.password = this.registrationForm.value.registrationNumber
       this.couchDBService.academicYear = this.date
 
-
-      this.route.navigate(['/face-register'])      
     } else {
       Object.keys(this.registrationForm.controls).forEach(field => {
         const control = this.registrationForm.get(field);
