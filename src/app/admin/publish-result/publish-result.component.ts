@@ -31,28 +31,10 @@ export class PublishResultComponent implements OnInit {
   ngOnInit(): void {
     this.fetchBatchData();
   }
-
+  
   fetchBatchData() {
-    const headers = new HttpHeaders({
-      Authorization: 'Basic ' + btoa('admin:admin'),
-    });
-
     const url = 'http://localhost:5984/sapas/Courses';
-
-    this.http.get<any>(url, { headers }).subscribe(
-      (data: any) => {
-        if (data) {
-          this.batches = Object.keys(data).filter(
-            (key) => !key.startsWith('_')
-          );
-
-          this.batches.reverse()
-        }
-      },
-      (error) => {
-        console.error('Error fetching batches:', error);
-      }
-    );
+    this.Couch.fetchBatchData(url)
   }
 
   publishResult(): void {

@@ -139,7 +139,9 @@ export class FaceService {
 
 
   adminFaceMatch(descriptorStored:any, descriptors:any):Promise<string>{
-    return new Promise<string>(async(resolve,reject)=>{
+    return new Promise<string>(
+      
+      async(resolve)=>{
         let result=await this.faceMatch(descriptorStored,descriptors)
         console.log(result)
           resolve(result.toString());

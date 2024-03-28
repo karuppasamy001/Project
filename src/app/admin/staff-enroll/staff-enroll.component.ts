@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AdminService } from '../admin.service';
+import { ModalService } from 'src/app/modal.service';
 
 @Component({
   selector: 'app-staff-enroll',
@@ -23,7 +24,8 @@ export class StaffEnrollComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private admin: AdminService
+    private admin: AdminService,
+    private modal: ModalService
   ) {
     if (!admin.isAuthenticated()) router.navigate(['/login']);
   }
@@ -220,22 +222,14 @@ export class StaffEnrollComponent implements OnInit {
   }
 
   openModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.add('show');
-    modal!.style.display = 'block';
-    document.body.classList.add('modal-open');
+    this.modal.openModal()
   }
 
   closeModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.remove('show');
-    modal!.style.display = 'none';
-    document.body.classList.remove('modal-open');
-
-    window.location.reload();
+    this.modal.closeModal()
   }
 
   preventClose(event: any) {
-    event.stopPropagation();
+    this.modal.preventClose(event)
   }
 }

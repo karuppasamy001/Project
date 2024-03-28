@@ -2,6 +2,8 @@ import { StaffService } from './../staff.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { ModalService } from 'src/app/modal.service';
+import { error } from 'jquery';
 
 @Component({
   selector: 'app-add-marks',
@@ -21,7 +23,7 @@ export class AddMarksComponent implements OnInit {
   selectedSemester!: string;
   semesters: string[] = [];
 
-  constructor(private http: HttpClient, private Staff: StaffService, private router: Router) {}
+  constructor(private http: HttpClient, private Staff: StaffService, private router: Router, private modal: ModalService) {}
 
   ngOnInit(): void {
     this.staffId = JSON.parse(localStorage.getItem('isStaff') ?? '{}').staffId;
@@ -283,22 +285,16 @@ export class AddMarksComponent implements OnInit {
   }
 
   openModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.add('show');
-    modal!.style.display = 'block';
-    document.body.classList.add('modal-open');
+    this.modal.openModal()
   }
 
   closeModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.remove('show');
-    modal!.style.display = 'none';
-    document.body.classList.remove('modal-open');
+    this.modal.closeModal()
 
     this.router.navigate(['/staff'])
   }
 
   preventClose(event: any) {
-    event.stopPropagation();
+    this.modal.preventClose(event)
   }
 }

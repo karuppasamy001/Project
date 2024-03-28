@@ -122,6 +122,46 @@ export class CouchDBService {
     );
   }
 
+  fetchBatchData(url: string): string[] {
+
+    const headers = new HttpHeaders({
+
+      Authorization: 'Basic ' + btoa('admin:admin'),
+
+    });
+
+    this.http.get<any>(url, { headers }).subscribe(
+
+      (data: any) => {
+
+        if (data) {
+
+          let batches = Object.keys(data).filter(
+
+            (key) => !key.startsWith('_')
+
+          );
+
+          batches.reverse()
+
+          return batches
+
+        }
+
+      },
+
+      (error) => {
+
+        console.error('Error fetching batches:', error);
+
+      }
+
+    );
+
+    return []
+
+  }
+
   updateFaceData(descriptor: any, registrationNumber: string, year: string): void{
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),

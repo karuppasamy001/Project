@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StudentService } from '../student.service';
+import { ModalService } from 'src/app/modal.service';
 
 @Component({
   selector: 'app-set-goals',
@@ -20,7 +21,7 @@ export class SetGoalsComponent implements OnInit {
   selectedDocument: string = '';
   studentRegistrationNumber!: string;
 
-  constructor(private http: HttpClient, private stud: StudentService) {}
+  constructor(private http: HttpClient, private stud: StudentService, private modal: ModalService) {}
 
   courseUrl: string = 'http://localhost:5984/sapas/Courses';
   markUrl!: string;
@@ -344,23 +345,15 @@ export class SetGoalsComponent implements OnInit {
   }
 
   openModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.add('show');
-    modal!.style.display = 'block';
-    document.body.classList.add('modal-open');
+   this.modal.openModal() 
   }
 
   closeModal() {
-    const modal = document.getElementById('myModal');
-    modal!.classList.remove('show');
-    modal!.style.display = 'none';
-    document.body.classList.remove('modal-open');
-
-    window.location.reload();
+    this.modal.closeModal()
   }
 
   preventClose(event: any) {
-    event.stopPropagation();
+    this.modal.preventClose(event)
   }
 
   onDocumentChange(): void {
