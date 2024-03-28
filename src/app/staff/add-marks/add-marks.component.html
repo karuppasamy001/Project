@@ -10,20 +10,20 @@
         </div>
 
         <div class="col-md-2">
-            <label>Select Semester:</label>
+            <label for="semester">Select Semester:</label>
             <select class="form-control" [(ngModel)]="selectedSemester" (change)="onSemChange()">
               <option *ngFor="let sem of semesters" [value]="sem">{{sem}}</option>        
             </select>
         </div>
       
       <div class="col-md-4">
-        <label>Select Subject:</label>
+        <label for="subject">Select Subject:</label>
         <select class="form-control" [(ngModel)]="selectedSubject" (change)="onSubjectChange()">
             <option *ngFor="let Subject of subjectList" [value]="Subject">{{Subject}}</option>        
         </select>
       </div>
       <div class="col-md-4">
-        <label>Select Assessment:</label>
+        <label for="Assessments">Select Assessment:</label>
         <select class="form-control" [(ngModel)]="selectedAssessment" (change)="fetchMarksForSelectedAssessment()">
           <option *ngFor="let assessment of assessments" [value]="assessment">{{ assessment }}</option>
         </select>

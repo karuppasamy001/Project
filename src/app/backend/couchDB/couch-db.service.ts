@@ -130,6 +130,8 @@ export class CouchDBService {
 
     });
 
+    let batch : string[] = []
+
     this.http.get<any>(url, { headers }).subscribe(
 
       (data: any) => {
@@ -144,7 +146,7 @@ export class CouchDBService {
 
           batches.reverse()
 
-          return batches
+ 
 
         }
 
@@ -158,7 +160,7 @@ export class CouchDBService {
 
     );
 
-    return []
+    return batch
 
   }
 

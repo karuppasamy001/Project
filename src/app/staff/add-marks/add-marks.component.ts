@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { ModalService } from 'src/app/modal.service';
-import { error } from 'jquery';
 
 @Component({
   selector: 'app-add-marks',
