@@ -9,7 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { LoginComponent } from './login/login.component';
 import { AdminComponent } from './admin/admin.component';
 import { MatIconModule } from '@angular/material/icon';
@@ -31,6 +31,8 @@ import { SetGoalsComponent } from './student/set-goals/set-goals.component';
 import { PublishResultComponent } from './admin/publish-result/publish-result.component';
 import { FaceLoginComponent } from './login/face-login/face-login.component';
 import { UpdateFaceComponent } from './student/update-face/update-face.component';
+import { AnnouncementComponent } from './admin/announcement/announcement.component';
+import { PrintResultComponent } from './student/view-marks/print-result/print-result.component';
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import { UpdateFaceComponent } from './student/update-face/update-face.component
      PublishResultComponent,
      FaceLoginComponent,
      UpdateFaceComponent,
+     AnnouncementComponent,
+     PrintResultComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,7 +75,7 @@ import { UpdateFaceComponent } from './student/update-face/update-face.component
     CommonModule,
     MatIconModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

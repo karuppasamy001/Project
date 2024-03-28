@@ -92,11 +92,24 @@
           </div>
         </div>
       </div>
+      
+      <div class="printing">
+        <button class="btn btn-primary print" (click)="onPrint()">Print Result</button>
+
+      </div>
+
     </div>
+
+
   </div>
 
   <br><br>
   <div *ngIf="resultPublished">
     <h1 style="text-align: center;">Result Not Published  Yet! Please Check Again Later.</h1>
+  </div>
+  
+
+  <div #printSection *ngIf="false">
+    <app-print-result></app-print-result>
   </div>
   

@@ -4,5 +4,9 @@
   "workbench.tree.enableStickyScroll": false,
   "editor.hover.sticky": true,
   "editor.stickyScroll.enabled": false,
-  "cSpell.words": ["CGPA"]
+  "cSpell.words": [
+    "CGPA",
+    "fontawesome",
+    "fortawesome"
+  ]
 }

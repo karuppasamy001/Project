@@ -21,6 +21,8 @@ import { SetGoalsComponent } from './student/set-goals/set-goals.component';
 import { RegisterFaceComponent } from './home/registration/register-face/register-face.component';
 import { FaceLoginComponent } from './login/face-login/face-login.component';
 import { UpdateFaceComponent } from './student/update-face/update-face.component';
+import { AnnouncementComponent } from './admin/announcement/announcement.component';
+import { PrintResultComponent } from './student/view-marks/print-result/print-result.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -30,6 +32,7 @@ const routes: Routes = [
   { path: 'face-login', component: FaceLoginComponent},
   { path: 'navbar', component: NavbarComponent },
   { path: "face-register", component: RegisterFaceComponent},
+  {path: 'print-result', component: PrintResultComponent},
   {
     path: 'admin',
     component: AdminComponent,
@@ -40,6 +43,7 @@ const routes: Routes = [
       { path: 'staff-registration', component: StaffRegistrationComponent },
       { path: 'admin-home', component: AdminHomeComponent },
       { path: 'publish-result', component: PublishResultComponent},
+      { path: 'announcements', component: AnnouncementComponent},
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
     ],
   },

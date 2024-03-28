@@ -1,0 +1,74 @@
+<div class="print-page">
+    <img src="../../../../assets/miniLogo.png" alt="College Logo" class="logo">
+    <h2>Thiagarajar College of Engineering</h2>
+    <p class="p-title">Thirupparankundram, Madurai</p>
+    
+
+    <div class="container mt-5">
+
+        <div class="student-details">
+            <div class="student-details-left">
+                <p>Student Name: {{ studentName }}</p>
+                <p>Program: Master of Computer Applications</p>
+            </div>
+
+            <div class="student-details-right">
+                <p>Registration Number: {{ registrationNumber }}</p>
+                <p>Semester: {{ semester }}</p>
+            </div>
+        </div>
+    
+    <div class="mt-4">
+        <table class="table">
+            <caption>Semester {{semester}} Mark statement</caption>
+            <thead>
+              <tr>
+                <th>Course Code</th>
+                <th>Course Name</th>
+                <th>Internal Marks</th>
+                <th>External Marks</th>
+                <th>Total Marks</th>
+                <th>Grade Points</th>
+                <th>Grade</th>
+                <th>Credit</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of table">
+                <td>{{ row.courseCode }}</td>
+                <td>{{ row.courseName }}</td>
+                <td>{{ row.internalMarks }}/40</td>
+                <td>{{ row.externalMarks }}/60</td>
+                <td>{{ row.totalMarks }}/100</td>
+                <td>{{ row.gradePoints }}</td>
+                <td>{{ row.grade}}</td>
+                <td>{{ row.creditHours}}</td>
+                <td>{{ row.result}}</td>
+              </tr>
+            </tbody>
+          </table>    
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="card mt-4">
+                  <div class="card-body">
+                    <h5 class="card-title">SGPA : {{gpa}}</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="card mt-4">
+                  <div class="card-body">
+                    <h5 class="card-title">CGPA : {{cgpa}}</h5>
+                  </div>
+                </div>
+              </div>
+              
+        </div>
+
+        </div>
+    
+
+  </div>

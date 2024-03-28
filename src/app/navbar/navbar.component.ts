@@ -58,7 +58,8 @@ export class NavbarComponent implements OnInit{
 
   ngOnInit(): void {
       this.checkAnnouncement()
-      this.fetchImage()
+
+      if(this.Student.isAuthenticated()) this.fetchImage()
   }
 
   logout() {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { StudentLogService } from '../student-log.service';
 import { StaffService } from '../staff/staff.service';
 import { RefreshService } from './refresh.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-home',
@@ -16,13 +17,15 @@ export class HomeComponent implements OnInit {
   defaultPhoto: string = "../../../assets/studentLogo.jpg"
   isPhotoAvailable: boolean = false;
   student: any
+  announcements: any[] = []
   
   constructor(private route: Router, 
     public studentLog: StudentLogService, 
     private router: Router, 
     public Admin: AdminService,
     public staff: StaffService,
-    private refreshService: RefreshService
+    private refreshService: RefreshService,
+    private http: HttpClient
     ){
 
       if(studentLog.isLoggedIn) {
@@ -36,24 +39,41 @@ export class HomeComponent implements OnInit {
       window.location.reload(); // Refresh the page
     }  
 
-    this.fetchImage()
+    if(this.studentLog.isAuthenticated())  this.fetchImage()
+
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
+    const url = 'http://localhost:5984/sapas/Announcements';
+
+    this.http.get(url, { headers }).subscribe(
+      (data : any) => {
+        this.announcements = Object.values(data["lists"])
+        this.announcements.reverse(); // Reverse the array
+        console.log(this.announcements)
+      },
+      (error) => {
+        console.error("Error fetching announcement details ", error)
+      } 
+    )
   }
 
   
-  announcements = [
-    { 
-        title: 'New Registration 2024', 
-        details: 'Registration for the student batch of 2024 is now open. Click here to proceed with the registration process.', 
-        date: new Date(), 
-        link: '../registration'
-    },
-    { 
-        title: 'Batch 2023 Result Published', 
-        details: 'The results for the 2023 batch have been published. You can access your results in your portal under "View Marks" and then "Final Results".', 
-        date: new Date(), 
-        link: '' 
-    },
-];
+//   announcements = [
+//     { 
+//         title: 'New Registration 2024', 
+//         details: 'Registration for the student batch of 2024 is now open. Click here to proceed with the registration process.', 
+//         date: new Date(), 
+//         link: '../registration'
+//     },
+//     { 
+//         title: 'Batch 2023 Result Published', 
+//         details: 'The results for the 2023 batch have been published. You can access your results in your portal under "View Marks" and then "Final Results".', 
+//         date: new Date(), 
+//         link: '' 
+//     },
+// ];
 
   logout() {
 

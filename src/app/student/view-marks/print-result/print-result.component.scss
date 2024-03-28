@@ -1,0 +1,128 @@
+/* print-results.component.css */
+
+/* Overall styling for the print page */
+.print-page {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    /* Adjust as needed */
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+/* Logo styling */
+.logo {
+    display: block;
+    margin: 0 auto;
+    max-width: 100px;
+    /* Adjust as needed */
+}
+
+/* College name and address styling */
+h2 {
+    text-align: center;
+    font-weight: bold;
+}
+
+.p-title {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+
+.student-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.student-details-left {
+    text-align: left;
+    font-weight: bold;
+}
+
+.student-details-right {
+    text-align: right;
+    font-weight: bold;
+
+}
+
+
+
+
+
+
+
+
+
+/* Table styling with border design and box shadow */
+table {
+    width: 100%;
+    // border-collapse: collapse;
+    margin-top: 20px;
+    // border: 1px solid #ddd; /* Add border */
+    // border-radius: 10%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    padding-top: 10%;
+}
+
+
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    // border-bottom: 1px solid #ddd;
+}
+
+th {
+    font-weight: bold;
+}
+
+caption {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Additional styling for table rows on hover */
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+
+.card-body {
+    height: 50px;
+}
+
+.card-title {
+    font-weight: bold;
+    // margin-bottom: 5px;
+}
+
+.card {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+}
+
+
+.row {
+    font-size: 0;
+    /* Remove whitespace between inline-block elements */
+}
+
+.print-page h2 {
+    margin-bottom: 1px;
+    /* Adjust as needed */
+}
+
+@media print {
+    .container {
+        margin-right: 180px;
+        padding: 0;
+        margin-left: 30px;
+    }
+}

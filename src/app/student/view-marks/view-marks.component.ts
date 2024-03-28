@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component,  OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StudentService } from '../student.service';
-import { error } from 'jquery';
 
 @Component({
   selector: 'app-view-marks',
@@ -9,6 +9,7 @@ import { error } from 'jquery';
   styleUrls: ['./view-marks.component.scss'],
 })
 export class ViewMarksComponent implements OnInit {
+
   studentName: string = '';
   studentRegistrationNumber: string = '';
   finalResults: boolean = false;
@@ -32,7 +33,7 @@ export class ViewMarksComponent implements OnInit {
   markList: any;
   resultPublished: boolean = false
 
-  constructor(private http: HttpClient, private stud: StudentService) {}
+  constructor(private http: HttpClient, private stud: StudentService, private router: Router) {}
 
   ngOnInit(): void {
     this.studentName = this.stud.studentData.firstName;
@@ -164,5 +165,15 @@ export class ViewMarksComponent implements OnInit {
     this.finalResults = false
     this.normalResult = false
    
+  }
+
+  
+
+  onPrint(): void {
+    this.stud.printData = this.finalResultTableData
+    this.stud.gpa = this.gpa
+    this.stud.cgpa = this.cgpa
+
+    this.router.navigate(['/print-result'])
   }
 }

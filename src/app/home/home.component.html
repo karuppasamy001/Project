@@ -12,7 +12,7 @@
             <!-- Navigation Buttons -->
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" routerLink="/"> <mat-icon class="header-icons">home</mat-icon> HOME</a>
-                <a class="nav-link" (click)="scrollToDepartmentToppers()"><mat-icon class="icon-toppers">supervisor_account</mat-icon> DEPARTMENT TOPPERS</a>
+                <a class="nav-link" (click)="scrollToDepartmentToppers()"><mat-icon class="icon-toppers">school</mat-icon>   DEPARTMENT TOPPERS</a>
                 <ng-container *ngIf="loggedIN()">
                     <div class="dropdown">
                         <button class="btn dropdown-toggle nav-link" type="button" id="userDropdown" data-bs-toggle="dropdown"
@@ -74,7 +74,7 @@
                         <h4> <mat-icon class="icon-link">link</mat-icon> {{ announcement.title }}</h4>
                     </a>
                     <p>{{ announcement.details }}</p>
-                    <p class="date">{{ announcement.date | date}}</p>
+                    <p class="date">{{ announcement.date}}</p>
                 </div>
             </div>
         </div>

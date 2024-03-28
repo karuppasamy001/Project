@@ -1,0 +1,61 @@
+<!-- announcement.component.html -->
+
+<div class="container">
+    <h2 class="headings">Add Announcements </h2>
+    <div class="form-group">
+      <label for="title" class="form-label">Title:</label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+      <!-- Display validation message if title is invalid -->
+      <div *ngIf="form['title'].invalid && form['title'].touched" class="text-danger">Title is required</div>
+    </div>
+    <div class="form-group">
+      <label for="details" class="form-label">Details:</label>
+      <textarea class="form-control" id="details" formControlName="details"></textarea>
+      <!-- Display validation message if details is invalid -->
+      <div *ngIf="form['details'].invalid && form['details'].touched" class="text-danger">Details is required</div>
+    </div>
+    <div class="form-group">
+      <label for="link" class="form-label">Link (Optional):</label>
+      <input type="text" class="form-control" id="link" formControlName="link">
+      <small class="form-text text-muted">If it is for new registration, enter link as <span class="text-danger">../registration</span></small>
+    </div>
+    <br>
+    <button class="btn btn-primary" (click)="addAnnouncement()">Add</button>
+    
+    
+    <br><hr>
+    <h2 class="headings">Announcements</h2>
+    <table class="table">
+      <caption>Announcement Table</caption>
+      <thead class="table-dark">
+        <tr>
+          <th>Sno</th>
+          <th>Title</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let announcement of announcements; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ announcement.title }}</td>
+          <td>{{ announcement.date }}</td>
+          <td><button class="btn btn-danger" (click)="deleteAnnouncement(i)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <button class="btn btn-success" (click)="submitAnnouncements()">Submit</button>
+
+
+    <div id="myModal" class="modal" [style.display]="modalVisible ? 'block' : 'none'">
+        <div class="modal-content">
+          <span class="close" (click)="closeModal()">&times;</span>
+          <br><br><br>
+          <h2>Announcement Added</h2>
+          <br><br>
+          <button class="btn btn-secondary" (click)="closeModal()">Close</button>
+        </div>
+      </div>
+  </div>
+  

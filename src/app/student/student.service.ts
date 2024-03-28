@@ -5,6 +5,10 @@ import { Injectable } from '@angular/core';
 })
 export class StudentService {
   studentData: any
+  printData: any
+  cgpa!: string
+  gpa!: string
+
   constructor() {
     this.studentData = JSON.parse(localStorage.getItem('currentUser') ?? '{}');
   }

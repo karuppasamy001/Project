@@ -1,0 +1,63 @@
+/* styles.css or any other global style file */
+.form-label {
+    font-weight: bold;
+  }
+  
+  .table {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .table th,
+  .table td {
+    border: 1px solid #dee2e6;
+  }
+  
+  .table th {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .table caption {
+    caption-side: top;
+    font-weight: bold;
+  }
+  
+  .headings{
+    font-weight:bold;
+  }
+
+  .container {
+    position: relative; /* Set position relative for proper positioning of the modal */
+  }
+  
+  .modal {
+    display: none; /* Hide modal by default */
+    position: absolute; /* Position absolute to keep it within the container */
+    left: 50%; /* Center horizontally */
+    top: 50%; /* Center vertically */
+    transform: translate(-50%, -50%); /* Center the modal both horizontally and vertically */
+    z-index: 9999; /* Ensure modal is on top of other content */
+    background-color: #fff; /* Background color */
+    padding: 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+    width: 350px; /* Set desired width */
+    height: 230px;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 40px;
+    cursor: pointer;
+  }
+  
+  .modal-content {
+    text-align: center;
+  }
+  
+  .modal-content p {
+    margin-bottom: 20px;
+  }
