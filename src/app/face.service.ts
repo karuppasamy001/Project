@@ -101,49 +101,6 @@ export class FaceService {
   }
 
 
-  // faceMatchDescriptor(descriptor: any): Promise<string> {
-  //   const url:  string = 'http://localhost:5984/sapas/StudentData';
-
-  //   const headers = new HttpHeaders({
-  //     Authorization: 'Basic ' + btoa('admin:admin'),
-  //   });
-    
-  //   return new Promise<string>((resolve, reject) => {
-
-
-  //     this.http.get(url, {headers}).subscribe(
-  //       (data: any) => {
-  //         let result: boolean = false
-
-  //         const batches = Object.keys(data).filter(
-  //           (key) => !key.startsWith('_')
-  //         );
-
-  //         for(let i of batches){
-  //           const res = this.isFaceExist(data[i], descriptor)
-
-  //           if(res)  {
-  //             result = true
-  
-  //             resolve(res.toString());
-  //             console.log(res)
-              
-  //           }
-  //         }
-          
-  //         if(!result) reject("Error ! No Matching Face Found");
-
-
-  //       },
-  //       (error) => {
-  //         console.log("Error fetching students Data", error)
-  //       }
-  //     )
-
-      
-  //   });
-  // }
-
 
   async matchFace(descriptor: any): Promise<string | null> {
     const url = 'http://localhost:5984/sapas/StudentData';

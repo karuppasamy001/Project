@@ -87,7 +87,7 @@ export class CourseEnrollComponent implements OnInit {
 
     this.http.get<any>(url, { headers }).subscribe(
       (data: any) => {
-        if (data && data[this.selectedBatch] && data[this.selectedBatch][this.selectedSemester]) {
+        if (data[this.selectedBatch][this.selectedSemester]) {
           this.courses = Object.entries<any[]>(data[this.selectedBatch][this.selectedSemester]).map(([code, [name, credit]]) => ({ code, name, credit }));
         } else {
           this.courses = []; // Initialize courses as empty array if no data found

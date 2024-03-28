@@ -234,7 +234,7 @@ export class SetGoalsComponent implements OnInit {
   
     for (let course of this.courseDetails) {
       const internal = (course.cat1 + 100) / 200 * 40;
-      const external = 100 / 100 * 60;
+      const external = 60;
       const total = internal + external;
       const gradePoint = this.findGradePointsFromTotalMarks(total);
       totalGradePoints += gradePoint * course.credits;
