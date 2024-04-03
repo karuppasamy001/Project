@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { StudentService } from '../student.service';
 import { Router } from '@angular/router';
 import { VideoRefreshService } from '../video-refresh.service';
+import { StudentLogService } from 'src/app/student-log.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,9 +21,16 @@ export class ProfileComponent {
   defaultPhoto: string = "../../../assets/studentLogo.jpg"
 
 
-  constructor(private http: HttpClient, private studentLog: StudentService, refresh: VideoRefreshService, private router: Router) { 
+  constructor(private http: HttpClient, private studentLog: StudentService, private studentService: StudentLogService, refresh: VideoRefreshService, private router: Router) { 
+    if(!this.studentService.isAuthenticated()) this.router.navigate(['/login'])
     this.student = studentLog.studentData
+
+    if(localStorage.getItem("FaceUpdate") === 'true') {
+      window.location.reload()
+      localStorage.removeItem("FaceUpdate")
+    }
   }
+
 
   ngOnInit(): void {
 
@@ -99,6 +107,7 @@ export class ProfileComponent {
   }
 
   startFaceUpdate(): void {
+    localStorage.setItem("FaceUpdate", "true")
     this.router.navigate(['/student/update-face'])
   }
 

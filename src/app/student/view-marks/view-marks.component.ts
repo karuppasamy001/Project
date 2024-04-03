@@ -2,6 +2,7 @@ import { Router } from '@angular/router';
 import { Component,  OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StudentService } from '../student.service';
+import { StudentLogService } from 'src/app/student-log.service';
 
 @Component({
   selector: 'app-view-marks',
@@ -33,7 +34,10 @@ export class ViewMarksComponent implements OnInit {
   markList: any;
   resultPublished: boolean = false
 
-  constructor(private http: HttpClient, private stud: StudentService, private router: Router) {}
+  constructor(private http: HttpClient, private stud: StudentService, private router: Router, private studentService: StudentLogService) {
+    if(!this.studentService.isAuthenticated()) this.router.navigate(['/login'])
+
+  }
 
   ngOnInit(): void {
     this.studentName = this.stud.studentData.firstName;
@@ -115,7 +119,6 @@ export class ViewMarksComponent implements OnInit {
 
     this.http.get(markUrl, { headers }).subscribe(
       (data: any) => {
-        const semester = data[this.studentBatch][this.selectedSemester];
 
         const isPublished = data[this.studentBatch][this.selectedSemester]["publishResult"]
 

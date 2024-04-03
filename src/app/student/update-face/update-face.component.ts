@@ -1,5 +1,4 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CouchDBService } from 'src/app/backend/couchDB/couch-db.service';
 import { FaceService } from 'src/app/face.service';
@@ -32,50 +31,15 @@ export class UpdateFaceComponent implements OnInit {
     private studentLog: StudentService,
     private http: HttpClient,
     private couchdb: CouchDBService,
-    private refresh: RefreshService
+    private refresh: RefreshService,
+    private studentService: StudentLogService
   ) {
+    if(!this.studentService.isAuthenticated()) this.route.navigate(['/login'])
+    if(localStorage.getItem("FaceUpdate") !== 'true') this.route.navigate(['/student/profile'])
     this.studentData = studentLog.studentData
   }
 
-  // ngOnInit(): void {
-  //   this.video = this.render.selectRootElement('#myVideo') as HTMLVideoElement;
-  //   this.errorMessage = this.render.selectRootElement('.errorMessage');
-  //   this.startVideo();
-  // }
-
-  // async startVideo(): Promise<void> {
-  //   try {
-  //     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-
-  //     if (this.video) {
-  //       this.video.srcObject = stream;
-
-  //       await new Promise<any>((resolve) => {
-  //         this.video.addEventListener('play', async () => {
-  //           this.errorMessage.innerHTML = 'wait until scan....';
-  //           try {
-  //             const results = await this.faceApi.confirmImage(
-  //               this.video,
-  //               this.errorMessage
-  //             );
-  //             this.styleFlag = true;
-  //             this.errorMessage.innerHTML = 'face scanned successfully';
-  //             this.currentFaceDescriptor = results;
-
-  //             this.updateNewFace()
-
-  //             this.route.navigate(['/student/profile'])
-  //           } catch (error) {
-  //             console.log(error);
-  //             resolve(false);
-  //           }
-  //         });
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error('Error accessing webcam:', error);
-  //   }
-  // }
+ 
 
   ngOnInit(): void {
     
@@ -138,7 +102,6 @@ export class UpdateFaceComponent implements OnInit {
   }
 
   updateNewFace(): void{
-    const studentURL = 'http://localhost:5984/sapas/StudentData';
     const faceUpdateURL = 'http://localhost:5984/sapas/FaceUpdate';
    
     const headers = new HttpHeaders({

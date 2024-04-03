@@ -22,7 +22,9 @@ export class AddMarksComponent implements OnInit {
   selectedSemester!: string;
   semesters: string[] = [];
 
-  constructor(private http: HttpClient, private Staff: StaffService, private router: Router, private modal: ModalService) {}
+  constructor(private http: HttpClient, private Staff: StaffService, private router: Router, private modal: ModalService) {
+    if(!Staff.isAuthenticated()) this.router.navigate(['/login'])
+  }
 
   ngOnInit(): void {
     this.staffId = JSON.parse(localStorage.getItem('isStaff') ?? '{}').staffId;

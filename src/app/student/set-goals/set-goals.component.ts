@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { StudentService } from '../student.service';
 import { ModalService } from 'src/app/modal.service';
+import { Router } from '@angular/router';
+import { StudentLogService } from 'src/app/student-log.service';
 
 @Component({
   selector: 'app-set-goals',
@@ -21,7 +23,11 @@ export class SetGoalsComponent implements OnInit {
   selectedDocument: string = '';
   studentRegistrationNumber!: string;
 
-  constructor(private http: HttpClient, private stud: StudentService, private modal: ModalService) {}
+  constructor(private http: HttpClient, private stud: StudentService, private modal: ModalService, private router: Router, private studentService: StudentLogService) {
+    if(!this.studentService.isAuthenticated()) this.router.navigate(['/login'])
+
+  }
+
 
   courseUrl: string = 'http://localhost:5984/sapas/Courses';
   markUrl!: string;

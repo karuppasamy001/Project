@@ -1,3 +1,4 @@
+import { AdminService } from './../admin.service';
 // announcement.component.ts
 
 import { Component, OnInit } from '@angular/core';
@@ -20,8 +21,11 @@ export class AnnouncementComponent implements OnInit {
     private http: HttpClient,
     private datePipe: DatePipe,
     private formBuilder: FormBuilder,
-    private router: Router
-  ) { }
+    private router: Router,
+    private AdminService: AdminService
+  ) { 
+    if(!AdminService.isAuthenticated()) this.router.navigate(['/login'])
+  }
 
   ngOnInit(): void {
     this.getAnnouncements();

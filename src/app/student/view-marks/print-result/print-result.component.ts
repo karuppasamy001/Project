@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../../student.service';
+import { StudentLogService } from 'src/app/student-log.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-print-result',
@@ -17,13 +19,16 @@ export class PrintResultComponent implements OnInit {
   gpa: string = ""
 
 
-  constructor(private stud: StudentService){
+  constructor(private stud: StudentService, private studentService: StudentLogService, private router: Router){
     this.table = stud.printData
     this.studentName = stud.studentData.firstName
     this.registrationNumber = stud.studentData.registrationNumber
     this.semester=stud.studentData.currentSem
     this.gpa = stud.gpa
     this.cgpa = stud.cgpa
+
+    if(!this.studentService.isAuthenticated()) this.router.navigate(['/login'])
+
   }
 
   ngOnInit(): void {
