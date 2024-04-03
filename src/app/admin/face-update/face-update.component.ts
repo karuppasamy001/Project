@@ -22,6 +22,7 @@ export class FaceUpdateComponent implements OnInit {
   studentsCheck: any[] = []
   searchTerm: string = '';
   searchControl: FormControl = new FormControl();
+  searchButton: boolean = false
 
 
   selectedStudentsName: any[] = []
@@ -57,7 +58,7 @@ export class FaceUpdateComponent implements OnInit {
         if (data) {
           this.batches = Object.keys(data).filter(
             (key) => !key.startsWith('_')
-          ); // Filter out fields starting with underscore
+          ).reverse(); 
           this.selectedBatch = this.batches[0]; // Select the first batch by default
 
           this.fetchStudentData(); // Fetch student data for the selected batch
@@ -105,7 +106,7 @@ export class FaceUpdateComponent implements OnInit {
       this.students = [...this.originalStudents];
       this.studentsCheck = [...this.originalStudents]
     } else {
-      this.fetchStudentData();
+      // this.fetchStudentData();
       this.students = this.originalStudents.filter((student) => {
         if (this.statusFilter === 'updated') {
           return student.faceUpdate === true;
@@ -115,7 +116,7 @@ export class FaceUpdateComponent implements OnInit {
         return false; // Add this return statement
       });
 
-      this.studentsCheck = this.students
+      this.studentsCheck = [...this.students]
     }
   }
 
@@ -125,14 +126,15 @@ export class FaceUpdateComponent implements OnInit {
       this.filteredStudents = [...this.students];
       return;
     }
-
-    // Filter students whose registration number or name contains the search term
+  
+    // Filter students whose registration number contains the search term
     this.filteredStudents = this.students.filter(
       (student) =>
-        student.registrationNumber.includes(this.searchTerm) ||
-        student.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+        student.registrationNumber && // Check if registrationNumber is defined
+        student.registrationNumber.toLowerCase().includes(this.searchTerm)
     );
   }
+
 
   toggleSelection(registrationNumber: string) {
     if (this.selectedStudents.has(registrationNumber)) {
@@ -150,7 +152,7 @@ export class FaceUpdateComponent implements OnInit {
     const currentYear = this.selectedBatch;
     const updatedStudents = this.students.map((student) => {
       if (this.selectedStudents.has(student.registrationNumber)) {
-        return { ...student, faceUpdatePortal: !student.faceUpdatePortal };
+        return { ...student, faceUpdatePortal: true };
       }
       return student;
     });
@@ -202,22 +204,42 @@ export class FaceUpdateComponent implements OnInit {
     
   }
 
+
   selectAllStudents() {
     if (this.checked) {
-      this.studentsCheck.forEach((student) => {
+      this.originalStudents.forEach((student) => {
         student.checked = false;
-        this.selectedStudents.delete(student.registrationNumber); // Remove all students when deselecting all
+        this.selectedStudents.delete(student.registrationNumber);
       });
       this.checked = false;
     } else {
-      this.studentsCheck.forEach((student) => {
+      this.originalStudents.forEach((student) => {
         student.checked = true;
-        this.selectedStudents.add(student.registrationNumber); // Add all students when selecting all
+        this.selectedStudents.add(student.registrationNumber);
       });
-
       this.checked = true;
     }
+
+    console.log(this.students)
   }
+
+
+  searchStudent(){
+
+    if(this.searchTerm == ""){
+      this.students = [...this.originalStudents]
+    }
+
+    this.students = this.originalStudents.filter((student) => {
+      return student.registrationNumber === this.searchTerm
+    });
+    
+  }
+
+  resetSearch() {
+    this.applyStatusFilter()
+  }
+  
 
   
   openModal() {

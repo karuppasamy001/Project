@@ -1,13 +1,13 @@
 <div class="container">
     <div class="row mb-3">
       <div class="col-md-6 ">
-        <label>Select Batch:</label>
+        <label for="">Select Batch:</label>
         <select class="form-control" [(ngModel)]="selectedBatch" (change)="fetchSemesterData()">
           <option *ngFor="let batch of batches" [value]="batch">{{ batch }}</option>
         </select>
       </div>
       <div class="col-md-6 ">
-        <label>Select Semester:</label>
+        <label for="">Select Semester:</label>
         <select class="form-control" [(ngModel)]="selectedSemester" (change)="fetchCourse()">
           <option *ngFor="let semester of semesters" [value]="semester">{{ semester }}</option>
         </select>
@@ -25,11 +25,14 @@
         <div class="modal-header">
           <h3 class="modal-title">Publish Result</h3>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeModal()">
-            <span aria-hidden="true">&times;</span>
+            <mat-icon>clear</mat-icon>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" *ngIf="!error">
           <h4>Result Published for Batch : {{selectedBatch}} - {{selectedSemester}}</h4>
+        </div>
+        <div class="modal-body" *ngIf="error">
+          <h4>{{errorMessage}}</h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>

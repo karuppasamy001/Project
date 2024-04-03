@@ -1,30 +1,30 @@
 <div class="container">
     <div class="row mb-3">
       <div class="col-md-6 ">
-        <label>Select Batch:</label>
+        <label for="">Select Batch:</label>
         <select class="form-control" [(ngModel)]="selectedBatch" (change)="fetchSemesterData()">
           <option *ngFor="let batch of batches" [value]="batch">{{ batch }}</option>
         </select>
       </div>
       <div class="col-md-6 ">
-        <label>Select Semester:</label>
+        <label for="">Select Semester:</label>
         <select class="form-control" [(ngModel)]="selectedSemester" (change)="fetchCourse()">
           <option *ngFor="let semester of semesters" [value]="semester">{{ semester }}</option>
         </select>
       </div>
     </div>
-    <div class="row mb-3">
-      <div class="col-md-4">
-        <label>Subject Code:</label>
+    <div class="row mb-3" *ngIf="selectedSemester">
+      <div class="col-md-3">
+        <label for="">Subject Code:</label>
         <input type="text" class="form-control" [(ngModel)]="subjectCode" placeholder="Enter subject code">
       </div>
       <div class="col-md-4">
-        <label>Subject Name:</label>
+        <label for="">Subject Name:</label>
         <input type="text" class="form-control" [(ngModel)]="subjectName" placeholder="Enter subject name">
       </div>
-      <div class="col-md-2">
-        <label>Credit</label>
-        <input type="text" class="form-control" [(ngModel)]="subjectCredit" placeholder="Enter subject Credit">
+      <div class="col-md-3">
+        <label for="">Credit</label>
+        <input type="number" class="form-control" [(ngModel)]="subjectCredit" placeholder="Enter subject Credit">
       </div>
       <div class="col-md-2 d-flex justify-content-end">
         <button class="btn btn-primary mt-4" (click)="addCourse()">Add</button>
@@ -61,6 +61,7 @@
       </div>
     </div>
   </div>
+
   
 
   <div class="modal" tabindex="-1" role="dialog" id="myModal">
@@ -72,12 +73,17 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" *ngIf="!error">
           <h4>Course Updated for Batch : {{selectedBatch}} - {{selectedSemester}}</h4>
+        </div>
+        <div class="modal-body" *ngIf="error">
+          <h4>{{errorMessage}}</h4>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="closeModal()">Close</button>
         </div>
       </div>
     </div>
+
+    
   </div>

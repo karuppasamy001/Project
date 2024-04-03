@@ -17,10 +17,13 @@
     </div>
     <div class="col-md-4 d-flex justify-content-end">
       <div class="input-group">
+            <a class="reset-button" (click)="resetSearch()" title="Reset Search"><mat-icon>restore</mat-icon></a>
+        
+        <input type="text" class="form-control" placeholder="Search student by register number" [(ngModel)]="searchTerm">
         <div class="input-group-prepend">
-          <span class="input-group-text">Search</span>
+          <button (click)="searchStudent()" class="input-group-text search-student">search</button>
         </div>
-        <input type="text" class="form-control" placeholder="Search student by register number" [formControl]="searchControl">
+        
       </div>
     </div>
   </div>
@@ -43,7 +46,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let student of studentsCheck">
+          <tr *ngFor="let student of students">
             <td><input type="checkbox" [(ngModel)]="student.checked"
                 (change)="toggleSelection(student.registrationNumber)" id="checkboxStudents"></td>
             <td>{{ student.registrationNumber }}</td>

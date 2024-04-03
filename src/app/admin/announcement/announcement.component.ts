@@ -30,6 +30,8 @@ export class AnnouncementComponent implements OnInit {
       details: ['', Validators.required],
       link: ['']
     });
+
+    
   }
 
   get form() { return this.newAnnouncementForm.controls; }
@@ -53,14 +55,15 @@ export class AnnouncementComponent implements OnInit {
 
   addAnnouncement() {
     if (this.newAnnouncementForm.invalid) {
-      this.newAnnouncementForm.markAllAsTouched();
+      this.newAnnouncementForm.controls['title'].markAsTouched();
+      this.newAnnouncementForm.controls['details'].markAsTouched();
       return;
     }
 
     const newAnnouncement = this.newAnnouncementForm.value;
     newAnnouncement.date = this.datePipe.transform(new Date(), 'dd/MM/yyyy');
     this.announcements.push(newAnnouncement);
-    this.newAnnouncementForm.reset();
+    this.newAnnouncementForm.reset(); // Reset the form after successfully adding announcement
   }
 
   deleteAnnouncement(index: number) {
@@ -76,6 +79,7 @@ export class AnnouncementComponent implements OnInit {
 
     this.http.get(url, {headers}).subscribe(
       (data : any) => {
+        data['lists'] = {}
         for(let i = 0; i < this.announcements.length; i ++){
           data['lists'][String(i)] = this.announcements[i];
         }

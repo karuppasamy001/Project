@@ -43,15 +43,15 @@
         <!-- Student information -->
         <div class="student-info">
             <h3 class="stud-info">STUDENT INFORMATION</h3>
-            <p class="d-flex"><strong class="w-25 info">First Name </strong> <span class="span info">: {{student.firstName}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">First Name </strong> <span class="span info">: {{student.firstName | titlecase}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Middle Name </strong> <span class="span info">: {{student.middleName}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Second Name </strong> <span class="span info">: {{student.lastName}}</span></p>
-            <p class="d-flex"><strong class="w-25 info">Gender </strong> <span class="span info">: {{student.gender}}</span></p>
+            <p class="d-flex"><strong class="w-25 info">Gender </strong> <span class="span info">: {{student.gender | titlecase}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Phone Number </strong> <span class="span info">: {{student.mobileNumber}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Email </strong> <span class="span info">: {{student.email}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Date of Birth </strong> <span class="span info">: {{student.dob}}</span></p>
             <p class="d-flex"><strong class="w-25 info">Blood Group </strong> <span class="span info">: {{student.bloodGroup}}</span></p>
-            <p class="d-flex"><strong class="w-25 info">Address </strong> <span class="span info">: {{student.address.houseNumber}} - {{student.address.street}},</span></p>
+            <p class="d-flex"><strong class="w-25 info">Address </strong> <span class="span info">: {{student.address.houseNumber}} - {{student.address.street}}, {{student.address.city}}</span></p>
             <p class="d-flex"><strong class="w-25 info"> </strong> <span class="span info"> {{student.address.state}}, {{student.address.pincode}}</span></p>
 
 

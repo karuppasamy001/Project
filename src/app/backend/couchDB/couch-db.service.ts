@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FaceUpdate } from './interface';
-import { error } from 'jquery';
+import { Observable } from 'rxjs/internal/Observable';
+import { map, catchError } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +13,10 @@ export class CouchDBService {
   private apiUrl = 'http://localhost:5984/sapas/StudentData';
   private faceUpdateUrl = 'http://localhost:5984/sapas/FaceUpdate';
 
-  studentData: any
-  userName!: string
-  password!: string
-  academicYear!: string
+  studentData: any;
+  userName!: string;
+  password!: string;
+  academicYear!: string;
 
   constructor(private http: HttpClient, private route: Router) {}
 
@@ -78,9 +80,8 @@ export class CouchDBService {
             [registrationNumber]: studentDetails,
           };
           this.updateDocument(url, data, headers);
-          localStorage.setItem("registration", JSON.stringify(studentDetails))
-          this.route.navigate(['/face-register'])      
-
+          localStorage.setItem('registration', JSON.stringify(studentDetails));
+          this.route.navigate(['/face-register']);
         }
 
         this.http.get(this.faceUpdateUrl, { headers }).subscribe(
@@ -96,9 +97,11 @@ export class CouchDBService {
             }
 
             this.updateDocument(this.faceUpdateUrl, faceData, headers);
-            localStorage.setItem("registration", JSON.stringify(studentDetails))
-            this.route.navigate(['/face-register'])      
-
+            localStorage.setItem(
+              'registration',
+              JSON.stringify(studentDetails)
+            );
+            this.route.navigate(['/face-register']);
           },
           (error: any) => {
             console.error('Error fetching faceUpdate:', error);
@@ -122,64 +125,46 @@ export class CouchDBService {
     );
   }
 
-  fetchBatchData(url: string): string[] {
-
+  fetchBatchData(url: string): Observable<string[]> {
     const headers = new HttpHeaders({
-
       Authorization: 'Basic ' + btoa('admin:admin'),
-
     });
-
-    let batch : string[] = []
-
-    this.http.get<any>(url, { headers }).subscribe(
-
-      (data: any) => {
-
+  
+    return this.http.get<any>(url, { headers }).pipe(
+      map((data: any) => {
         if (data) {
-
-          let batches = Object.keys(data).filter(
-
-            (key) => !key.startsWith('_')
-
-          );
-
-          batches.reverse()
-
- 
-
+          let batches = Object.keys(data).filter((key) => !key.startsWith('_'));
+          batches.reverse();
+          return batches;
         }
-
-      },
-
-      (error) => {
-
+        return [];
+      }),
+      catchError(error => {
         console.error('Error fetching batches:', error);
-
-      }
-
+        return [];
+      })
     );
-
-    return batch
-
   }
 
-  updateFaceData(descriptor: any, registrationNumber: string, year: string): void{
+  updateFaceData(
+    descriptor: any,
+    registrationNumber: string,
+    year: string
+  ): void {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
-
-    this.http.get(this.apiUrl, {headers}).subscribe(
+    this.http.get(this.apiUrl, { headers }).subscribe(
       (data: any) => {
-        data[year][registrationNumber].face = descriptor
+        data[year][registrationNumber].face = descriptor;
 
-        this.updateDocument(this.apiUrl, data, headers)
+        this.updateDocument(this.apiUrl, data, headers);
       },
       (error) => {
-        console.log("Error fetching student data", error)
+        console.log('Error fetching student data', error);
       }
-    )
+    );
   }
 
   createFaceUpdate(studentDetails: any): FaceUpdate {

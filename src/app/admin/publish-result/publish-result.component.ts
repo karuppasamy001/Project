@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CouchDBService } from 'src/app/backend/couchDB/couch-db.service';
 import { AdminService } from '../admin.service';
-import { data, error } from 'jquery';
+import { data } from 'jquery';
 
 @Component({
   selector: 'app-publish-result',
@@ -18,6 +18,8 @@ export class PublishResultComponent implements OnInit {
   submitButton!: boolean;
   courseList: any[] = [];
   studentList: any[] = [];
+  error: boolean = false;
+  errorMessage: string = '';
 
   constructor(
     private http: HttpClient,
@@ -31,10 +33,17 @@ export class PublishResultComponent implements OnInit {
   ngOnInit(): void {
     this.fetchBatchData();
   }
-  
+
   fetchBatchData() {
     const url = 'http://localhost:5984/sapas/Courses';
-    this.Couch.fetchBatchData(url)
+    this.Couch.fetchBatchData(url).subscribe(
+      (batches: string[]) => {
+        this.batches = batches;
+      },
+      (error) => {
+        console.error('Error fetching batches:', error);
+      }
+    );
   }
 
   publishResult(): void {
@@ -64,7 +73,14 @@ export class PublishResultComponent implements OnInit {
             }
           );
         } else {
-          alert('Not all marks have been updated.');
+          this.error = true;
+          this.errorMessage = `For Batch : ${
+            this.selectedBatch
+          } and Semester : ${
+            this.selectedSemester[this.selectedSemester.length - 1]
+          } Not all Marks have been Updated !`;
+          this.openModal();
+          console.log('failed');
         }
       },
       (error) => {
@@ -74,115 +90,132 @@ export class PublishResultComponent implements OnInit {
   }
 
   result(marksData: any): void {
-    
-    const studentResultTable: any = {}
+    const studentResultTable: any = {};
     for (let studentRegistrationNumber of this.studentList) {
-      
-      let sampleFinalResult: any[] = [];
-      let totalCreditHours = 0;
-      let totalGradePoints = 0;
+      const sampleFinalResult = this.calculateSampleFinalResult(
+        studentRegistrationNumber,
+        marksData
+      );
+      const gpa = this.calculateGPA(sampleFinalResult);
+      studentResultTable[studentRegistrationNumber] = {
+        results: sampleFinalResult,
+        gpa,
+      };
+    }
+    console.log(studentResultTable);
+    this.uploadResultDocument(studentResultTable);
+    this.updateCGPA(studentResultTable);
+  }
 
-      for (let i of this.courseList) {
-        let newRow: any = {};
-
-        const courseCode = i[0];
-        const courseName = i[1][0];
-        const cat1Data =
-          marksData[courseCode]['cat1'][studentRegistrationNumber];
-        const cat2Data =
-          marksData[courseCode]['cat2'][studentRegistrationNumber];
-        const externalMarks =
-          marksData[courseCode]['finalResult'][studentRegistrationNumber];
-        const credit = parseFloat(i[1][1]);
-
-        if(cat1Data.mark === 'AB') cat1Data.mark = 0
-        if(cat2Data.mark === 'AB') cat2Data.mark = 0
-
-        const cat1Marks = parseFloat(cat1Data.mark) + parseFloat(cat1Data.assignment);
-        const cat2Marks = parseFloat(cat2Data.mark) + parseFloat(cat2Data.assignment);
-
-        let updatedExternalMarks = 0
-
-        const internalMarks = Math.ceil(((cat1Marks + cat2Marks) / 200) * 40);
-
-        if(externalMarks !== 'AB') {
-          updatedExternalMarks = Math.ceil(
-            (parseFloat(externalMarks) / 100) * 60
-          );
-        }
-
-        newRow.courseCode = courseCode;
-        newRow.courseName = courseName;
-        newRow.internalMarks = internalMarks;
-        newRow.externalMarks = updatedExternalMarks
-        newRow.creditHours = credit;
-
-      
-        const totalMarks = internalMarks + updatedExternalMarks;
-
-        newRow.totalMarks = totalMarks
-
-      let gradePoints: number;
-      let grade: string;
-
-      // Determine grade points and grade using switch statement based on totalMarks
-      switch (true) {
-        case totalMarks > 90:
-          gradePoints = 10;
-          grade = 'O';
-          break;
-        case totalMarks > 80:
-          gradePoints = 9;
-          grade = 'A+';
-          break;
-        case totalMarks > 70:
-          gradePoints = 8;
-          grade = 'A';
-          break;
-        case totalMarks > 60:
-          gradePoints = 7;
-          grade = 'B+';
-          break;
-        case totalMarks > 50:
-          gradePoints = 6;
-          grade = 'B';
-          break;
-        case totalMarks == 50:
-          gradePoints = 5;
-          grade = 'C';
-          break;
-        default:
-          gradePoints = 0;
-          grade = 'F'; // Below 50% is Fail
-          break;
-      }
-
-      let result = ''
-      if(grade === "F") result = 'Fail'
-      else result = 'Pass'
-
-      
-      newRow.gradePoints = gradePoints
-      newRow.grade = grade
-      newRow.result = result
-
-      // Accumulate total credit hours and grade points
-      totalCreditHours += credit;
-      totalGradePoints += gradePoints * credit;
-
+  calculateSampleFinalResult(
+    studentRegistrationNumber: string,
+    marksData: any
+  ): any[] {
+    const sampleFinalResult: any[] = [];
+    let totalCreditHours = 0;
+    let totalGradePoints = 0;
+    for (let course of this.courseList) {
+      const newRow = this.calculateRowData(
+        course,
+        studentRegistrationNumber,
+        marksData
+      );
       sampleFinalResult.push(newRow);
+      totalCreditHours += newRow.creditHours;
+      totalGradePoints += newRow.gradePoints * newRow.creditHours;
+    }
+    return sampleFinalResult;
+  }
 
-      }
-      let gpa = totalGradePoints / totalCreditHours;
-      gpa = parseFloat(gpa.toFixed(2));
-      const results = sampleFinalResult
-      studentResultTable[studentRegistrationNumber] = {results, gpa}
+  calculateRowData(
+    course: any,
+    studentRegistrationNumber: string,
+    marksData: any
+  ): any {
+    const newRow: any = {};
+    const courseCode = course[0];
+    const courseName = course[1][0];
+    const cat1Data = marksData[courseCode]['cat1'][studentRegistrationNumber];
+    const cat2Data = marksData[courseCode]['cat2'][studentRegistrationNumber];
+    const externalMarks =
+      marksData[courseCode]['finalResult'][studentRegistrationNumber];
+    const credit = parseFloat(course[1][1]);
+
+    if (cat1Data.mark === 'AB') cat1Data.mark = 0;
+    if (cat2Data.mark === 'AB') cat2Data.mark = 0;
+
+    const cat1Marks =
+      parseFloat(cat1Data.mark) + parseFloat(cat1Data.assignment);
+    const cat2Marks =
+      parseFloat(cat2Data.mark) + parseFloat(cat2Data.assignment);
+    const internalMarks = Math.ceil(((cat1Marks + cat2Marks) / 200) * 40);
+
+    let updatedExternalMarks = 0;
+    if (externalMarks !== 'AB') {
+      updatedExternalMarks = Math.ceil((parseFloat(externalMarks) / 100) * 60);
     }
 
-    console.log(studentResultTable)
-    this.uploadResultDocument(studentResultTable)
-    this.updateCGPA(studentResultTable)
+    newRow.courseCode = courseCode;
+    newRow.courseName = courseName;
+    newRow.internalMarks = internalMarks;
+    newRow.externalMarks = updatedExternalMarks;
+    newRow.creditHours = credit;
 
+    const totalMarks = internalMarks + updatedExternalMarks;
+    let gradePoints: number;
+    let grade: string;
+
+    switch (true) {
+      case totalMarks > 90:
+        gradePoints = 10;
+        grade = 'O';
+        break;
+      case totalMarks > 80:
+        gradePoints = 9;
+        grade = 'A+';
+        break;
+      case totalMarks > 70:
+        gradePoints = 8;
+        grade = 'A';
+        break;
+      case totalMarks > 60:
+        gradePoints = 7;
+        grade = 'B+';
+        break;
+      case totalMarks > 50:
+        gradePoints = 6;
+        grade = 'B';
+        break;
+      case totalMarks == 50:
+        gradePoints = 5;
+        grade = 'C';
+        break;
+      default:
+        gradePoints = 0;
+        grade = 'F';
+        break;
+    }
+
+    let result = '';
+    if (grade === 'F') result = 'Fail';
+    else result = 'Pass';
+
+    newRow.gradePoints = gradePoints;
+    newRow.grade = grade;
+    newRow.result = result;
+
+    return newRow;
+  }
+
+  calculateGPA(sampleFinalResult: any[]): number {
+    let totalCreditHours = 0;
+    let totalGradePoints = 0;
+    for (let row of sampleFinalResult) {
+      totalCreditHours += row.creditHours;
+      totalGradePoints += row.gradePoints * row.creditHours;
+    }
+    const gpa = totalGradePoints / totalCreditHours;
+    return parseFloat(gpa.toFixed(2));
   }
 
   uploadResultDocument(studentResultTable: any): void {
@@ -192,92 +225,92 @@ export class PublishResultComponent implements OnInit {
 
     const url = 'http://localhost:5984/sapas/Result';
 
-    this.http.get(url, {headers}).subscribe(
+    this.http.get(url, { headers }).subscribe(
       (data: any) => {
-        const batch = data[this.selectedBatch]
-        if(batch) {
-          data[this.selectedBatch][this.selectedSemester] = studentResultTable
-        }
-        else{
+        const batch = data[this.selectedBatch];
+        if (batch) {
+          data[this.selectedBatch][this.selectedSemester] = studentResultTable;
+        } else {
           data[this.selectedBatch] = {
-            "Semester1" : {},
-            "Semester2" : {},
-            "Semester3" : {},
-            "Semester4" : {}
-          }
+            Semester1: {},
+            Semester2: {},
+            Semester3: {},
+            Semester4: {},
+          };
 
-          data[this.selectedBatch][this.selectedSemester] = studentResultTable
+          data[this.selectedBatch][this.selectedSemester] = studentResultTable;
         }
 
-
-        this.http.put(url, data, {headers}).subscribe(
-          (response :  any) => {
-            console.log("Data uploaded successfully", response)
+        this.http.put(url, data, { headers }).subscribe(
+          (response: any) => {
+            console.log('Data uploaded successfully', response);
           },
           (error) => {
-            console.error("Error uploading result data", error)
+            console.error('Error uploading result data', error);
           }
-        )
+        );
       },
       (error) => {
-        console.error("Error Fetching Result data", error)
+        console.error('Error Fetching Result data', error);
       }
-    )
+    );
   }
 
   updateCGPA(studentResult: any): void {
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
-  
+
     const url = 'http://localhost:5984/sapas/StudentData';
-  
+
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
         for (const studentId of Object.keys(studentResult)) {
           const studentData = data[this.selectedBatch][studentId];
           const semester = this.selectedSemester.slice(-1); // Extract semester number from selected semester
-          data[this.selectedBatch][studentId].currentSem = parseInt(semester) + 1
-  
+          data[this.selectedBatch][studentId].currentSem =
+            parseInt(semester) + 1;
+
           // Update the GPA for the corresponding semester
           studentData[`sem${semester}Gpa`] = studentResult[studentId].gpa;
-  
+
           // Calculate the total GPA and count of non-empty GPAs
           let totalGPA = 0;
           let gpaCount = 0;
-  
+
           for (let i = 1; i <= 4; i++) {
             const gpaKey = `sem${i}Gpa`;
-            if (studentData[gpaKey] !== "") {
+            if (studentData[gpaKey] !== '') {
               totalGPA += parseFloat(studentData[gpaKey]);
               gpaCount++;
             }
           }
-  
+
           // Calculate CGPA
           const cgpa = (totalGPA / gpaCount).toFixed(2);
           studentData['cgpa'] = cgpa;
         }
-  
+
         // Update the data on the server
         this.http.put(url, data, { headers }).subscribe(
           (response: any) => {
-            console.log("CGPA and GPA updated", response);
+            console.log('CGPA and GPA updated', response);
           },
           (error) => {
-            console.error("Error updating GPA and CGPA", error);
+            console.error('Error updating GPA and CGPA', error);
           }
         );
       },
       (error) => {
-        console.error("Error fetching student Data", error);
+        console.error('Error fetching student Data', error);
       }
     );
   }
-  
 
   validateMarks(marksData: any): boolean {
     const courseCodes = Object.keys(marksData);
+
+    if (!marksData['publishResult']) return false;
 
     for (const courseCode of courseCodes) {
       const courseMarks = marksData[courseCode];
@@ -364,9 +397,13 @@ export class PublishResultComponent implements OnInit {
 
   closeModal() {
     const modal = document.getElementById('myModal');
-    if (modal) {
+    if (modal && !this.error) {
       modal.style.display = 'none'; // Hide the modal
       this.router.navigate(['/admin']);
+    }
+
+    if (modal && this.error) {
+      modal.style.display = 'none';
     }
   }
 }

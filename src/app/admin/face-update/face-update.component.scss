@@ -9,3 +9,21 @@
     background-color: #dc3545;
     color: white;
   }
+
+
+  .search-student{
+    background-color: red;
+    color: white;
+    margin-left: 3%;
+  }
+
+  .reset-button{
+    padding-top: 2%;
+    cursor: pointer;
+    margin-right: 2%;
+    color: black;
+  }
+
+  .reset-button :hover{
+    color: red;
+  }

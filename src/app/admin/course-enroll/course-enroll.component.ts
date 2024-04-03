@@ -18,8 +18,9 @@ export class CourseEnrollComponent implements OnInit {
   courses: any[] = [];
   batches: string[] = [];
   semesters: string[] = [];
-
+  errorMessage: string = ""
   changes: string[] = [];
+  error: boolean = false
 
   constructor(private http: HttpClient, private Couch: CouchDBService, private admin: AdminService, private router: Router) {
     if (!admin.isAuthenticated()) router.navigate(['/login'])
@@ -31,13 +32,29 @@ export class CourseEnrollComponent implements OnInit {
 
   fetchBatchData() {
     const url = 'http://localhost:5984/sapas/Courses';
-    this.Couch.fetchBatchData(url)
+    this.Couch.fetchBatchData(url).subscribe(
+      (batches: string[]) => {
+        this.batches = batches;
+      },
+      (error) => {
+        console.error('Error fetching batches:', error);
+      }
+    );
   }
+
 
   fetchSemesterData() {
     if (!this.selectedBatch) {
       return;
     }
+
+    if(this.selectedSemester){
+      this.selectedSemester = ""
+    }
+
+    this.courses = []
+
+    
     const headers = new HttpHeaders({
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
@@ -83,6 +100,38 @@ export class CourseEnrollComponent implements OnInit {
 
 
   addCourse() {
+
+    if(this.subjectCode == ""){
+      this.errorMessage = "Please enter subject code.";
+      this.openModal('myModal')
+      this.error = true
+      return
+    }
+    if(this.subjectName == ""){
+      this.errorMessage = "Please enter subject Name.";
+      this.openModal('myModal')
+      this.error = true
+      return
+    }
+    if(this.subjectCredit === ""){
+      this.errorMessage = "Please enter subject Credit.";
+      this.openModal('myModal')
+      this.error = true
+      return
+    }
+
+    if(parseFloat(this.subjectCredit) < 1 || parseFloat(this.subjectCredit) > 4){
+      this.errorMessage = "The Subject Credit must be 1 - 4"
+      this.openModal('myModal')
+      this.error = true
+      return
+    }
+
+
+
+    this.error = false
+
+
     const course: any = {
       code: this.subjectCode,
       name: this.subjectName,
@@ -132,7 +181,7 @@ export class CourseEnrollComponent implements OnInit {
 
                 // Update Marks document
                 this.updateMarksDocument(newCourses, studentRegistrationNumbers, headers, marksUrl);
-                this.openModal();
+                this.openModal('myModal');
               }
             },
             (error) => {
@@ -195,8 +244,10 @@ export class CourseEnrollComponent implements OnInit {
     );
   }
 
-  openModal() {
-    const modal = document.getElementById('myModal');
+  
+
+  openModal(modalName: string) {
+    const modal = document.getElementById(modalName);
     if (modal) {
       modal.style.display = 'block'; // Display the modal
     }
@@ -204,7 +255,7 @@ export class CourseEnrollComponent implements OnInit {
 
   closeModal() {
     const modal = document.getElementById('myModal');
-    if (modal) {
+    if (modal && !this.error) {
       modal.style.display = 'none'; // Hide the modal
       // Reset input fields
       this.selectedBatch = '';
@@ -212,6 +263,11 @@ export class CourseEnrollComponent implements OnInit {
       this.subjectCode = '';
       this.subjectName = '';
       this.courses = [];
+    }
+
+    if(this.error && modal){
+      modal.style.display = 'none'; // Hide the modal
+
     }
   }
 

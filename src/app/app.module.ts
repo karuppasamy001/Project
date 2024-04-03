@@ -35,6 +35,7 @@ import { AnnouncementComponent } from './admin/announcement/announcement.compone
 import { PrintResultComponent } from './student/view-marks/print-result/print-result.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,6 +75,7 @@ import { PrintResultComponent } from './student/view-marks/print-result/print-re
     BrowserAnimationsModule,
     CommonModule,
     MatIconModule
+  
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent]
