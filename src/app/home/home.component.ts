@@ -59,21 +59,7 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  
-//   announcements = [
-//     { 
-//         title: 'New Registration 2024', 
-//         details: 'Registration for the student batch of 2024 is now open. Click here to proceed with the registration process.', 
-//         date: new Date(), 
-//         link: '../registration'
-//     },
-//     { 
-//         title: 'Batch 2023 Result Published', 
-//         details: 'The results for the 2023 batch have been published. You can access your results in your portal under "View Marks" and then "Final Results".', 
-//         date: new Date(), 
-//         link: '' 
-//     },
-// ];
+
 
   logout() {
 
@@ -87,14 +73,14 @@ export class HomeComponent implements OnInit {
 
   studentPortal() {
     if(this.studentLog.isLoggedIn) {
-      this.router.navigate(['/student'])
+      this.router.navigate([`/student/${this.studentLog.currentUserName}`])
     }
     else if(this.Admin.isLoggedIn){
       this.route.navigate(['/admin'])
     }
 
     else if(this.staff.isLoggedIn){
-      this.route.navigate(['/staff'])
+      this.route.navigate([`/staff/${this.studentLog.currentUserName}`])
     }
     else this.route.navigate(['/login'])
   }

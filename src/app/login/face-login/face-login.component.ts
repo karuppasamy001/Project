@@ -1,7 +1,6 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CouchDBService } from 'src/app/backend/couchDB/couch-db.service';
 import { FaceService } from 'src/app/face.service';
 import { RefreshService } from 'src/app/home/refresh.service';
 import { StudentLogService } from 'src/app/student-log.service';
@@ -20,7 +19,7 @@ export class FaceLoginComponent implements OnInit {
   isLog!: boolean;
   video!: HTMLVideoElement;
   currentFaceDescriptor!: any;
-  inputFlag: Boolean = false;
+  inputFlag: boolean = false;
   styleFlag: boolean = false;
   constructor(
     private render: Renderer2,
@@ -28,7 +27,9 @@ export class FaceLoginComponent implements OnInit {
     private route: Router,
     private faceApi: FaceService,
     private studentLog: StudentLogService
-  ) {}
+  ) {
+    if(!localStorage.getItem('face-login')) localStorage.setItem('face-login', 'true')
+  }
 
   ngOnInit(): void {
     this.video = this.render.selectRootElement('#myVideo') as HTMLVideoElement;
@@ -45,14 +46,15 @@ export class FaceLoginComponent implements OnInit {
 
         await new Promise<any>((resolve) => {
           this.video.addEventListener('play', async () => {
-            this.errorMessage.innerHTML = 'wait until scan....';
+            this.errorMessage.innerHTML = 'Please Wait, Your Face is Scanning....';
             try {
               const results = await this.faceApi.confirmImage(
                 this.video,
                 this.errorMessage
               );
               this.styleFlag = true;
-              this.errorMessage.innerHTML = 'face scanned successfully';
+              this.errorMessage.innerHTML = 'Face scanned successfully';
+              this.errorMessage.style.color = 'green';
               console.log(results);
               this.currentFaceDescriptor = results;
 
@@ -68,6 +70,11 @@ export class FaceLoginComponent implements OnInit {
                   this.route.navigate(['']);
                   });
                 console.log("Student reg no -", finalResult)
+              }
+              else{
+                this.errorMessage.innerHTML = 'Face Matching Failed!  Please Try Again.' ;
+                this.errorMessage.style.color = "red";
+                this.retry = true
               }
               
 

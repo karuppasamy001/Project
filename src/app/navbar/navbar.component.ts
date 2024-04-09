@@ -39,8 +39,8 @@ export class NavbarComponent implements OnInit{
   }
 
   // adminSideBar: any[] = [{name: 'Face Update', path: '/admin/face-update'}, {name: 'Course Enroll', path: '/admin/course-enroll'}, {name: 'Staff Enroll', path:'/admin/staff-enroll'}, {name: 'Staff Registration', path:'/admin/staff-registration'}, {name: 'Publish Result', path:'/admin/publish-result'}]
-  staffSideBar: any[] = [{name: 'Add Marks', path: '/staff/add-marks'}]
-  studentSideBar: any[] = [{name: 'View Profile', path: '/student/profile'}, {name: 'View Marks', path: '/student/view-marks'}, {name: 'Set Goals', path: '/student/set-goal'}]
+  staffSideBar: any[] = [{name: 'Add Marks', path: '/staff/'+this.Student.currentUserName+'/add-marks'}]
+  studentSideBar: any[] = [{name: 'View Profile', path: '/student/'+this.Student.currentUserName+'/profile'}, {name: 'View Marks', path: '/student/'+this.Student.currentUserName+'/view-marks'}, {name: 'Set Goals', path: '/student/'+this.Student.currentUserName+'/set-goal'}]
   sideBarItems: any[] | undefined
   adminSideBar: any[] = [
     { name: 'Face Update', path: '/admin/face-update' },

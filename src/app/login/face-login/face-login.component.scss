@@ -35,6 +35,8 @@
   #myVideo {
     display: block;
     margin: 0 auto;
+    margin: 10% auto;
+    border-radius: 4%;
   }
   
 
@@ -66,11 +68,8 @@
   }
 
 
-  #myVideo {
-    margin: 10% auto;
-    // border: 2px solid #ccc; /* Border around the video */
-    border-radius: 2%;
-    // box-sizing: border-box; /* Include border in element's dimensions */
+  #Button{
+  margin-left: 160px;    
   }
   
-  
+

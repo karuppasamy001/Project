@@ -163,6 +163,8 @@ export class RegistrationComponent implements OnInit {
     this.route.navigate(["/login"])
   }
 
+  
+
 
   
 }

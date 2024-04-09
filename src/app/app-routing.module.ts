@@ -48,7 +48,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'staff',
+    path: 'staff/:staffName',
     component: StaffComponent,
     children: [
       { path: 'staff-home', component: StaffProfileComponent },
@@ -57,7 +57,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'student',
+    path: 'student/:studentName',
     component: StudentComponent,
     children: [
       { path: 'profile', component: ProfileComponent},

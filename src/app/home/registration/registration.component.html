@@ -1,10 +1,11 @@
     
+<div class="background-container">
 
     <div class="container registration-container">
         <div class="logo-container text-center">
             <img src="../../../assets/miniLogo.png" alt="Sample Logo" class="img-fluid small-logo" />
-            <h2 class="mb-4 inline-heading" style="font-weight: bolder; color: rgb(47, 47, 47);">STUDENT REGISTRATION
-                FORM {{date}}</h2>
+            <h1 class="mb-4 inline-heading" style="font-weight: bold; color: rgb(242, 242, 242); font-family:Verdana, Geneva, Tahoma, sans-serif;">STUDENT REGISTRATION
+                FORM {{date}}</h1>
         </div>
 
         <div class="form-container custom-form-container  p-4 rounded">
@@ -29,7 +30,7 @@
                 </div>
 
                 <!-- Personal Details -->
-                <h3 class="mb-3">Personal Details</h3>
+                <h2 class="mb-3" style="font-weight: bold; color: brown;">Personal Details</h2>
                 <div class="mb-3 row">
                     <div class="col-md-4">
                         <label for="firstName" class="form-label">First Name <span class="text-danger">*</span></label>
@@ -100,7 +101,7 @@
                 </div>
 
                 <!-- Contact Details -->
-                <h3 class="mb-3">Contact Details</h3>
+                <h2 class="mb-3" style="font-weight: bold; color: brown;">Contact Details</h2>
 
                 <div formGroupName="address">
                     <!-- Address Details -->
@@ -198,5 +199,7 @@
 
 
     <br><br>
-    <app-footer></app-footer>
+
+</div>
+<app-footer></app-footer>
 

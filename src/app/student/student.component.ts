@@ -8,7 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./student.component.scss']
 })
 export class StudentComponent {
-  constructor(private studentService: StudentLogService, private router: Router) {
+  studentName!: string 
+  constructor(private studentService: StudentLogService, private router: Router, private studentLog: StudentLogService) {
     if(!this.studentService.isAuthenticated()) this.router.navigate(['/login'])
+      
+    this.studentName = studentLog.currentUserName
+
   }
 }

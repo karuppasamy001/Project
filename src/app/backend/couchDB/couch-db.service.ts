@@ -32,6 +32,14 @@ export class CouchDBService {
 
     const url = `${this.apiUrl}`;
 
+    this.validateInfoFromStaff(studentDetails).subscribe(matchFound => {
+      if (matchFound) {
+        return;
+      } else {
+        console.log('No match found with staff data.');
+      }
+    });
+
     this.http.get(url, { headers }).subscribe(
       (data: any) => {
         if (data[academicYear]) {
@@ -176,5 +184,39 @@ export class CouchDBService {
     };
 
     return studentFaceUpdate;
+  }
+
+
+  validateInfoFromStaff(studentDetails: any): Observable<boolean> {
+    const url = 'http://localhost:5984/sapas/StaffData';
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
+    return this.http.get<any>(url, { headers }).pipe(
+      map(staffData => {
+        // Iterate through staffData
+        for (const staffId in staffData) {
+          const staffInfo = staffData[staffId];
+          // Compare email, phoneNumber, and alternatePhoneNumber with student details
+
+          if(studentDetails.email === staffInfo.email){
+            alert("Email Already Exists !")
+            return true
+          }
+          else if(studentDetails.mobileNumber === staffInfo.phoneNumber ){
+            alert("Mobile Number  already exists! Please use Some Other Mobile number.")
+          }
+          else if(studentDetails.alternateMobileNumber === staffInfo.alternatePhoneNumber){
+            alert("Alternate Mobile Number already exists! Please use Some Other mobile number.")
+          }
+          else{
+            return false
+          }
+        }
+        // No match found
+        return false;
+      })
+    );
   }
 }

@@ -17,19 +17,81 @@
   filter: brightness(100%);
 }
 
-
-:host {
-  display: block;
-  width: 100%;
-  background-image: url('../../../assets/3.jpg');
-  background-size:cover;
-  background-repeat: no-repeat;
- 
+.background-container {
+  position: relative;
 }
+
+.background-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../../../assets/4.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(70%);
+  z-index: -1;
+}
+
+
+
+// :host {
+//   display: block;
+//   width: 100%;
+//   background-image: url('../../../assets/3.jpg');
+//   background-size:cover;
+//   background-repeat: no-repeat;
+//   filter: brightness(70%); /* Adjust the brightness percentage as needed */
+// }
 
 
 .form-container {
-  background-color: #e3fcff;
-  opacity: 0.8;
+  background-color: #ffffff;
+  opacity: 0.9;
 }
 
+input, select{
+  border: .5px solid;
+}
+
+
+label{
+  font-weight: bold;
+}
+
+
+// .background-container {
+//   position: relative;
+// }
+
+// .background-container::before {
+//   content: "";
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   background-image: url('../../../assets/3.jpg');
+//   background-size: cover;
+//   background-position: center;
+//   filter: brightness(50%);
+//   z-index: -1;
+// }
+
+// .container.registration-container {
+//   /* Add any specific styling for the registration container if needed */
+// }
+
+// .custom-form-container {
+//   background-color: rgba(255, 255, 255, 0.8); /* Adjust the opacity as needed */
+//   /* Add any specific styling for the form container if needed */
+// }
+
+// /* Add any additional CSS styles for form elements, headings, etc. */
+
+// /* Styling for modal if needed */
+// .modal-content {
+//   /* Add modal content styling */
+// }

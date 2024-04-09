@@ -14,10 +14,10 @@
               <div class="container">
                 <div class="errorMessage"></div>
                 <video src="" id="myVideo" width="435" height="330" autoplay>
-                    <button *ngIf="retry" id="Button" (click)="reloadPage()" class="btn btn-primary">Retry</button>
                 </video>
                 <button  [routerLink]="['/login']" class="btn btn-primary">Login with credentials</button>
-
+                <button *ngIf="retry" id="Button" (click)="reloadPage()" class="btn btn-primary">Retry</button>
+                
               </div>
             </div>
           </div>
