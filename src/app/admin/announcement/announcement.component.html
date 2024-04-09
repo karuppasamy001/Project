@@ -3,19 +3,19 @@
 <div class="container" [formGroup]="newAnnouncementForm"> <!-- Add formGroup directive here -->
   <h2 class="headings">Add Announcements</h2>
   <div class="form-group">
-      <label for="title" class="form-label">Title:</label>
+      <label for="title" class="form-label">Title: <span class="text-danger">*</span></label>
       <input type="text" class="form-control" id="title" formControlName="title">
       <!-- Display validation message if title is invalid -->
       <div *ngIf="form['title'].invalid && form['title'].touched && form['details']?.hasError" class="text-danger">Title is required</div> <!-- Corrected -->
   </div>
   <div class="form-group">
-      <label for="details" class="form-label">Details:</label>
+      <label for="details" class="form-label">Details: <span class="text-danger">*</span></label>
       <textarea class="form-control" id="details" formControlName="details"></textarea>
       <!-- Display validation message if details is invalid -->
       <div *ngIf=" (form['details'].invalid && form['details'].touched ) && form['details']?.hasError " class="text-danger">Details is required</div> <!-- Corrected -->
   </div>
   <div class="form-group">
-      <label for="link" class="form-label">Link (Optional):</label>
+      <label for="link" class="form-label">Link :</label>
       <input type="text" class="form-control" id="link" formControlName="link">
       <small class="form-text text-muted">If it is for new registration, enter link as <span
               class="text-danger">../registration</span></small>

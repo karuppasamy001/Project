@@ -108,7 +108,7 @@ export class ProfileComponent {
 
   startFaceUpdate(): void {
     localStorage.setItem("FaceUpdate", "true")
-    this.router.navigate(['/student/update-face'])
+    this.router.navigate(['/student/'+this.student.firstName+'/update-face'])
   }
 
   fetchImage(): void {

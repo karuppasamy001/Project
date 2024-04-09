@@ -71,7 +71,7 @@
             <div class="announcements">
                 <div class="announcement" *ngFor="let announcement of announcements">
                     <a (click)="announcementClick(announcement.link)" style="cursor:pointer;">
-                        <h4> <mat-icon class="icon-link">link</mat-icon> {{ announcement.title }}</h4>
+                        <h4> <mat-icon *ngIf="announcement.link" class="icon-link">link</mat-icon> <mat-icon *ngIf="!announcement.link" class="icon-link-announcement">notifications</mat-icon> {{ announcement.title }}</h4>
                     </a>
                     <p>{{ announcement.details }}</p>
                     <p class="date">{{ announcement.date}}</p>
