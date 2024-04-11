@@ -1,0 +1,74 @@
+<table class="table">
+    <caption>Registered Students</caption>
+    <thead>
+      <tr>
+        <th>Registration Number</th>
+        <th>Name</th>
+        <th>Details</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let student of approvalList">
+        <td>{{ student.registrationNumber }}</td>
+        <td>{{ student.firstName }} {{ student.lastName }}</td>
+        <td>
+          <button type="button" class="btn btn-primary" (click)="viewDetails(student)">View Details</button>
+        </td>
+        <td>
+          <button type="button" class="btn btn-success" (click)="approveStudent(student)">Approve</button>
+          <button type="button" class="btn btn-danger" (click)="rejectStudent( student ,student.registrationNumber)">Reject</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+
+  <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="studentDetailsModalLabel"> <strong> Student Details </strong></h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('myModal')"></button>
+        </div>
+        <div class="modal-body">
+            <p><strong>Registration Number:</strong> {{ selectedStudent?.registrationNumber }}</p>
+            <p><strong>Name:</strong> {{ selectedStudent?.firstName }} {{ selectedStudent?.lastName }}</p>
+            <p><strong>Roll Number:</strong> {{ selectedStudent?.rollNumber }}</p>
+            <p><strong>Date of Birth:</strong> {{ selectedStudent?.dob }}</p>
+            <p><strong>Gender:</strong> {{ selectedStudent?.gender }}</p>
+            <p><strong>Mobile Number:</strong> {{ selectedStudent?.mobileNumber }}</p>
+            <p><strong>Alternate Mobile Number:</strong> {{ selectedStudent?.alternateMobileNumber }}</p>
+            <p><strong>Email:</strong> {{ selectedStudent?.email }}</p>
+            <p><strong>Blood Group:</strong> {{ selectedStudent?.bloodGroup }}</p>
+            <p><strong>Address:</strong> {{ selectedStudent?.address.houseNumber }}, {{ selectedStudent?.address.street }}, {{ selectedStudent?.address.city }}, {{ selectedStudent?.address.state }}, {{ selectedStudent?.address.country }}, {{ selectedStudent?.address.pincode }}</p>
+          </div>          
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="closeModal('myModal')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade"  id="actionModal" tabindex="-1" aria-labelledby="studentDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="studentDetailsModalLabel"> <strong> {{action}} Student </strong></h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('actionModal')"></button>
+        </div>
+        <div class="modal-body">
+            <p><strong>Registration Number:</strong> {{ selectedStudent?.registrationNumber }}</p>
+            <p><strong>Name:</strong> {{ selectedStudent?.firstName }} {{ selectedStudent?.lastName }}</p>
+            <p><strong>Roll Number:</strong> {{ selectedStudent?.rollNumber }}</p>
+            
+            <strong>Please Confirm With Your Action !</strong>          
+        </div>          
+        <div class="modal-footer">
+          <button *ngIf="action === 'Reject'" type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="Reject(selectedStudent)">{{action}}</button>
+          <button *ngIf="action === 'Approve'" type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="Approve(selectedStudent, selectedStudent.batch)">{{action}}</button>
+
+        </div>
+      </div>
+    </div>
+  </div>

@@ -30,7 +30,7 @@ export class CouchDBService {
     const email = studentDetails.email;
     const phoneNum = studentDetails.mobileNumber;
 
-    const url = `${this.apiUrl}`;
+    const approvalUrl = 'http://localhost:5984/sapas/StudentData';
 
     this.validateInfoFromStaff(studentDetails).subscribe(matchFound => {
       if (matchFound) {
@@ -40,7 +40,7 @@ export class CouchDBService {
       }
     });
 
-    this.http.get(url, { headers }).subscribe(
+    this.http.get(approvalUrl, { headers }).subscribe(
       (data: any) => {
         if (data[academicYear]) {
           const yearData = data[academicYear];
@@ -81,43 +81,86 @@ export class CouchDBService {
 
           // If all validations pass, add the student details
           yearData[registrationNumber] = studentDetails;
-          this.updateDocument(url, data, headers);
+          this.updateDataForApproval(studentDetails, academicYear)
         } else {
           // Academic year does not exist, create it and add the student details inside it
           data[academicYear] = {
             [registrationNumber]: studentDetails,
           };
-          this.updateDocument(url, data, headers);
+          this.updateDataForApproval(studentDetails, academicYear)
+        }
+
+      },
+      (error: any) => {
+        console.error('Error fetching student data:', error);
+      }
+    );
+  }
+
+  updateDataForApproval(studentDetails: any, academicYear: string): void{
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
+    const registrationNumber = studentDetails.registrationNumber;
+  
+
+    const approvalUrl = 'http://localhost:5984/sapas/Approval';
+
+    this.http.get(approvalUrl, { headers }).subscribe(
+      (data: any) => {
+        if (data[academicYear]) {
+          const yearData = data[academicYear];
+          yearData[registrationNumber] = studentDetails;
+          this.updateDocument(approvalUrl, data, headers);
+
+          localStorage.setItem('registration',JSON.stringify(studentDetails));
+          this.route.navigate(['/face-register']);
+        } else {
+
+          data[academicYear] = {
+            [registrationNumber]: studentDetails,
+          };
+
+          this.updateDocument(approvalUrl, data, headers);
           localStorage.setItem('registration', JSON.stringify(studentDetails));
           this.route.navigate(['/face-register']);
         }
 
-        this.http.get(this.faceUpdateUrl, { headers }).subscribe(
-          (faceData: any) => {
-            if (faceData[academicYear]) {
-              const newYearData = faceData[academicYear];
-              newYearData[registrationNumber] =
-                this.createFaceUpdate(studentDetails);
-            } else {
-              faceData[academicYear] = {
-                [registrationNumber]: this.createFaceUpdate(studentDetails),
-              };
-            }
-
-            this.updateDocument(this.faceUpdateUrl, faceData, headers);
-            localStorage.setItem(
-              'registration',
-              JSON.stringify(studentDetails)
-            );
-            this.route.navigate(['/face-register']);
-          },
-          (error: any) => {
-            console.error('Error fetching faceUpdate:', error);
-          }
-        );
       },
       (error: any) => {
         console.error('Error fetching student data:', error);
+      }
+    );
+  }
+
+
+  faceUpdate(studentDetails: any, academicYear: string): void{
+
+    const headers = new HttpHeaders({
+      Authorization: 'Basic ' + btoa('admin:admin'),
+    });
+
+    const registrationNumber = studentDetails.registrationNumber;
+
+
+    this.http.get(this.faceUpdateUrl, { headers }).subscribe(
+      (faceData: any) => {
+        if (faceData[academicYear]) {
+          const newYearData = faceData[academicYear];
+          newYearData[registrationNumber] =
+            this.createFaceUpdate(studentDetails);
+        } else {
+          faceData[academicYear] = {
+            [registrationNumber]: this.createFaceUpdate(studentDetails),
+          };
+        }
+
+        this.updateDocument(this.faceUpdateUrl, faceData, headers);
+        
+      },
+      (error: any) => {
+        console.error('Error fetching faceUpdate:', error);
       }
     );
   }
@@ -163,11 +206,13 @@ export class CouchDBService {
       Authorization: 'Basic ' + btoa('admin:admin'),
     });
 
-    this.http.get(this.apiUrl, { headers }).subscribe(
+    const approvalUrl = 'http://localhost:5984/sapas/Approval';
+
+    this.http.get(approvalUrl, { headers }).subscribe(
       (data: any) => {
         data[year][registrationNumber].face = descriptor;
 
-        this.updateDocument(this.apiUrl, data, headers);
+        this.updateDocument(approvalUrl, data, headers);
       },
       (error) => {
         console.log('Error fetching student data', error);

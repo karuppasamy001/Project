@@ -33,6 +33,7 @@ import { FaceLoginComponent } from './login/face-login/face-login.component';
 import { UpdateFaceComponent } from './student/update-face/update-face.component';
 import { AnnouncementComponent } from './admin/announcement/announcement.component';
 import { PrintResultComponent } from './student/view-marks/print-result/print-result.component';
+import { ApprovalComponent } from './admin/approval/approval.component';
 
 
 
@@ -64,6 +65,7 @@ import { PrintResultComponent } from './student/view-marks/print-result/print-re
      UpdateFaceComponent,
      AnnouncementComponent,
      PrintResultComponent,
+     ApprovalComponent,
   ],
   imports: [
     BrowserModule,

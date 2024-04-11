@@ -23,6 +23,7 @@ import { FaceLoginComponent } from './login/face-login/face-login.component';
 import { UpdateFaceComponent } from './student/update-face/update-face.component';
 import { AnnouncementComponent } from './admin/announcement/announcement.component';
 import { PrintResultComponent } from './student/view-marks/print-result/print-result.component';
+import { ApprovalComponent } from './admin/approval/approval.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path: 'admin-home', component: AdminHomeComponent },
       { path: 'publish-result', component: PublishResultComponent},
       { path: 'announcements', component: AnnouncementComponent},
+      { path: 'approval', component: ApprovalComponent},
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
     ],
   },
